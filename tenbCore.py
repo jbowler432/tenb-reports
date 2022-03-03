@@ -30,6 +30,60 @@ def get_query(api_keys,url,querystring):
     except Exception as e:
         return {"exception":e}
 
+def post_query(api_keys,url,payload):
+    headers = {
+    'accept': "application/json",
+    'X-APIKeys': api_keys
+    }
+    response = requests.request("POST", url, headers=headers, json=payload)
+    try:
+        decoded = json.loads(response.text)
+        return decoded
+    except Exception as e:
+        return {"exception":e}
+
+def vulns_export(api_keys,filters,num_assets):
+    url="https://cloud.tenable.com/vulns/export"
+    payload = {
+        "filters":filters,
+        "num_assets": num_assets
+    }
+    decoded = post_query(api_keys,url,payload)
+    export_uuid=decoded["export_uuid"]
+    print("Export uuid = "+export_uuid)
+    return export_uuid
+
+def vulns_export_status(api_keys,export_uuid):
+    url="https://cloud.tenable.com/vulns/export/"+export_uuid+"/status"
+    decoded=get_query(api_keys,url,{})
+    return decoded
+
+def download_vuln_chunk(api_keys,export_uuid,chunk_id):
+    url="https://cloud.tenable.com/vulns/export/"+export_uuid+"/chunks/"+chunk_id
+    decoded=get_query(api_keys,url,{})
+    return decoded
+
+def check_and_download_vuln_chunks(api_keys,filters,num_assets):
+    export_uuid=vulns_export(api_keys,filters,num_assets)
+    ready=0
+    while ready==0:
+        decoded=vulns_export_status(api_keys,export_uuid)
+        status=decoded["status"]
+        print("Job status = "+status)
+        if status=="FINISHED":
+            ready=1
+            return_results=[]
+            #print(decoded["chunks_available"])
+            for chunk in decoded["chunks_available"]:
+                print("Downloading chunk "+str(chunk))
+                chunk_results=download_vuln_chunk(api_keys,export_uuid,str(chunk))
+                for item in chunk_results:
+                    return_results.append(item)
+                time.sleep(5)
+        time.sleep(5)
+    return return_results
+
+
 def list_scans(api_keys):
     url = "https://cloud.tenable.com/scans"
     querystring={}
@@ -38,24 +92,14 @@ def list_scans(api_keys):
 
 def export_workbench(api_keys,querystring):
     url = "https://cloud.tenable.com/workbenches/export"
-    headers = {
-    'accept': "application/json",
-    'X-APIKeys': api_keys
-    }
-    response = requests.request("GET", url, headers=headers, params=querystring)
-    decoded = json.loads(response.text)
-    #print(decoded)
+    decoded = get_query(api_keys,url,querystring)
     myfile=str(decoded['file'])
+    print("Export file = "+myfile)
     return myfile
 
 def check_workbench(api_keys,myfile):
     url = "https://cloud.tenable.com/workbenches/export/"+myfile+"/status"
-    headers = {
-    'accept': "application/json",
-    'X-APIKeys': api_keys
-    }
-    response = requests.request("GET", url, headers=headers)
-    decoded = json.loads(response.text)
+    decoded = get_query(api_keys,url,{})
     return decoded['status']
 
 def download_workbench(api_keys,myfile):
@@ -83,7 +127,7 @@ def check_and_download_workbench(api_keys,filter,results_file,report_type):
         print("Job status = "+status)
         if status=="ready":
             ready=1
-            print("downloading workbench.....")
+            print("downloading workbench to "+results_file)
             resp_text=download_workbench(api_keys,myfile)
             print("download complete")
         time.sleep(5)

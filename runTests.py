@@ -11,6 +11,13 @@ import tenbCore as tc
 from datetime import datetime
 warnings.filterwarnings("ignore")
 
+# export using V2 post methods
+api_keys = tc.read_keys("../io_keys.json","ep")
+filters={"cidr_range":"10.0.0.0/8"}
+num_assets=50
+chunk_results=tc.check_and_download_vuln_chunks(api_keys,filters,num_assets)
+print(chunk_results)
+
 '''
 # list scans from tenable.ep
 api_keys = tc.read_keys("../io_keys.json","ep")
@@ -33,7 +40,8 @@ filter={
 }
 report_type="html"
 tc.check_and_download_workbench(api_keys,filter,"workbench.html",report_type)
-'''
+
 
 api_keys = tc.read_keys("../io_keys.json","ep")
 tc.hostIP_html_vuln_report(api_keys,"10.100.30.68,192.168.15.105","workbench.html")
+'''
