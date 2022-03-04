@@ -13,19 +13,17 @@ def dict_subset(dict,keys):
 
 def compliance_result_summary(input_file):
 	decoded=read_json_file("../reports/compliance.json")
-	print(decoded)
-'''
+	#print(decoded)
 	results=[]
 	for x in decoded:
 		asset_uuid=x["asset_uuid"]
 		audit_file=x["audit_file"]
 		status=x["status"]
 		check_name=x["check_name"]
-		data_subset=dict_subset(x,('asset_uuid','audit_file','status'))
+		data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
 		results.append(data_subset)
 		#print(data_subset)
 	myTable=pd.DataFrame(results)
 	print(myTable)
 	grouped=myTable.groupby(['asset_uuid','audit_file','status'])
-	print(grouped.agg(np.size))
-'''
+	print(grouped.count())

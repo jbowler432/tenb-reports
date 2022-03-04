@@ -40,7 +40,7 @@ def post_query(api_keys,url,payload):
     'accept': "application/json",
     'X-APIKeys': api_keys
     }
-    response = requests.request("POST", url, headers=headers, json=payload)
+    response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
     try:
         decoded = json.loads(response.text)
         return decoded
@@ -55,6 +55,12 @@ def list_scans(api_keys):
 
 def list_assets(api_keys):
     url = "https://cloud.tenable.com/assets"
+    querystring={}
+    results_json=get_query(api_keys,url,querystring)
+    return results_json
+
+def get_asset_details(api_keys,asset_uuid):
+    url = "https://cloud.tenable.com/assets/"+asset_uuid
     querystring={}
     results_json=get_query(api_keys,url,querystring)
     return results_json
