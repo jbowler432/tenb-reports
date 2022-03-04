@@ -1,9 +1,10 @@
 import tenbAbstract as ta
 
-ip_lst=["10.200.0.62","10.10.1.190"]
-asset_lst=ta.ip_lst_to_asset_lst("../io_keys.json","sandbox",ip_lst)
-#asset_lst=["1932a1b3-be7b-45d3-926b-d94599b46ef4"]
-ta.asset_compliance_export_json("../io_keys.json","sandbox",asset_lst,"reports/compliance.json")
+#ip_lst=["10.200.0.62","10.10.1.190"]
+#asset_lst=ta.ip_lst_to_asset_lst("../io_keys.json","sandbox",ip_lst)
+asset_lst=["1932a1b3-be7b-45d3-926b-d94599b46ef4"]
+print(asset_lst)
+ta.asset_compliance_export_json("../io_keys.json","sandbox",asset_lst,"../reports/compliance.json")
 
 
 '''

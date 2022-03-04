@@ -79,7 +79,7 @@ def compliance_export(api_keys,asset_lst,filter_dct,num_findings):
     payload = {
         "assets":asset_lst,
         "filters":filter_dct,
-        "num_assets": num_findings
+        "num_findings": num_findings
     }
     decoded = post_query(api_keys,url,payload)
     try:
