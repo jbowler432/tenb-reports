@@ -7,8 +7,13 @@ import glob
 import operator
 import socket
 import warnings
+import sys
 from datetime import datetime
 warnings.filterwarnings("ignore")
+
+'''
+Functions that interface with the raw REST APIs
+'''
 
 def read_keys(keys_file,instance):
     f=open(keys_file,"r")
@@ -42,6 +47,18 @@ def post_query(api_keys,url,payload):
     except Exception as e:
         return {"exception":e}
 
+def list_scans(api_keys):
+    url = "https://cloud.tenable.com/scans"
+    querystring={}
+    results_json=get_query(api_keys,url,querystring)
+    return results_json
+
+def list_assets(api_keys):
+    url = "https://cloud.tenable.com/assets"
+    querystring={}
+    results_json=get_query(api_keys,url,querystring)
+    return results_json
+
 def vulns_export(api_keys,filters,num_assets):
     url="https://cloud.tenable.com/vulns/export"
     payload = {
@@ -49,7 +66,27 @@ def vulns_export(api_keys,filters,num_assets):
         "num_assets": num_assets
     }
     decoded = post_query(api_keys,url,payload)
-    export_uuid=decoded["export_uuid"]
+    try:
+        export_uuid=decoded["export_uuid"]
+    except:
+        print(decoded)
+        sys.exit("No export_uuid found for this filter condition")
+    print("Export uuid = "+export_uuid)
+    return export_uuid
+
+def compliance_export(api_keys,asset_lst,filter_dct,num_findings):
+    url="https://cloud.tenable.com/compliance/export"
+    payload = {
+        "assets":asset_lst,
+        "filters":filter_dct,
+        "num_assets": num_findings
+    }
+    decoded = post_query(api_keys,url,payload)
+    try:
+        export_uuid=decoded["export_uuid"]
+    except:
+        print(decoded)
+        sys.exit("No export_uuid found for this filter condition")
     print("Export uuid = "+export_uuid)
     return export_uuid
 
@@ -58,12 +95,22 @@ def vulns_export_status(api_keys,export_uuid):
     decoded=get_query(api_keys,url,{})
     return decoded
 
+def compliance_export_status(api_keys,export_uuid):
+    url="https://cloud.tenable.com/compliance/export/"+export_uuid+"/status"
+    decoded=get_query(api_keys,url,{})
+    return decoded
+
 def download_vuln_chunk(api_keys,export_uuid,chunk_id):
     url="https://cloud.tenable.com/vulns/export/"+export_uuid+"/chunks/"+chunk_id
     decoded=get_query(api_keys,url,{})
     return decoded
 
-def check_and_download_vuln_chunks(api_keys,filters,num_assets):
+def download_compliance_chunk(api_keys,export_uuid,chunk_id):
+    url="https://cloud.tenable.com/compliance/export/"+export_uuid+"/chunks/"+chunk_id
+    decoded=get_query(api_keys,url,{})
+    return decoded
+
+def check_and_download_vuln_chunks(api_keys,filters,num_assets,results_file):
     export_uuid=vulns_export(api_keys,filters,num_assets)
     ready=0
     while ready==0:
@@ -73,7 +120,7 @@ def check_and_download_vuln_chunks(api_keys,filters,num_assets):
         if status=="FINISHED":
             ready=1
             return_results=[]
-            #print(decoded["chunks_available"])
+            print("Chunks available for download = "+str(decoded["chunks_available"]))
             for chunk in decoded["chunks_available"]:
                 print("Downloading chunk "+str(chunk))
                 chunk_results=download_vuln_chunk(api_keys,export_uuid,str(chunk))
@@ -81,14 +128,33 @@ def check_and_download_vuln_chunks(api_keys,filters,num_assets):
                     return_results.append(item)
                 time.sleep(5)
         time.sleep(5)
+    print("Saving results to "+results_file)
+    with open(results_file,'w') as outfile:
+        json.dump(return_results,outfile)
     return return_results
 
-
-def list_scans(api_keys):
-    url = "https://cloud.tenable.com/scans"
-    querystring={}
-    results_json=get_query(api_keys,url,querystring)
-    return results_json
+def check_and_download_compliance_chunks(api_keys,asset_lst,filter_dct,num_findings,results_file):
+    export_uuid=compliance_export(api_keys,asset_lst,filter_dct,num_findings)
+    ready=0
+    while ready==0:
+        decoded=compliance_export_status(api_keys,export_uuid)
+        status=decoded["status"]
+        print("Job status = "+status)
+        if status=="FINISHED":
+            ready=1
+            return_results=[]
+            print("Chunks available for download = "+str(decoded["chunks_available"]))
+            for chunk in decoded["chunks_available"]:
+                print("Downloading chunk "+str(chunk))
+                chunk_results=download_compliance_chunk(api_keys,export_uuid,str(chunk))
+                for item in chunk_results:
+                    return_results.append(item)
+                time.sleep(5)
+        time.sleep(5)
+    print("Saving results to "+results_file)
+    with open(results_file,'w') as outfile:
+        json.dump(return_results,outfile)
+    return return_results
 
 def export_workbench(api_keys,querystring):
     url = "https://cloud.tenable.com/workbenches/export"
@@ -141,12 +207,3 @@ def get_vuln_filters(api_keys):
     querystring={}
     results_json=get_query(api_keys,url,querystring)
     return results_json
-
-def hostIP_html_vuln_report(api_keys,host_ip,results_file):
-    filter={
-    "filter.0.filter":"host.target",
-    "filter.0.quality":"eq",
-    "filter.0.value":host_ip,
-    }
-    report_type="html"
-    check_and_download_workbench(api_keys,filter,results_file,report_type)
