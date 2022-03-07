@@ -1,5 +1,5 @@
 import tenbCore as tc
-
+import datetime
 '''
 Easy to use yet more complex functions that leverage the
 basic building blocks in tenbCore.py
@@ -17,12 +17,13 @@ def ip_lst_to_asset_lst(key_file_location,io_instance_name,ip_lst):
                 asset_lst.append(asset_uuid)
     return asset_lst
 
-def asset_compliance_export_json(key_file_location,io_instance_name,asset_lst,results_file):
-    api_keys = tc.read_keys(key_file_location,io_instance_name)
-    filter_dct={}
-    num_findings=50
-    assets=asset_lst
-    chunk_results=tc.check_and_download_compliance_chunks(api_keys,assets,filter_dct,num_findings,results_file)
+def asset_compliance_export_json(key_file_location,io_instance_name,asset_lst,last_seen,results_file):
+	api_keys = tc.read_keys(key_file_location,io_instance_name)
+	int_date=int(datetime.datetime.strptime(last_seen,'%d/%m/%Y').strftime("%s"))
+	filter_dct={"last_seen":int_date}
+	num_findings=50
+	assets=asset_lst
+	chunk_results=tc.check_and_download_compliance_chunks(api_keys,assets,filter_dct,num_findings,results_file)
 
 def ip_vuln_report_html(key_file_location,io_instance_name,host_ip_filter,results_file):
     # uses a host target filter to produce a html report of

@@ -83,8 +83,8 @@ def vulns_export(api_keys,filters,num_assets):
 def compliance_export(api_keys,asset_lst,filter_dct,num_findings):
     url="https://cloud.tenable.com/compliance/export"
     payload = {
-#        "asset":asset_lst,
-#        "filters":filter_dct,
+        "asset":asset_lst,
+        "filters":filter_dct,
         "num_findings": num_findings
     }
     decoded = post_query(api_keys,url,payload)
