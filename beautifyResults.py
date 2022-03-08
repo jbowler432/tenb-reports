@@ -72,24 +72,48 @@ def vuln_result_summary(input_file):
 		host_old=hostname
 	for (k,v) in host_dct.items():
 		print(k,' - ',v)
-	table_str=dct_to_table(host_dct)
+	# gen html  report
+	table_str="<div class=bar_chart_fl>\n<table class=table1 width=90%>"
+	table_str+="<tr><td width=500px>Host</td><td width=80px align=center>Critical</td><td width=80px align=center>High</td><td width=80px align=center>Medium</td><td width=80px align=center>Low</td><td width=80px align=center>Info</td>"
+	for (k,v) in host_dct.items():
+		table_str+="<tr><td>"+k+"</td>\n"
+		for (j,p) in v.items():
+			table_str+="<td class="+str(j)+">"+str(p)+"</td>"
+	table_str=table_str+"</table></div>"
 	gen_html_report(table_str,"../reports/test.html")
 
-def dct_to_table(dct):
-	table_str="<table>"
-	for (k,v) in dct.items():
-		table_str=table_str+"<tr><td>"+k+str(v)+"</td>"
-	table_str=table_str+"</table>"
-	return table_str
 
 def gen_html_report(body,output_file):
-	fin=open('html_header.txt','r')
-	file_text=fin.read()
-	fin.close
 	fout=open(output_file,'w+')
-	fout.write(file_text)
-	fout.write("\n<body>")
-	fout.write('<div id="reportContent">\n')
+	write_html_header(fout)
 	fout.write(body)
-	fout.write('</div></html>')
+	fout.write('</html>')
 	fout.close()
+
+def write_html_header(f):
+	html_header='<html>\n'\
+		'<head>\n'\
+		'<title>Tenable Report</title>\n'\
+		'<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />\n'\
+		'<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Expires" content="0" />\n'
+	f.write(html_header)
+	#
+	# readin style sheet
+	f2=open("style.css","r")
+	for line in f2:
+		f.write(line)
+	f2.close()
+	f.write('<script>\n')
+	#
+	# read in javascrip file for producing graphs
+	f2=open("Chart.min.js","r")
+	for line in f2:
+		f.write(line)
+	f2.close()
+	f.write('</script>\n')
+	#f2=open(input_dir+"insert_javascript.txt","r")
+	#for line in f2:
+	#	f.write(line)
+	#f2.close()
+	f.write('</head>\n<body>\n')
+
