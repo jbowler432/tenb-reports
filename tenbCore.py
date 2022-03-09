@@ -80,6 +80,21 @@ def vulns_export(api_keys,filters,num_assets):
     print("Export uuid = "+export_uuid)
     return export_uuid
 
+def assets_export(api_keys,filters,chunk_size):
+    url="https://cloud.tenable.com/assets/export"
+    payload = {
+        "filters":filters,
+        "chunk_size": chunk_size
+    }
+    decoded = post_query(api_keys,url,payload)
+    try:
+        export_uuid=decoded["export_uuid"]
+    except:
+        print(decoded)
+        sys.exit("No export_uuid found for this filter condition")
+    print("Export uuid = "+export_uuid)
+    return export_uuid
+
 def compliance_export(api_keys,asset_lst,filter_dct,num_findings):
     url="https://cloud.tenable.com/compliance/export"
     payload = {
@@ -101,6 +116,11 @@ def vulns_export_status(api_keys,export_uuid):
     decoded=get_query(api_keys,url,{})
     return decoded
 
+def assets_export_status(api_keys,export_uuid):
+    url="https://cloud.tenable.com/assets/export/"+export_uuid+"/status"
+    decoded=get_query(api_keys,url,{})
+    return decoded
+
 def compliance_export_status(api_keys,export_uuid):
     url="https://cloud.tenable.com/compliance/export/"+export_uuid+"/status"
     decoded=get_query(api_keys,url,{})
@@ -108,6 +128,11 @@ def compliance_export_status(api_keys,export_uuid):
 
 def download_vuln_chunk(api_keys,export_uuid,chunk_id):
     url="https://cloud.tenable.com/vulns/export/"+export_uuid+"/chunks/"+chunk_id
+    decoded=get_query(api_keys,url,{})
+    return decoded
+
+def download_assets_chunk(api_keys,export_uuid,chunk_id):
+    url="https://cloud.tenable.com/assets/export/"+export_uuid+"/chunks/"+chunk_id
     decoded=get_query(api_keys,url,{})
     return decoded
 
@@ -130,6 +155,31 @@ def check_and_download_vuln_chunks(api_keys,filters,num_assets,results_file):
             for chunk in decoded["chunks_available"]:
                 print("Downloading chunk "+str(chunk))
                 chunk_results=download_vuln_chunk(api_keys,export_uuid,str(chunk))
+                for item in chunk_results:
+                    return_results.append(item)
+                time.sleep(5)
+        time.sleep(5)
+    print("Saving results to "+results_file)
+    with open(results_file,'w') as outfile:
+        json.dump(return_results,outfile)
+    return return_results
+
+def check_and_download_assets_chunks(api_keys,filters,chunk_size,results_file):
+    export_uuid=assets_export(api_keys,filters,chunk_size)
+    ready=0
+    #time.sleep(5)
+    while ready==0:
+        decoded=assets_export_status(api_keys,export_uuid)
+        #print(decoded)
+        status=decoded["status"]
+        print("Job status = "+status)
+        if status=="FINISHED":
+            ready=1
+            return_results=[]
+            print("Chunks available for download = "+str(decoded["chunks_available"]))
+            for chunk in decoded["chunks_available"]:
+                print("Downloading chunk "+str(chunk))
+                chunk_results=download_assets_chunk(api_keys,export_uuid,str(chunk))
                 for item in chunk_results:
                     return_results.append(item)
                 time.sleep(5)

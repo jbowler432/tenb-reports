@@ -1,4 +1,12 @@
-import tenbAbstract as ta
+import tenbCore as tc
 
-host_ip_range="10.100.30.68,192.168.15.105"
-ta.ip_vuln_report_html("../io_keys.json","ep",host_ip_range,"workbench.html")
+api_keys=tc.read_keys("../io_keys.json","sandbox")
+host_ip_range="10.200.0.0/24"
+filter={
+"filter.0.filter":"host.target",
+"filter.0.quality":"eq",
+"filter.0.value":host_ip_range,
+}
+report_type="html"
+results_file="../reports/workbench.html"
+tc.check_and_download_workbench(api_keys,filter,results_file,report_type)
