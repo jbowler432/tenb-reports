@@ -11,7 +11,7 @@ def dict_subset(dict,keys):
 	new_dict={k: dict[k] for k in keys}
 	return new_dict
 
-def compliance_result_summary(input_file):
+def compliance_result_summary(input_file,output_file):
 	decoded=read_json_file("../reports/compliance.json")
 	#print(decoded)
 	results=[]
@@ -40,9 +40,19 @@ def compliance_result_summary(input_file):
 		#print(str(counter),asset,audit,status,grouped_counts[counter][0])
 		counter+=1
 	for (k,v) in asset_dct.items():
-		print(k,"\n",v,"\n")
+		print(k,"-",v)
+	# gen html  report
+	table_str="<div class=page_section>\n<table class=table1 width=100%>"
+	table_str+="<tr><td width=300px>UUID</td><td width=400px>Audit Type</td><td width=80px align=center>Failed</td><td width=80px align=center>Passed</td><td width=80px align=center>Warning</td>"
+	for (k,v) in asset_dct.items():
+		table_str+="<tr><td>"+k+"</td>\n"
+		table_str+="<td>"+v['audit']+"</td><td class=critical>"+str(v['failed'])+"</td><td class=low>"+str(v['passed'])+"</td><td class=high>"+str(v['warning'])+"</td>"
+		#for (j,p) in v.items():
+		#	table_str+="<td>"+str(j)+"</td><td>"+str(p)+"</td>"
+	table_str=table_str+"</table></div>"
+	gen_html_report(table_str,output_file)
 
-def vuln_result_summary(input_file):
+def vuln_result_summary(input_file,output_file):
 	decoded=read_json_file("../reports/all_vulns.json")
 	#print(decoded)
 	results=[]
@@ -73,14 +83,14 @@ def vuln_result_summary(input_file):
 	for (k,v) in host_dct.items():
 		print(k,' - ',v)
 	# gen html  report
-	table_str="<div class=bar_chart_fl>\n<table class=table1 width=90%>"
+	table_str="<div class=page_section>\n<table class=table1 width=90%>"
 	table_str+="<tr><td width=500px>Host</td><td width=80px align=center>Critical</td><td width=80px align=center>High</td><td width=80px align=center>Medium</td><td width=80px align=center>Low</td><td width=80px align=center>Info</td>"
 	for (k,v) in host_dct.items():
 		table_str+="<tr><td>"+k+"</td>\n"
 		for (j,p) in v.items():
 			table_str+="<td class="+str(j)+">"+str(p)+"</td>"
 	table_str=table_str+"</table></div>"
-	gen_html_report(table_str,"../reports/test.html")
+	gen_html_report(table_str,output_file)
 
 
 def gen_html_report(body,output_file):
@@ -103,17 +113,13 @@ def write_html_header(f):
 	for line in f2:
 		f.write(line)
 	f2.close()
-	f.write('<script>\n')
-	#
 	# read in javascrip file for producing graphs
-	f2=open("Chart.min.js","r")
-	for line in f2:
-		f.write(line)
-	f2.close()
-	f.write('</script>\n')
-	#f2=open(input_dir+"insert_javascript.txt","r")
+	#f.write('<script>\n')
+	#
+	#f2=open("Chart.min.js","r")
 	#for line in f2:
 	#	f.write(line)
 	#f2.close()
+	#f.write('</script>\n')
 	f.write('</head>\n<body>\n')
 

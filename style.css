@@ -21,6 +21,20 @@ pre {
 td {
 font-size: 0.9em;
 }
+.page_section b {
+font-size: 1.2em;
+}
+.page_section {
+font-size: 0.8em;
+float: left;
+background-color: white;
+padding: 10px;
+margin: 10px;
+text-align: left;
+border: 2px solid white;
+border-radius: 3px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
 .table1 tr:nth-child(even) {
 background-color: #f7f7f7;
 }
