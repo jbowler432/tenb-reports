@@ -1,6 +1,6 @@
 import json
 import pandas as pd
-import numpy as np
+import sys
 
 def read_json_file(input_file):
     with open(input_file,'r') as openfile:
@@ -26,6 +26,8 @@ def get_hostname(uuid,input_file):
 def compliance_result_summary(input_file,output_file):
 	decoded=read_json_file(input_file)
 	#print(decoded)
+	if len(decoded) ==0:
+		sys.exit("\nThe export query returned no data")
 	results=[]
 	for x in decoded:
 		data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
@@ -64,6 +66,8 @@ def compliance_result_summary(input_file,output_file):
 
 def assets_result_summary(input_file,output_file):
     decoded=read_json_file(input_file)
+    if len(decoded) ==0:
+        sys.exit("\nThe export query returned no data")
     #print(decoded)
     results=[]
     for x in decoded:
@@ -80,6 +84,8 @@ def assets_result_summary(input_file,output_file):
 
 def vuln_result_summary(input_file,output_file):
 	decoded=read_json_file(input_file)
+	if len(decoded) ==0:
+		sys.exit("\nThe export query returned no data")
 	#print(decoded)
 	results=[]
 	for x in decoded:
