@@ -56,6 +56,8 @@ def compliance_result_summary(input_file,output_file):
 	table_str+="<tr><td width=500px>Hostname</td><td width=500px>Audit Type</td><td width=80px align=center>Failed</td><td width=80px align=center>Passed</td><td width=80px align=center>Warning</td>"
 	for (k,v) in asset_dct.items():
 		hostname=get_hostname(k,"../results/assets.json")
+		if hostname=="":
+			hostname=k
 		table_str+="<tr><td>"+hostname+"</td>\n"
 		table_str+="<td>"+v['audit']+"</td><td class=critical>"+str(v['failed'])+"</td><td class=low>"+str(v['passed'])+"</td><td class=high>"+str(v['warning'])+"</td>"
 		#for (j,p) in v.items():
