@@ -41,6 +41,9 @@ background-color: #f7f7f7;
 .table1 tr:nth-child(odd) {
 background-color: white;
 }
+.table1 td {
+padding-right: 10px;
+}
 .breakdown td{
 border-bottom: 1px solid #ddd;
 border-right: 1px solid #ddd;

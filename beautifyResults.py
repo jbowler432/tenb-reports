@@ -3,9 +3,9 @@ import pandas as pd
 import sys
 
 def read_json_file(input_file):
-    with open(input_file,'r') as openfile:
-        decoded=json.load(openfile)
-    return decoded
+	with open(input_file,'r') as openfile:
+		decoded=json.load(openfile)
+	return decoded
 
 def dict_subset(dict,keys):
 	new_dict={k: dict[k] for k in keys}
@@ -13,15 +13,19 @@ def dict_subset(dict,keys):
 
 
 def get_hostname(uuid,input_file):
-    decoded=read_json_file(input_file)
-    #print(decoded)
-    hostname=""
-    for x in decoded:
-        if x['id']==uuid:
-            hostname=str(x['hostnames'][0])+" - "+str(x['ipv4s'][0])
-    return hostname
-
-
+	decoded=read_json_file(input_file)
+	#print(decoded)
+	hostname=""
+	ipv4=""
+	last_seen=""
+	for x in decoded:
+		if x['id']==uuid:
+			hostname=str(x['hostnames'][0])
+			ipv4_lst=x['ipv4s']
+			last_seen=x['last_seen']
+			for x in ipv4_lst:
+				ipv4+=x + ' '
+	return hostname,ipv4,last_seen
 
 def compliance_result_summary(input_file,output_file):
 	decoded=read_json_file(input_file)
@@ -53,12 +57,12 @@ def compliance_result_summary(input_file,output_file):
 		old_uuid=asset
 		counter+=1
 	table_str="<div class=page_section>\n<table class=table1 width=100%>"
-	table_str+="<tr><td width=500px>Hostname</td><td width=500px>Audit Type</td><td width=80px align=center>Failed</td><td width=80px align=center>Passed</td><td width=80px align=center>Warning</td>"
+	table_str+="<tr><td width=500px>Hostname</td><td>IP Address</td><td>Asset Last Seen</td><td width=500px>Audit Type</td><td width=80px align=center>Failed</td><td width=80px align=center>Passed</td><td width=80px align=center>Warning</td>"
 	for (k,v) in asset_dct.items():
-		hostname=get_hostname(k,"../results/assets.json")
+		hostname,ipv4,last_seen=get_hostname(k,"../results/assets.json")
 		if hostname=="":
 			hostname=k
-		table_str+="<tr><td>"+hostname+"</td>\n"
+		table_str+="<tr><td>"+hostname+"</td><td>"+ipv4+"</td><td>"+last_seen+"</td>\n"
 		table_str+="<td>"+v['audit']+"</td><td class=critical>"+str(v['failed'])+"</td><td class=low>"+str(v['passed'])+"</td><td class=high>"+str(v['warning'])+"</td>"
 		#for (j,p) in v.items():
 		#	table_str+="<td>"+str(j)+"</td><td>"+str(p)+"</td>"
@@ -67,20 +71,16 @@ def compliance_result_summary(input_file,output_file):
 
 
 def assets_result_summary(input_file,output_file):
-    decoded=read_json_file(input_file)
-    if len(decoded) ==0:
-        sys.exit("\nThe export query returned no data")
-    #print(decoded)
-    results=[]
-    for x in decoded:
-        data_subset=dict_subset(x,('id','last_seen','ipv4s','hostnames','fqdns','tags'))
-        results.append(data_subset)
-    myTable=pd.DataFrame(results)
-    print(myTable)
-    #grouped=myTable.groupby(['hostname','severity'])
-    #print(grouped.count())
-    #grouped_counts=grouped.count().values
-    #print(grouped_counts)
+	decoded=read_json_file(input_file)
+	if len(decoded) ==0:
+		sys.exit("\nThe export query returned no data")
+	#print(decoded)
+	results=[]
+	for x in decoded:
+		data_subset=dict_subset(x,('id','last_seen','ipv4s','hostnames'))
+		results.append(data_subset)
+	myTable=pd.DataFrame(results)
+	print(myTable)
 
 
 
@@ -92,11 +92,11 @@ def vuln_result_summary(input_file,output_file):
 	results=[]
 	for x in decoded:
 		#data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
-		results.append({'hostname':x['asset']['hostname'],'plugin':x['plugin']['description'],'severity':x['severity']})
+		results.append({'hostname':x['asset']['hostname'],'ipv4':x['asset']['ipv4'],'plugin':x['plugin']['description'],'severity':x['severity']})
 		#print(data_subset)
 	myTable=pd.DataFrame(results)
 	print(myTable)
-	grouped=myTable.groupby(['hostname','severity'])
+	grouped=myTable.groupby(['hostname','ipv4','severity'])
 	print(grouped.count())
 	grouped_counts=grouped.count().values
 	#print(grouped_counts)
@@ -104,10 +104,10 @@ def vuln_result_summary(input_file,output_file):
 	host_old=""
 	host_new=""
 	host_dct={}
-	for (hostname,severity), group in grouped:
+	for (hostname,ipv4,severity), group in grouped:
 		host_new=hostname
 		if host_new != host_old:
-			host_dct.update({hostname:{'critical':0,'high':0,'medium':0,'low':0,'info':0}})
+			host_dct.update({hostname:{'ipv4':ipv4,'critical':0,'high':0,'medium':0,'low':0,'info':0}})
 			host_dct[hostname].update({severity:grouped_counts[counter][0]})
 		else:
 			host_dct[hostname].update({severity:grouped_counts[counter][0]})
@@ -116,7 +116,7 @@ def vuln_result_summary(input_file,output_file):
 		host_old=hostname
 	# gen html  report
 	table_str="<div class=page_section>\n<table class=table1 width=90%>"
-	table_str+="<tr><td width=500px>Host</td><td width=80px align=center>Critical</td><td width=80px align=center>High</td><td width=80px align=center>Medium</td><td width=80px align=center>Low</td><td width=80px align=center>Info</td>"
+	table_str+="<tr><td width=500px>Host</td><td>IP Address</td><td width=80px align=center>Critical</td><td width=80px align=center>High</td><td width=80px align=center>Medium</td><td width=80px align=center>Low</td><td width=80px align=center>Info</td>"
 	for (k,v) in host_dct.items():
 		table_str+="<tr><td>"+k+"</td>\n"
 		for (j,p) in v.items():
