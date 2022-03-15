@@ -1,5 +1,5 @@
 # tenb-reports
-Alkl code is written for python3. You will need to install the requests and pandas modules
+All code is written for python3. You will need to install the requests and pandas modules
 
 The expected format for license key file is
 
@@ -8,7 +8,7 @@ The expected format for license key file is
 'IO instance name 2':{'tio_AK':'xxx-yyyy','tio_SK':'xxx-yyyy'}}
 ```
 
-tenbIOcore.py contains the core functions to interface with the IO rest API. Most of these functions download the data and save the results in json format
+tenbIOcore.py contains the core functions to interface with the tenable.IO rest API. Most of these functions download the data and save the results in json format
 
 beautifyResults.py is used to process the saved json files and turn them into prettier html formats
 
