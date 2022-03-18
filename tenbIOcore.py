@@ -40,17 +40,42 @@ def post_query(api_keys,url,payload):
 	'accept': "application/json",
 	'X-APIKeys': api_keys
 	}
-	response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
+	response = requests.request("POST", url, headers=headers, json=payload)
 	try:
 		decoded = json.loads(response.text)
 		return decoded
 	except Exception as e:
 		return {"exception":e}
 
+def put_query(api_keys,url,payload):
+	headers = {
+	'accept': "application/json",
+	'X-APIKeys': api_keys
+	}
+	response = requests.request("PUT", url, headers=headers, json=payload)
+	return response.text
+
 def list_scans(api_keys):
 	url = "https://cloud.tenable.com/scans"
 	querystring={}
 	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+def list_permissions(api_keys):
+	url = "https://cloud.tenable.com/api/v3/access-control/permissions"
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+def update_permissions(api_keys,uuid,name,actions,objects,subjects):
+	url = "https://cloud.tenable.com/api/v3/access-control/permissions/"+uuid
+	payload={
+	'actions':actions,
+	'objects':objects,
+	'subjects':subjects,
+	'name':name
+	}
+	results_json=put_query(api_keys,url,payload)
 	return results_json
 
 def list_assets(api_keys):
