@@ -82,8 +82,6 @@ def assets_result_summary(input_file,output_file):
 	myTable=pd.DataFrame(results)
 	print(myTable)
 
-
-
 def vuln_result_summary(input_file,output_file):
 	decoded=read_json_file(input_file)
 	if len(decoded) ==0:
@@ -118,12 +116,66 @@ def vuln_result_summary(input_file,output_file):
 	table_str="<div class=page_section>\n<table class=table1 width=90%>"
 	table_str+="<tr><td width=500px>Host</td><td>IP Address</td><td width=80px align=center>Critical</td><td width=80px align=center>High</td><td width=80px align=center>Medium</td><td width=80px align=center>Low</td><td width=80px align=center>Info</td>"
 	for (k,v) in host_dct.items():
-		table_str+="<tr><td>"+k+"</td>\n"
+		table_str+="\n<tr><td>"+k+"</td>\n"
 		for (j,p) in v.items():
 			table_str+="<td class="+str(j)+">"+str(p)+"</td>"
 	table_str=table_str+"</table></div>"
 	gen_html_report(table_str,output_file)
 
+def vuln_result_detailed(input_file,output_file):
+	decoded=read_json_file(input_file)
+	if len(decoded) ==0:
+		sys.exit("\nThe export query returned no data")
+	#print(decoded)
+	results=[]
+	for x in decoded:
+		#data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
+		results.append({'hostname':x['asset']['hostname'],'ipv4':x['asset']['ipv4'],'plugin':x['plugin']['description'],'id':x['plugin']['id'],'name':x['plugin']['name'],'severity':x['severity']})
+		#print(data_subset)
+	myTable=pd.DataFrame(results)
+	print(myTable)
+	grouped=myTable.groupby(['hostname','ipv4','severity'])
+	print(grouped.count())
+	grouped_counts=grouped.count().values
+	#print(grouped_counts)
+	counter=0
+	host_old=""
+	host_new=""
+	host_dct={}
+	for (hostname,ipv4,severity), group in grouped:
+		host_new=hostname
+		if host_new != host_old:
+			host_dct.update({hostname:{'ipv4':ipv4,'critical':0,'high':0,'medium':0,'low':0,'info':0}})
+			host_dct[hostname].update({severity:grouped_counts[counter][0]})
+		else:
+			host_dct[hostname].update({severity:grouped_counts[counter][0]})
+		#print(str(counter),hostname,severity,grouped_counts[counter][0])
+		counter+=1
+		host_old=hostname
+	# gen html  report
+	table_str="<div class=page_section>\n<table>"
+	table_str+="<tr><td width=500px>Host</td><td width=80px>IP Address</td><td width=80px class=dummy>Critical</td><td width=80px class=dummy>High</td><td width=80px class=dummy>Medium</td><td width=80px class=dummy>Low</td><td width=80px class=dummy>Info</td>"
+	table_str+="</table>"
+	for (k,v) in host_dct.items():
+		table_str+='\n<table><tr onclick="toggle(\''+k+'\')" onmouseover="this.style.cursor=\'pointer\'"><td width=500px>'+k+"</td>\n"
+		for (j,p) in v.items():
+			table_str+="<td width=80px class="+str(j)+">"+str(p)+"</td>"
+		table_str+="</table>"
+		table_str+='<table><tr id="'+k+'" style="display:none;"><td>'
+		table_str+=get_vuln_details(results,k)
+		table_str+='</td></table>'
+	table_str=table_str+"</div>"
+	gen_html_report(table_str,output_file)
+
+def get_vuln_details(vuln_lst,hostname):
+	return_str="<table class=breakdown>"
+	for x in vuln_lst:
+		if x['hostname']==hostname:
+			if x['severity']!="info":
+				return_str+="<tr><td width=100px valign=top>"+str(x['id'])+"</td><td width=830px valign=top>"+x['name']+"</td><td width=80px valign=top align=right>"+x['severity']+"</td>\n"
+				return_str+="<tr><td valign=top colspan=3>"+x['plugin']+"</td>\n"
+	return_str+="</table>"
+	return return_str
 
 def gen_html_report(body,output_file):
 	fout=open(output_file,'w+')
@@ -142,6 +194,11 @@ def write_html_header(f):
 	#
 	# readin style sheet
 	f2=open("style.css","r")
+	for line in f2:
+		f.write(line)
+	f2.close()
+	# readin javascript
+	f2=open("collapse.js","r")
 	for line in f2:
 		f.write(line)
 	f2.close()

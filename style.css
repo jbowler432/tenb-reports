@@ -20,6 +20,7 @@ pre {
 }
 td {
 font-size: 0.9em;
+padding: 2px;
 }
 .page_section b {
 font-size: 1.2em;
@@ -47,6 +48,7 @@ padding-right: 10px;
 .breakdown td{
 border-bottom: 1px solid #ddd;
 border-right: 1px solid #ddd;
+padding: 2px;
 }
 .td_orange{
 font-size: 0.9em;
@@ -79,6 +81,12 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 .hideme {
 display: none;
+}
+.dummy {
+text-align: center;
+border: 2px solid white;
+border-radius: 3px;
+padding: 2px;
 }
 .critical {
 background-color: #f63442;
