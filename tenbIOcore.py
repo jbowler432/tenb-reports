@@ -61,6 +61,12 @@ def list_scans(api_keys):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
+def list_access_groups(api_keys):
+	url = "https://cloud.tenable.com/v2/access-groups"
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
 def list_permissions(api_keys):
 	url = "https://cloud.tenable.com/api/v3/access-control/permissions"
 	querystring={}
