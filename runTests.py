@@ -26,13 +26,14 @@ br.compliance_result_summary("../results/compliance.json","../reports/compliance
 
 # export some vuln data
 num_assets=50
-filters={"cidr_range":"192.168.0.0/16"}
+filters={"cidr_range":"192.168.15.0/24"}
+#filters={}
 results_file="../results/vulns.json"
 api_keys=tc.read_keys("../io_keys.json","sandbox")
 chunk_results=tc.check_and_download_vuln_chunks(api_keys,filters,num_assets,results_file)
 '''
-br.vuln_result_detailed("../results/vulns.json","../reports/vulns_detailed2.html")
-
+br.vuln_result_summary("../results/vulns.json","../reports/vulns_summary.html")
+br.vuln_result_detailed("../results/vulns.json","../reports/vulns_detailed.html")
 '''
 
 uuid="71a65469-969a-498f-acbe-e960fb7872fc"

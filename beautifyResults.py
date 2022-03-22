@@ -154,27 +154,35 @@ def vuln_result_detailed(input_file,output_file):
 		host_old=hostname
 	# gen html  report
 	table_str="<div class=page_section>\n<table>"
-	table_str+="<tr><td width=500px>Host</td><td width=80px>IP Address</td><td width=80px class=dummy>Critical</td><td width=80px class=dummy>High</td><td width=80px class=dummy>Medium</td><td width=80px class=dummy>Low</td><td width=80px class=dummy>Info</td>"
+	table_str+="<tr><td width=300px>Host</td><td width=120px>IP Address</td><td width=120px class=dummy>Critical</td><td width=120px class=dummy>High</td><td width=120px class=dummy>Medium</td><td width=120px class=dummy>Low</td><td width=120px class=dummy>Info</td>"
 	table_str+="</table>"
 	for (k,v) in host_dct.items():
-		table_str+='\n<table><tr onclick="toggle(\''+k+'\')" onmouseover="this.style.cursor=\'pointer\'"><td width=500px>'+k+"</td>\n"
+		table_str+='\n<table><tr onclick="toggle(\''+k+'\')" onmouseover="this.style.cursor=\'pointer\'"><td width=300px>'+k+"</td>\n"
 		for (j,p) in v.items():
-			table_str+="<td width=80px class="+str(j)+">"+str(p)+"</td>"
+			table_str+="<td width=120px class="+str(j)+">"+str(p)+"</td>"
 		table_str+="</table>"
 		table_str+='<table><tr id="'+k+'" style="display:none;"><td>'
 		table_str+=get_vuln_details(results,k)
+		#table_str+="hello"
 		table_str+='</td></table>'
 	table_str=table_str+"</div>"
 	gen_html_report(table_str,output_file)
 
 def get_vuln_details(vuln_lst,hostname):
-	return_str="<table class=breakdown>"
-	for x in vuln_lst:
+	return_str="<table>"
+	newlist=sorted(vuln_lst, key=lambda d: d['severity'])
+	for x in newlist:
 		if x['hostname']==hostname:
 			if x['severity']!="info":
-				return_str+="<tr><td width=100px valign=top>"+str(x['id'])+"</td><td width=830px valign=top>"+x['name']+"</td><td width=80px valign=top align=right>"+x['severity']+"</td>\n"
-				return_str+="<tr><td valign=top colspan=3>"+x['plugin']+"</td>\n"
+				return_str+="<tr><td width=120px valign=top align=left class="+x['severity']+">"+x['severity']+"</td><td width=100px valign=top align=center>"+str(x['id'])+"</td><td width=830px valign=top>"+x['name']+"</td>\n"
+				return_str+="<tr><td valign=top colspan=3 class=plugdesc>"+clean_string(x['plugin'])+"</td>\n"
 	return_str+="</table>"
+	return return_str
+
+def clean_string(mystr):
+	return_str=mystr.replace("<","&lt;")
+	return_str=return_str.replace(">","&gt;")
+	return_str=return_str.replace("\n","<br>")
 	return return_str
 
 def gen_html_report(body,output_file):

@@ -1,7 +1,7 @@
 import tenbIOcore as tc
 
 api_keys=tc.read_keys("../io_keys.json","sandbox")
-host_ip_range="10.200.0.0/24"
+host_ip_range="192.168.15.0/24"
 filter={
 "filter.0.filter":"host.target",
 "filter.0.quality":"eq",
