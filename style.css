@@ -36,6 +36,11 @@ border: 2px solid white;
 border-radius: 3px;
 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
+.scrollable_table {
+float: left;
+overflow: auto;
+height: 350px;
+}
 .table1 tr:nth-child(even) {
 background-color: #f7f7f7;
 }
@@ -89,6 +94,14 @@ border: 2px solid white;
 border-radius: 3px;
 padding: 2px;
 }
+.failed {
+background-color: #f63442;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
 .critical {
 background-color: #f63442;
 color: white;
@@ -105,8 +118,24 @@ border: 2px solid #708090;
 border-radius: 3px;
 padding: 2px;
 }
+.warning {
+background-color: #ff9757;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
 .medium {
 background-color: #f9c23b;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.passed {
+background-color: #7bb147;
 color: white;
 text-align: center;
 border: 2px solid #708090;
