@@ -141,6 +141,35 @@ def assets_result_summary(input_file,output_file):
 	myTable=pd.DataFrame(results)
 	print(myTable)
 
+def show_installed_software(input_file,output_file):
+	decoded=read_json_file(input_file)
+	if len(decoded) ==0:
+		sys.exit("\nThe export query returned no data")
+	#print(decoded)
+	results=[]
+	for x in decoded:
+		#data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
+		results.append({'hostname':x['asset']['hostname'],'ipv4':x['asset']['ipv4'],'plugin_id':x['plugin']['id'],'plugin_name':x['plugin']['name'],'plugin_desc':x['plugin']['description'],'output':x['output']})
+		#print(data_subset)
+	myTable=pd.DataFrame(results)
+	print(myTable)
+	table_str="<div class=page_section>\n"
+	#table_str="<h1>Installed Software</h1>\n"
+	table_str+="<table class=table1>\n"
+	for x in results:
+		k=x['hostname']
+		id=x['plugin_id']
+		name=x['plugin_name']
+		#table_str+="<tr><td valign=top width=300px>"+x['hostname']+"</td><td valign=top>"+clean_string(x['output'])+"</td>"
+		table_str+='\n<tr onclick="toggle(\''+k+'\')" onmouseover="this.style.cursor=\'pointer\'"><td width=600px align=left>'+k+"</td>"
+		table_str+="<td>"+str(id)+"</td>\n"
+		table_str+="<td>"+name+"</td>\n"
+		table_str+='<tr id="'+k+'" style="display:none;"><td>'+clean_string(x['output'])+'</td>\n'
+	table_str+="</table></div>"
+	gen_html_report(table_str,output_file)
+
+
+
 def vuln_result_summary(input_file,output_file):
 	decoded=read_json_file(input_file)
 	if len(decoded) ==0:

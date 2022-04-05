@@ -61,6 +61,12 @@ def list_scans(api_keys):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
+def list_plugin_outputs(api_keys,plugin_id):
+	url = "https://cloud.tenable.com/workbenches/vulnerabilities/"+plugin_id+"/outputs"
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
 def list_access_groups(api_keys):
 	url = "https://cloud.tenable.com/v2/access-groups"
 	querystring={}

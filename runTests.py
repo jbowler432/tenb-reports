@@ -2,6 +2,22 @@ import tenbIOcore as tc
 import beautifyResults as br
 import datetime
 '''
+api_keys=tc.read_keys("../io_keys.json","sandbox")
+results=tc.list_plugin_outputs(api_keys,"22869")
+print(results)
+
+# export some vuln data
+num_assets=50
+filters={"plugin_id":[22869,20811]}
+#filters={}
+results_file="../results/installed_software.json"
+api_keys=tc.read_keys("../io_keys.json","sandbox")
+chunk_results=tc.check_and_download_vuln_chunks(api_keys,filters,num_assets,results_file)
+'''
+
+br.show_installed_software("../results/installed_software.json","../reports/installed_software.html")
+
+'''
 # export some asset data
 api_keys=tc.read_keys("../io_keys.json","sandbox")
 filters={}
@@ -21,11 +37,11 @@ assets=asset_lst
 results_file="../results/compliance.json"
 api_keys=tc.read_keys("../io_keys.json","sandbox")
 chunk_results=tc.check_and_download_compliance_chunks(api_keys,assets,filter_dct,num_findings,results_file)
-'''
+
 #br.compliance_result_summary("../results/compliance.json","../reports/compliance.html")
 br.compliance_result_detailed("../results/compliance.json","../reports/compliance_detailed.html")
 br.vuln_result_detailed("../results/vulns.json","../reports/vulns_detailed.html")
-'''
+
 
 # export some vuln data
 num_assets=50
