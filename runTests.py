@@ -2,15 +2,21 @@ import tenbIOcore as tc
 import beautifyResults as br
 import datetime
 
+
 # download asset info for a certain tag
 api_keys=tc.read_keys("../io_keys.json","sandbox")
-tag_category="tag."
-tag_value=""
+'''
+tag_category="tag.Hosts"
+tag_value="group1"
 filters={tag_category:tag_value}
 chunk_size=300
 results_file="../results/assets.json"
 tc.check_and_download_assets_chunks(api_keys,filters,chunk_size,results_file)
+'''
 
+asset_lst=br.extract_assetids("../results/assets.json")
+acr_score=10
+response=tc.update_acr_scores(api_keys,asset_lst,acr_score)
 
 '''
 api_keys=tc.read_keys("../io_keys.json","sandbox")

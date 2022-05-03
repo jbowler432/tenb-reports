@@ -11,6 +11,16 @@ def dict_subset(dict,keys):
 	new_dict={k: dict[k] for k in keys}
 	return new_dict
 
+def extract_assetids(input_file):
+	with open(input_file,'r') as openfile:
+		decoded=json.load(openfile)
+	asset_lst=[]
+	for x in decoded:
+		asset={"id":x["id"]}
+		asset_lst.append(asset)
+	#print(asset_lst)
+	return asset_lst
+
 
 def get_hostname(uuid,input_file):
 	decoded=read_json_file(input_file)

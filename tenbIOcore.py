@@ -55,6 +55,16 @@ def put_query(api_keys,url,payload):
 	response = requests.request("PUT", url, headers=headers, json=payload)
 	return response.text
 
+def update_acr_scores(api_keys,asset_lst,acr_score):
+	url="https://cloud.tenable.com/api/v2/assets/bulk-jobs/acr"
+	payload=[
+		{
+			"asset":asset_lst,
+			"acr_score":acr_score
+		}
+	]
+	response=post_query(api_keys,url,payload)
+
 def list_scans(api_keys):
 	url = "https://cloud.tenable.com/scans"
 	querystring={}
