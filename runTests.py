@@ -1,6 +1,17 @@
 import tenbIOcore as tc
 import beautifyResults as br
 import datetime
+
+# download asset info for a certain tag
+api_keys=tc.read_keys("../io_keys.json","sandbox")
+tag_category="tag."
+tag_value=""
+filters={tag_category:tag_value}
+chunk_size=300
+results_file="../results/assets.json"
+tc.check_and_download_assets_chunks(api_keys,filters,chunk_size,results_file)
+
+
 '''
 api_keys=tc.read_keys("../io_keys.json","sandbox")
 results=tc.list_plugin_outputs(api_keys,"22869")
@@ -13,11 +24,11 @@ filters={"plugin_id":[22869,20811]}
 results_file="../results/installed_software.json"
 api_keys=tc.read_keys("../io_keys.json","sandbox")
 chunk_results=tc.check_and_download_vuln_chunks(api_keys,filters,num_assets,results_file)
-'''
+
 
 br.show_installed_software("../results/installed_software.json","../reports/installed_software.html")
 
-'''
+
 # export some asset data
 api_keys=tc.read_keys("../io_keys.json","sandbox")
 filters={}
