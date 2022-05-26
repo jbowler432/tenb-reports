@@ -2,23 +2,23 @@ import tenbIOcore as tc
 import beautifyResults as br
 import datetime
 
-
+'''
 # download asset info for a certain tag
 api_keys=tc.read_keys("../io_keys.json","sandbox")
-'''
+
 tag_category="tag.Hosts"
 tag_value="group1"
 filters={tag_category:tag_value}
 chunk_size=300
 results_file="../results/assets.json"
 tc.check_and_download_assets_chunks(api_keys,filters,chunk_size,results_file)
-'''
+
 
 asset_lst=br.extract_assetids("../results/assets.json")
 acr_score=10
 response=tc.update_acr_scores(api_keys,asset_lst,acr_score)
 
-'''
+
 api_keys=tc.read_keys("../io_keys.json","sandbox")
 results=tc.list_plugin_outputs(api_keys,"22869")
 print(results)
@@ -54,9 +54,10 @@ assets=asset_lst
 results_file="../results/compliance.json"
 api_keys=tc.read_keys("../io_keys.json","sandbox")
 chunk_results=tc.check_and_download_compliance_chunks(api_keys,assets,filter_dct,num_findings,results_file)
-
-#br.compliance_result_summary("../results/compliance.json","../reports/compliance.html")
+'''
+br.compliance_result_summary("../results/compliance.json","../reports/compliance.html")
 br.compliance_result_detailed("../results/compliance.json","../reports/compliance_detailed.html")
+'''
 br.vuln_result_detailed("../results/vulns.json","../reports/vulns_detailed.html")
 
 
