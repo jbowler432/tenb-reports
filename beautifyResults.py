@@ -37,7 +37,7 @@ def get_hostname(uuid,input_file):
 				ipv4+=x + ' '
 	return hostname,ipv4,last_seen
 
-def compliance_result_summary(input_file,output_file):
+def compliance_result_summary(assets_file,input_file,output_file,style_dir):
 	decoded=read_json_file(input_file)
 	#print(decoded)
 	if len(decoded) ==0:
@@ -69,7 +69,7 @@ def compliance_result_summary(input_file,output_file):
 	table_str="<div class=page_section>\n<table class=table1 width=100%>"
 	table_str+="<tr><td width=500px>Hostname</td><td>IP Address</td><td>Last Seen</td><td width=500px>Audit Type</td><td width=80px align=center>Failed</td><td width=80px align=center>Passed</td><td width=80px align=center>Warning</td>"
 	for (k,v) in asset_dct.items():
-		hostname,ipv4,last_seen=get_hostname(k,"../results/assets.json")
+		hostname,ipv4,last_seen=get_hostname(k,assets_file)
 		last_seen=last_seen.split("T")[0]
 		if hostname=="":
 			hostname=k
@@ -78,9 +78,9 @@ def compliance_result_summary(input_file,output_file):
 		#for (j,p) in v.items():
 		#	table_str+="<td>"+str(j)+"</td><td>"+str(p)+"</td>"
 	table_str=table_str+"</table></div>"
-	gen_html_report(table_str,output_file)
+	gen_html_report(table_str,output_file,style_dir)
 
-def compliance_result_detailed(input_file,output_file):
+def compliance_result_detailed(assets_file,input_file,output_file,style_dir):
 	decoded=read_json_file(input_file)
 	#print(decoded)
 	if len(decoded) ==0:
@@ -113,7 +113,7 @@ def compliance_result_detailed(input_file,output_file):
 	table_str+="<tr><td width=500px>Hostname</td><td width=120px>IP Address</td><td width=500px>Audit Type</td><td width=80px align=center>Failed</td><td width=80px align=center>Passed</td><td width=80px align=center>Warning</td>"
 	table_str+="</table>"
 	for (k,v) in asset_dct.items():
-		hostname,ipv4,last_seen=get_hostname(k,"../results/assets.json")
+		hostname,ipv4,last_seen=get_hostname(k,assets_file)
 		last_seen=last_seen.split("T")[0]
 		if hostname=="":
 			hostname=k
@@ -126,7 +126,7 @@ def compliance_result_detailed(input_file,output_file):
 		#for (j,p) in v.items():
 		#	table_str+="<td>"+str(j)+"</td><td>"+str(p)+"</td>"
 	table_str=table_str+"</div>"
-	gen_html_report(table_str,output_file)
+	gen_html_report(table_str,output_file,style_dir)
 
 def get_compliance_details(results,k):
 	return_str="<table class=plugdesc>"
@@ -151,7 +151,7 @@ def assets_result_summary(input_file,output_file):
 	myTable=pd.DataFrame(results)
 	print(myTable)
 
-def show_installed_software(input_file,output_file):
+def show_installed_software(input_file,output_file,style_dir):
 	decoded=read_json_file(input_file)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
@@ -176,11 +176,11 @@ def show_installed_software(input_file,output_file):
 		table_str+="<td>"+name+"</td>\n"
 		table_str+='<tr id="'+k+'" style="display:none;"><td>'+clean_string(x['output'])+'</td>\n'
 	table_str+="</table></div>"
-	gen_html_report(table_str,output_file)
+	gen_html_report(table_str,output_file,style_dir)
 
 
 
-def vuln_result_summary(input_file,output_file):
+def vuln_result_summary(input_file,output_file,style_dir):
 	decoded=read_json_file(input_file)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
@@ -218,9 +218,9 @@ def vuln_result_summary(input_file,output_file):
 		for (j,p) in v.items():
 			table_str+="<td class="+str(j)+">"+str(p)+"</td>"
 	table_str=table_str+"</table></div>"
-	gen_html_report(table_str,output_file)
+	gen_html_report(table_str,output_file,style_dir)
 
-def vuln_result_detailed(input_file,output_file):
+def vuln_result_detailed(input_file,output_file,style_dir):
 	decoded=read_json_file(input_file)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
@@ -268,7 +268,7 @@ def vuln_result_detailed(input_file,output_file):
 		#table_str+="hello"
 		table_str+='</td></table>'
 	table_str=table_str+"</div>"
-	gen_html_report(table_str,output_file)
+	gen_html_report(table_str,output_file,style_dir)
 
 def get_vuln_details(vuln_lst,hostname):
 	return_str="<table>"
@@ -287,14 +287,14 @@ def clean_string(mystr):
 	return_str=return_str.replace("\n","<br>")
 	return return_str
 
-def gen_html_report(body,output_file):
+def gen_html_report(body,output_file,style_dir):
 	fout=open(output_file,'w+')
-	write_html_header(fout)
+	write_html_header(fout,style_dir)
 	fout.write(body)
 	fout.write('</html>')
 	fout.close()
 
-def write_html_header(f):
+def write_html_header(f,style_dir):
 	html_header='<html>\n'\
 		'<head>\n'\
 		'<title>Tenable Report</title>\n'\
@@ -303,12 +303,12 @@ def write_html_header(f):
 	f.write(html_header)
 	#
 	# readin style sheet
-	f2=open("style.css","r")
+	f2=open(style_dir+"style.css","r")
 	for line in f2:
 		f.write(line)
 	f2.close()
 	# readin javascript
-	f2=open("collapse.js","r")
+	f2=open(style_dir+"collapse.js","r")
 	for line in f2:
 		f.write(line)
 	f2.close()
