@@ -44,8 +44,9 @@ def compliance_result_summary(assets_file,input_file,output_file,style_dir):
 		sys.exit("\nThe export query returned no data")
 	results=[]
 	for x in decoded:
-		data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
-		results.append(data_subset)
+		if 'audit_file' in x:
+			data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
+			results.append(data_subset)
 		#print(data_subset)
 	myTable=pd.DataFrame(results)
 	print(myTable)
@@ -87,8 +88,9 @@ def compliance_result_detailed(assets_file,input_file,output_file,style_dir):
 		sys.exit("\nThe export query returned no data")
 	results=[]
 	for x in decoded:
-		data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
-		results.append(data_subset)
+		if 'audit_file' in x:
+			data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
+			results.append(data_subset)
 		#print(data_subset)
 	myTable=pd.DataFrame(results)
 	print(myTable)
@@ -187,8 +189,18 @@ def vuln_result_summary(input_file,output_file,style_dir):
 	#print(decoded)
 	results=[]
 	for x in decoded:
+		#print(x)
+		host=""
+		ipv4=""
+		description=""
+		if 'hostname' in x['asset']:
+			host=x['asset']['hostname']
+			if 'ipv4' in x['asset']:
+				ipv4=x['asset']['ipv4']
+			if 'description' in x['plugin']:
+				description=x['plugin']['description']
 		#data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
-		results.append({'hostname':x['asset']['hostname'],'ipv4':x['asset']['ipv4'],'plugin':x['plugin']['description'],'severity':x['severity']})
+			results.append({'hostname':host,'ipv4':ipv4,'plugin':description,'severity':x['severity']})
 		#print(data_subset)
 	myTable=pd.DataFrame(results)
 	print(myTable)
@@ -227,8 +239,17 @@ def vuln_result_detailed(input_file,output_file,style_dir):
 	#print(decoded)
 	results=[]
 	for x in decoded:
+		host=""
+		ipv4=""
+		description=""
+		if 'hostname' in x['asset']:
+			host=x['asset']['hostname']
+			if 'ipv4' in x['asset']:
+				ipv4=x['asset']['ipv4']
+			if 'description' in x['plugin']:
+				description=x['plugin']['description']
 		#data_subset=dict_subset(x,('asset_uuid','audit_file','status','check_name'))
-		results.append({'hostname':x['asset']['hostname'],'ipv4':x['asset']['ipv4'],'plugin':x['plugin']['description'],'id':x['plugin']['id'],'name':x['plugin']['name'],'severity':x['severity']})
+			results.append({'hostname':host,'ipv4':ipv4,'plugin':description,'id':x['plugin']['id'],'name':x['plugin']['name'],'severity':x['severity']})
 		#print(data_subset)
 	myTable=pd.DataFrame(results)
 	print(myTable)

@@ -18,3 +18,4 @@ chunk_results=tc.check_and_download_vuln_chunks(api_keys,filters,num_assets,resu
 
 # produce html report off downloaded data
 br.vuln_result_summary(results_dir+"vulns.json",results_dir+"vulns_summary.html",styles_dir)
+br.vuln_result_detailed(results_dir+"vulns.json",results_dir+"vulns_detailed.html",styles_dir)

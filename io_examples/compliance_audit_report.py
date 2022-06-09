@@ -4,16 +4,18 @@ import tenbIOcore as tc
 import beautifyResults as br
 import datetime
 
+
 # file and directory locations
 key_file="../../io_keys.json" # location of your key file
 results_dir="../results/" # the directory for your results
 styles_dir="../styles/" #style sheet location for web pages
+asset_file=results_dir+"assets.json"
+compliance_file=results_dir+"compliance.json"
 
 # export some asset data
 api_keys=tc.read_keys(key_file,"sandbox")
 filters={}
 chunk_size=300
-asset_file=results_dir+"assets.json"
 tc.check_and_download_assets_chunks(api_keys,filters,chunk_size,asset_file)
 
 # export some compliance data
@@ -24,7 +26,6 @@ int_date=int(datetime.datetime.strptime(last_seen,'%d/%m/%Y').strftime("%s"))
 filter_dct={}
 num_findings=250
 assets=asset_lst
-compliance_file=results_dir+"compliance.json"
 api_keys=tc.read_keys(key_file,"sandbox")
 chunk_results=tc.check_and_download_compliance_chunks(api_keys,assets,filter_dct,num_findings,compliance_file)
 
