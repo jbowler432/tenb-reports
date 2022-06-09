@@ -4,7 +4,7 @@ import tenbIOcore as tc
 
 # file and directory locations
 key_file="../../io_keys.json" # location of your key file
-results_dir="results/" # the directory for your results
+results_dir="../results/" # the directory for your results
 styles_dir="../styles/" #style sheet location for web pages
 
 api_keys=tc.read_keys(key_file,"sandbox")

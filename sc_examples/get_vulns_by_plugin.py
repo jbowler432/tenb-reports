@@ -4,7 +4,7 @@ import tenbSCcore as sc
 
 # file and directory locations
 sc_key_file="../../sc_keys.json"
-results_dir="" # the directory for your results
+results_dir="../results/" # the directory for your results
 styles_dir="../styles/" #style sheet location for web pages
 '''
 The sc_keys.json file is a text file with the following format.
