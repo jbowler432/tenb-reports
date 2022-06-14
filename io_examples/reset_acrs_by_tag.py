@@ -24,7 +24,11 @@ tag_value="group1"
 filters={tag_category:tag_value}
 chunk_size=300
 results_file=results_dir+"assets.json"
-tc.check_and_download_assets_chunks(api_keys,filters,chunk_size,results_file)
+payload = {
+	"filters":filters,
+	"chunk_size": chunk_size
+}
+tc.check_and_download_assets_chunks(api_keys,payload,results_file)
 
 # Now we have the list of assets, update the acr values
 # THe acr score needs to be an integer

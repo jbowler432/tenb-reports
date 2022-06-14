@@ -16,7 +16,11 @@ compliance_file=results_dir+"compliance.json"
 api_keys=tc.read_keys(key_file,"sandbox")
 filters={}
 chunk_size=300
-tc.check_and_download_assets_chunks(api_keys,filters,chunk_size,asset_file)
+payload = {
+	"filters":filters,
+	"chunk_size": chunk_size
+}
+tc.check_and_download_assets_chunks(api_keys,payload,asset_file)
 
 # export some compliance data
 asset_lst=[]
@@ -27,7 +31,12 @@ filter_dct={}
 num_findings=250
 assets=asset_lst
 api_keys=tc.read_keys(key_file,"sandbox")
-chunk_results=tc.check_and_download_compliance_chunks(api_keys,assets,filter_dct,num_findings,compliance_file)
+payload = {
+	"asset":asset_lst,
+	"filters":filter_dct,
+	"num_findings": num_findings
+	}
+chunk_results=tc.check_and_download_compliance_chunks(api_keys,payload,compliance_file)
 
 # produce the html reports from the downloaded data
 br.compliance_result_summary(asset_file,compliance_file,results_dir+"compliance_summary.html",styles_dir)
