@@ -14,6 +14,8 @@ asset_file=results_dir+"assets_with_os.json"
 output_file=results_dir+"os_by_subnet.html"
 
 # export some asset data
+# make sure you define the key in the system first
+
 api_keys=tc.read_keys(key_file,"sandbox")
 #filters={"is_licensed": False}
 filters={"tag.Operating-Systems": "has-os"}
