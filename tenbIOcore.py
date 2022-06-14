@@ -112,12 +112,15 @@ def get_asset_details(api_keys,asset_uuid):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
-def vulns_export(api_keys,filters,num_assets):
+def delete_bulk_assets(api_keys,payload):
+	url="https://cloud.tenable.com/api/v2/assets/bulk-jobs/delete"
+	decoded = post_query(api_keys,url,payload)
+	assets_deleted=decoded["response"]["data"]["asset_count"]
+	return assets_deleted
+
+
+def vulns_export(api_keys,payload):
 	url="https://cloud.tenable.com/vulns/export"
-	payload = {
-		"filters":filters,
-		"num_assets": num_assets
-	}
 	decoded = post_query(api_keys,url,payload)
 	try:
 		export_uuid=decoded["export_uuid"]
@@ -128,12 +131,8 @@ def vulns_export(api_keys,filters,num_assets):
 	print("Export uuid = "+export_uuid)
 	return export_uuid
 
-def assets_export(api_keys,filters,chunk_size):
+def assets_export(api_keys,payload):
 	url="https://cloud.tenable.com/assets/export"
-	payload = {
-		"filters":filters,
-		"chunk_size": chunk_size
-	}
 	decoded = post_query(api_keys,url,payload)
 	try:
 		export_uuid=decoded["export_uuid"]
@@ -144,13 +143,8 @@ def assets_export(api_keys,filters,chunk_size):
 	print("Export uuid = "+export_uuid)
 	return export_uuid
 
-def compliance_export(api_keys,asset_lst,filter_dct,num_findings):
+def compliance_export(api_keys,payload):
 	url="https://cloud.tenable.com/compliance/export"
-	payload = {
-		"asset":asset_lst,
-		"filters":filter_dct,
-		"num_findings": num_findings
-	}
 	decoded = post_query(api_keys,url,payload)
 	try:
 		export_uuid=decoded["export_uuid"]
@@ -191,8 +185,8 @@ def download_compliance_chunk(api_keys,export_uuid,chunk_id):
 	decoded=get_query(api_keys,url,{})
 	return decoded
 
-def check_and_download_vuln_chunks(api_keys,filters,num_assets,results_file):
-	export_uuid=vulns_export(api_keys,filters,num_assets)
+def check_and_download_vuln_chunks(api_keys,payload,results_file):
+	export_uuid=vulns_export(api_keys,payload)
 	ready=0
 	while ready==0:
 		decoded=vulns_export_status(api_keys,export_uuid)
@@ -214,8 +208,8 @@ def check_and_download_vuln_chunks(api_keys,filters,num_assets,results_file):
 		json.dump(return_results,outfile)
 	return return_results
 
-def check_and_download_assets_chunks(api_keys,filters,chunk_size,results_file):
-	export_uuid=assets_export(api_keys,filters,chunk_size)
+def check_and_download_assets_chunks(api_keys,payload,results_file):
+	export_uuid=assets_export(api_keys,payload)
 	ready=0
 	#time.sleep(5)
 	while ready==0:
@@ -233,14 +227,16 @@ def check_and_download_assets_chunks(api_keys,filters,chunk_size,results_file):
 				for item in chunk_results:
 					return_results.append(item)
 				time.sleep(5)
+		elif status=="ERROR":
+			sys.exit("\nProblem with export")
 		time.sleep(5)
 	print("Saving results to "+results_file)
 	with open(results_file,'w') as outfile:
 		json.dump(return_results,outfile)
 	return return_results
 
-def check_and_download_compliance_chunks(api_keys,asset_lst,filter_dct,num_findings,results_file):
-	export_uuid=compliance_export(api_keys,asset_lst,filter_dct,num_findings)
+def check_and_download_compliance_chunks(api_keys,payload,results_file):
+	export_uuid=compliance_export(api_keys,payload)
 	ready=0
 	while ready==0:
 		decoded=compliance_export_status(api_keys,export_uuid)
