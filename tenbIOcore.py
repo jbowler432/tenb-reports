@@ -71,6 +71,13 @@ def list_scans(api_keys):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
+def list_tag_filters(api_keys):
+	url = "https://cloud.tenable.com/tags/assets/filters"
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+
 def list_plugin_outputs(api_keys,plugin_id):
 	url = "https://cloud.tenable.com/workbenches/vulnerabilities/"+plugin_id+"/outputs"
 	querystring={}
@@ -115,8 +122,12 @@ def get_asset_details(api_keys,asset_uuid):
 def delete_bulk_assets(api_keys,payload):
 	url="https://cloud.tenable.com/api/v2/assets/bulk-jobs/delete"
 	decoded = post_query(api_keys,url,payload)
-	assets_deleted=decoded["response"]["data"]["asset_count"]
-	return assets_deleted
+	return decoded
+
+def create_tag_value(api_keys,payload):
+	url="https://cloud.tenable.com/tags/values"
+	decoded = post_query(api_keys,url,payload)
+	return decoded
 
 
 def vulns_export(api_keys,payload):

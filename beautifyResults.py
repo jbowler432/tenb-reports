@@ -220,6 +220,51 @@ def assets_subnet_summary(input_file,output_file,style_dir):
 	table_str+="<tr><td align=right>Total</td><td>"+str(asset_count)+"</td>"
 	gen_html_report(table_str,output_file,style_dir)
 
+def ghost_subnets(input_file,output_file,style_dir):
+	decoded=read_json_file(input_file)
+	if len(decoded) ==0:
+		sys.exit("\nThe export query returned no data")
+	#print(decoded)
+	results=[]
+	ghost_nets=""
+	for x in decoded:
+		ipv4=""
+		hostname=""
+		operating_system=""
+		subnet=""
+		if len(x['ipv4s']) > 0:
+			ipv4=x['ipv4s'][0]
+			ipv4_parts=ipv4.split(".")
+			subnet=ipv4_parts[0]+"."+ipv4_parts[1]+"."+ipv4_parts[2]+".0/24"
+		if len(x['hostnames']) > 0:
+			hostname=x['hostnames'][0]
+		if len(x['operating_systems']) > 0:
+			operating_system=x['operating_systems'][0]
+		#data_subset=dict_subset(x,('id','ipv4s','hostnames','operating_systems'))
+		#results.append(data_subset)
+		results.append({'ipv4':ipv4,'subnet':subnet,'hostname':hostname,'operating_system':operating_system})
+	myTable=pd.DataFrame(results)
+	print(myTable)
+	grouped=myTable.groupby(['subnet'])
+	print(grouped.count())
+	grouped_counts=grouped.count().values
+	#print(grouped_counts)
+	counter=0
+	asset_count=0
+	table_str="<div class=page_section>\n"
+	table_str+="<table class=table1>\n"
+	for (subnet), group in grouped:
+		if grouped_counts[counter][0] == 256:
+			print(subnet,grouped_counts[counter][0])
+			asset_count+=grouped_counts[counter][0]
+			table_str+="<tr><td>"+str(subnet)+"</td><td>"+str(grouped_counts[counter][0])+"</td>"
+			ghost_nets+=subnet+","
+		counter+=1
+	print(asset_count)
+	table_str+="<tr><td align=right>Total</td><td>"+str(asset_count)+"</td>"
+	gen_html_report(table_str,output_file,style_dir)
+	return ghost_nets[:-1]
+
 def os_by_subnet(input_file,output_file,style_dir):
 	decoded=read_json_file(input_file)
 	if len(decoded) ==0:
