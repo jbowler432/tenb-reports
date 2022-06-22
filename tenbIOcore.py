@@ -76,6 +76,21 @@ def list_workbenches_assets(api_keys,querystring):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
+def exposure_score_assets(api_keys,querystring):
+	url = "https://cloud.tenable.com/lumin/widgets/exposure-score-assets"
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+def list_workbenches_vulnerabilities(api_keys,querystring):
+	url = "https://cloud.tenable.com/workbenches/vulnerabilities"
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+def get_vulnerability_count(api_keys,querystring):
+	decoded=list_workbenches_vulnerabilities(api_keys,querystring)
+	vuln_count=decoded["total_vulnerability_count"]
+	return vuln_count
+
 def get_asset_count(api_keys,payload):
 	decoded=search_assets(api_keys,payload)
 	asset_count=decoded["pagination"]["total"]
