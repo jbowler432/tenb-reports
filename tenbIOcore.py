@@ -71,11 +71,39 @@ def list_scans(api_keys):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
-def list_tag_filters(api_keys):
-	url = "https://cloud.tenable.com/tags/assets/filters"
-	querystring={}
+def list_workbenches_assets(api_keys,querystring):
+	url = "https://cloud.tenable.com/workbenches/assets"
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
+
+def get_asset_count(api_keys,payload):
+	decoded=search_assets(api_keys,payload)
+	asset_count=decoded["pagination"]["total"]
+	return asset_count
+
+def list_tag_values(api_keys,tag_cat):
+#	url = "https://cloud.tenable.com/tags/values?f=category_name%3Amatch%3AUQ%20Owner"
+	url = "https://cloud.tenable.com/tags/values?f=category_name%3Aeq%3A" + tag_cat
+	headers = {
+	'accept': "application/json",
+	'X-APIKeys': api_keys
+	}
+	response = requests.request("GET", url, headers=headers)
+	try:
+		decoded = json.loads(response.text)
+		return decoded
+	except Exception as e:
+		return {"exception":e}
+
+def list_vuln_filters(api_keys,payload):
+	url="https://cloud.tenable.com/filters/workbenches/vulnerabilities"
+	decoded = post_query(api_keys,url,payload)
+	return decoded
+
+def list_asset_filters(api_keys,payload):
+	url="https://cloud.tenable.com/filters/workbenches/assets"
+	decoded = post_query(api_keys,url,payload)
+	return decoded
 
 
 def list_plugin_outputs(api_keys,plugin_id):
@@ -107,6 +135,16 @@ def update_permissions(api_keys,uuid,name,actions,objects,subjects):
 	results_json=put_query(api_keys,url,payload)
 	return results_json
 
+def search_findings(api_keys,payload):
+	url="https://cloud.tenable.com/api/v3/findings/vulnerabilities/host/search"
+	decoded = post_query(api_keys,url,payload)
+	return decoded
+
+def search_assets(api_keys,payload):
+	url="https://cloud.tenable.com/api/v3/assets/search"
+	decoded = post_query(api_keys,url,payload)
+	return decoded
+
 def list_assets(api_keys):
 	url = "https://cloud.tenable.com/assets"
 	querystring={}
@@ -128,7 +166,6 @@ def create_tag_value(api_keys,payload):
 	url="https://cloud.tenable.com/tags/values"
 	decoded = post_query(api_keys,url,payload)
 	return decoded
-
 
 def vulns_export(api_keys,payload):
 	url="https://cloud.tenable.com/vulns/export"
@@ -313,10 +350,3 @@ def check_and_download_workbench(api_keys,filter,results_file,report_type):
 	f = open(results_file,"w")
 	f.write(resp_text)
 	f.close()
-
-
-def get_vuln_filters(api_keys):
-	url = "https://cloud.tenable.com/filters/workbenches/vulnerabilities"
-	querystring={}
-	results_json=get_query(api_keys,url,querystring)
-	return results_json

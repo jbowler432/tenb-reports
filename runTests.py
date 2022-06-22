@@ -4,17 +4,42 @@ import beautifyResults as br
 import datetime
 
 # file and directory locations
-key_file="../../io_keys.json" # location of your key file
+key_file="../io_keys.json" # location of your key file
 sc_key_file="../sc_keys.json"
 results_dir="results/" # the directory for your results
 styles_dir="styles/" #style sheet location for web pages
 
-
 sc_keys=sc.read_SC_keys(sc_key_file)
-sc_server,port,token,cookies=sc.get_token(sc_keys)
+api_keys=tc.read_keys(key_file,"uni")
 
-decoded=sc.get_vulns_by_pluginID(sc_server,port,token,cookies,"10863","cert_info.json")
-print(decoded)
+'''
+payload={}
+decoded=tc.list_vuln_filters(api_keys,payload)
+for x in decoded["filters"]:
+	print(x["name"])
+
+print(" ")
+'''
+
+tag_cat="UQ%20Owner"
+decoded=tc.list_tag_values(api_keys,tag_cat)
+#print(decoded)
+for x in decoded["values"]:
+	print(x["uuid"])
+	print(x["value"])
+	print(x["category_name"])
+
+payload = {
+	"filter": {"and": [
+	{
+		"property": "tags",
+		"operator": "eq",
+		"value": ["a7deb637-89bb-42f4-97b8-68419c72af99"]
+	}
+	]},
+	"limit": 100
+}
 
 
-sc.close_session(sc_server,port,token,cookies)
+results=tc.get_asset_count(api_keys,payload)
+print(results)
