@@ -15,19 +15,20 @@ results_file=results_dir+"vulns.json"
 
 sc_keys=sc.read_SC_keys(sc_key_file)
 api_keys=tc.read_keys(key_file,"sandbox")
-'''
+
 # export some vuln data
 num_assets=100
 filters={
 	"state":["fixed"],
-	"severity":["critical","high","medium","low"]
+	"severity":["critical","high","medium","low"],
+	"last_fixed":1648249791
 	}
 payload={
 	"filters": filters,
 	"num_assets": num_assets
 }
 chunk_results=tc.check_and_download_vuln_chunks(api_keys,payload,results_file)
-'''
+
 results=br.read_json_file(results_file)
 count=0
 for x in results:
@@ -40,3 +41,11 @@ for x in results:
 	print(ipv4,sev,ttfix)
 	count+=1
 print(count)
+
+now=datetime.datetime.now()
+date_delta=datetime.timedelta(90)
+back90=now-date_delta
+unixtime90=datetime.datetime.timestamp(back90)
+print(now)
+print(back90)
+print(unixtime90)
