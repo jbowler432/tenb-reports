@@ -9,16 +9,20 @@ import socket
 import warnings
 import sys
 from datetime import datetime
+from datetime import timedelta
 warnings.filterwarnings("ignore")
 
 '''
 Functions that interface with the raw REST APIs
 '''
 
-def date_diff(first_found,last_fixed):
-	ff=datetime.fromisoformat(first_found.split("T")[0])
-	lf=datetime.fromisoformat(last_fixed.split("T")[0])
-	return abs((lf-ff).days)
+
+def unix_time(days):
+	now=datetime.now()
+	date_delta=timedelta(days)
+	new_date=now-date_delta
+	unixtime=datetime.timestamp(new_date)
+	return unixtime
 
 def read_keys(keys_file,instance):
 	f=open(keys_file,"r")

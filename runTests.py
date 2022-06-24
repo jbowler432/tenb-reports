@@ -20,8 +20,8 @@ api_keys=tc.read_keys(key_file,"sandbox")
 num_assets=100
 filters={
 	"state":["fixed"],
-	"severity":["critical","high","medium","low"],
-	"last_fixed":1648249791
+	"severity":["critical","high","medium","low"]
+#	"last_fixed":1648249791
 	}
 payload={
 	"filters": filters,

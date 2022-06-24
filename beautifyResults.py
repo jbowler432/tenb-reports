@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import sys
+from datetime import datetime
 
 def read_json_file(input_file):
 	with open(input_file,'r') as openfile:
@@ -20,6 +21,95 @@ def extract_assetids(input_file):
 		asset_lst.append(asset)
 	#print(asset_lst)
 	return asset_lst
+
+def date_diff(first_found,last_fixed):
+	ff=datetime.fromisoformat(first_found.split("T")[0])
+	lf=datetime.fromisoformat(last_fixed.split("T")[0])
+	return abs((lf-ff).days)
+
+def patch_cadence_report(fix30,fix90,output_file,style_dir):
+	table_str="<div class=page_section>\n<table class=table1 width=100%>"
+	table_str+="\n<tr><td>&nbsp;</td><td>Last 30 Days</td><td>Last 90 Days</td>"
+	table_str+="\n<tr><td>Critical</td><td>"+str(fix30["critical"])+"</td><td>"+str(fix90["critical"])+"</td>"
+	table_str+="\n<tr><td>High</td><td>"+str(fix30["high"])+"</td><td>"+str(fix90["high"])+"</td>"
+	table_str+="\n<tr><td>Medium</td><td>"+str(fix30["medium"])+"</td><td>"+str(fix90["medium"])+"</td>"
+	table_str+="\n<tr><td>Low</td><td>"+str(fix30["low"])+"</td><td>"+str(fix90["low"])+"</td>"
+	table_str+="</table></div>"
+	gen_html_report(table_str,output_file,style_dir)
+
+def get_ttf_averages(input_file):
+	decoded=read_json_file(input_file)
+	count=0
+	results=[]
+	for x in decoded:
+		ff=x["first_found"]
+		lf=x["last_fixed"]
+		ipv4=x["asset"]["ipv4"]
+		pid=x["plugin"]["id"]
+		sev=x["severity"]
+		ttfix=date_diff(ff,lf)
+		result_dct={"severity":sev,"time_to_fix":ttfix}
+		#print(ipv4,pid,sev,ttfix)
+		results.append(result_dct)
+		count+=1
+	print(count)
+	myTable=pd.DataFrame(results)
+	#print(myTable)
+	grouped=myTable.groupby(['severity'])
+	print(grouped.mean())
+	grouped_means=grouped.mean().values
+	counter=0
+	ttf_averages={}
+	for (severity), group in grouped:
+		ttf_averages.update({severity:int(grouped_means[counter][0])})
+		counter+=1
+	return ttf_averages
+
+def get_ttf_averages_vpr(input_file):
+	fout=open("time_to_fix.csv",'w+')
+	decoded=read_json_file(input_file)
+	count=0
+	results=[]
+	for x in decoded:
+		ffound=x["first_found"]
+		lfound=x["last_found"]
+		lfixed=x["last_fixed"]
+		ipv4=x["asset"]["ipv4"]
+		pid=x["plugin"]["id"]
+		sev_original=x["severity"]
+		sev=""
+		vpr=0
+		if "vpr" in x["plugin"]:
+			if "score" in x["plugin"]["vpr"]:
+				vpr=x["plugin"]["vpr"]["score"]
+			#print(vpr)
+		if vpr >= 9.0:
+			sev="critical"
+		elif vpr >= 7.0:
+			sev="high"
+		elif vpr >= 4.0:
+			sev="medium"
+		else:
+			sev="low"
+		ttfix=date_diff(ffound,lfixed)
+		result_dct={"severity":sev,"time_to_fix":ttfix}
+		if sev=="critical":
+			fout.write(ipv4+","+str(pid)+","+sev_original+","+str(vpr)+","+str(ttfix)+","+ffound+","+lfound+","+lfixed+"\n")
+		results.append(result_dct)
+		count+=1
+	print(count)
+	myTable=pd.DataFrame(results)
+	#print(myTable)
+	grouped=myTable.groupby(['severity'])
+	print(grouped.mean())
+	grouped_means=grouped.mean().values
+	counter=0
+	ttf_averages={}
+	for (severity), group in grouped:
+		ttf_averages.update({severity:int(grouped_means[counter][0])})
+		counter+=1
+	fout.close()
+	return ttf_averages
 
 
 def get_hostname(uuid,input_file):
