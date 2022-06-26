@@ -66,7 +66,7 @@ def get_ttf_averages(input_file):
 	return ttf_averages
 
 def get_ttf_averages_vpr(input_file):
-	fout=open("time_to_fix.csv",'w+')
+	#fout=open("time_to_fix.csv",'w+')
 	decoded=read_json_file(input_file)
 	count=0
 	results=[]
@@ -92,23 +92,40 @@ def get_ttf_averages_vpr(input_file):
 		else:
 			sev="low"
 		ttfix=date_diff(ffound,lfixed)
-		result_dct={"severity":sev,"time_to_fix":ttfix}
-		if sev=="critical":
-			fout.write(ipv4+","+str(pid)+","+sev_original+","+str(vpr)+","+str(ttfix)+","+ffound+","+lfound+","+lfixed+"\n")
+		result_dct={"severity":sev,"time_to_fix":ttfix,"ipv4":ipv4}
+		#if sev=="critical":
+		#	fout.write(ipv4+","+str(pid)+","+sev_original+","+str(vpr)+","+str(ttfix)+","+ffound+","+lfound+","+lfixed+"\n")
 		results.append(result_dct)
 		count+=1
-	print(count)
+	#print(count)
 	myTable=pd.DataFrame(results)
 	#print(myTable)
-	grouped=myTable.groupby(['severity'])
-	print(grouped.mean())
+	grouped=myTable.groupby(['ipv4','severity'])
+	grouped2=myTable.groupby(['severity'])
+	print("Mean of plugin fix times by severity")
+	print(grouped2.mean())
+	print("\nMedian of plugin fix times by severity")
+	print(grouped2.median())
+	grouped_medians=grouped.median().values
 	grouped_means=grouped.mean().values
+	grouped_counts=grouped.count().values
 	counter=0
 	ttf_averages={}
-	for (severity), group in grouped:
-		ttf_averages.update({severity:int(grouped_means[counter][0])})
+	ttf_stats=[]
+	for (ipv4,severity), group in grouped:
+		#print(ipv4,severity,grouped_counts[counter][0],grouped_medians[counter][0],int(grouped_means[counter][0]))
+		ttf_stats.append({"ipv4":ipv4,"sev":severity,"median":grouped_medians[counter][0],"mean":int(grouped_means[counter][0])})
+	#	ttf_averages.update({ipv4:ipv4,severity:int(grouped_medians[counter][0])})
 		counter+=1
-	fout.close()
+	stats_table=pd.DataFrame(ttf_stats)
+	stats_grouped=stats_table.groupby(['sev'])
+	print("\nMeans of - Host Medians per Severity, Host Means per Severity")
+	print(stats_grouped.mean())
+	print("\nMedians of - Host Medians per Severity, Host Means per Severity")
+	print(stats_grouped.median())
+	#print(ttf_stats)
+	#fout.close()
+	#print(ttf_averages)
 	return ttf_averages
 
 
