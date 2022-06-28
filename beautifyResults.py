@@ -27,17 +27,17 @@ def date_diff(first_found,last_fixed):
 	lf=datetime.fromisoformat(last_fixed.split("T")[0])
 	return abs((lf-ff).days)
 
-def patch_cadence_report(fix30,fix90,output_file,style_dir):
+def patch_cadence_report(means,medians,maxs,output_file,style_dir):
 	table_str="<div class=page_section>\n<table class=table1 width=100%>"
-	table_str+="\n<tr><td>&nbsp;</td><td>Last 30 Days</td><td>Last 90 Days</td>"
-	table_str+="\n<tr><td>Critical</td><td>"+str(fix30["critical"])+"</td><td>"+str(fix90["critical"])+"</td>"
-	table_str+="\n<tr><td>High</td><td>"+str(fix30["high"])+"</td><td>"+str(fix90["high"])+"</td>"
-	table_str+="\n<tr><td>Medium</td><td>"+str(fix30["medium"])+"</td><td>"+str(fix90["medium"])+"</td>"
-	table_str+="\n<tr><td>Low</td><td>"+str(fix30["low"])+"</td><td>"+str(fix90["low"])+"</td>"
+	table_str+="<tr><td>Severity</td><td>Mean</td><td>Median</td><td>Max</td>"
+	table_str+="\n<tr><td>Critical</td><td>"+str(means["critical"])+"</td><td>"+str(medians["critical"])+"</td><td>"+str(maxs["critical"])+"</td>"
+	table_str+="\n<tr><td>High</td><td>"+str(means["high"])+"</td><td>"+str(medians["high"])+"</td><td>"+str(maxs["high"])+"</td>"
+	table_str+="\n<tr><td>Medium</td><td>"+str(means["medium"])+"</td><td>"+str(medians["medium"])+"</td><td>"+str(maxs["medium"])+"</td>"
+	table_str+="\n<tr><td>Low</td><td>"+str(means["low"])+"</td><td>"+str(medians["low"])+"</td><td>"+str(maxs["low"])+"</td>"
 	table_str+="</table></div>"
 	gen_html_report(table_str,output_file,style_dir)
 
-def get_ttf_averages(input_file):
+def get_ttf_averages2(input_file):
 	decoded=read_json_file(input_file)
 	count=0
 	results=[]
@@ -66,7 +66,6 @@ def get_ttf_averages(input_file):
 	return ttf_averages
 
 def get_ttf_averages_vpr(input_file):
-	#fout=open("time_to_fix.csv",'w+')
 	decoded=read_json_file(input_file)
 	count=0
 	results=[]
@@ -76,57 +75,48 @@ def get_ttf_averages_vpr(input_file):
 		lfixed=x["last_fixed"]
 		ipv4=x["asset"]["ipv4"]
 		pid=x["plugin"]["id"]
-		sev_original=x["severity"]
-		sev=""
+		sev_cvss=x["severity"]
+		severity=""
 		vpr=0
 		if "vpr" in x["plugin"]:
 			if "score" in x["plugin"]["vpr"]:
 				vpr=x["plugin"]["vpr"]["score"]
 			#print(vpr)
 		if vpr >= 9.0:
-			sev="critical"
+			severity="critical"
 		elif vpr >= 7.0:
-			sev="high"
+			severity="high"
 		elif vpr >= 4.0:
-			sev="medium"
+			severity="medium"
 		else:
-			sev="low"
+			severity="low"
 		ttfix=date_diff(ffound,lfixed)
-		result_dct={"severity":sev,"time_to_fix":ttfix,"ipv4":ipv4}
-		#if sev=="critical":
-		#	fout.write(ipv4+","+str(pid)+","+sev_original+","+str(vpr)+","+str(ttfix)+","+ffound+","+lfound+","+lfixed+"\n")
+		result_dct={"severity":severity,"time_to_fix":ttfix,"ipv4":ipv4}
 		results.append(result_dct)
 		count+=1
-	#print(count)
-	myTable=pd.DataFrame(results)
-	#print(myTable)
+	myTable=pd.DataFrame(results)	#print(myTable)
+	fout=open("../results/host_time_to_fix.csv",'w+')
 	grouped=myTable.groupby(['ipv4','severity'])
-	grouped2=myTable.groupby(['severity'])
-	print("Mean of plugin fix times by severity")
-	print(grouped2.mean())
-	print("\nMedian of plugin fix times by severity")
-	print(grouped2.median())
-	grouped_medians=grouped.median().values
 	grouped_means=grouped.mean().values
-	grouped_counts=grouped.count().values
 	counter=0
-	ttf_averages={}
 	ttf_stats=[]
 	for (ipv4,severity), group in grouped:
-		#print(ipv4,severity,grouped_counts[counter][0],grouped_medians[counter][0],int(grouped_means[counter][0]))
-		ttf_stats.append({"ipv4":ipv4,"sev":severity,"median":grouped_medians[counter][0],"mean":int(grouped_means[counter][0])})
-	#	ttf_averages.update({ipv4:ipv4,severity:int(grouped_medians[counter][0])})
+		ttf_stats.append({"ipv4":ipv4,"severity":severity,"mean":int(grouped_means[counter][0])})
+		fout.write(ipv4+","+severity+","+str(int(grouped_means[counter][0]))+"\n")
 		counter+=1
 	stats_table=pd.DataFrame(ttf_stats)
-	stats_grouped=stats_table.groupby(['sev'])
-	print("\nMeans of - Host Medians per Severity, Host Means per Severity")
-	print(stats_grouped.mean())
-	print("\nMedians of - Host Medians per Severity, Host Means per Severity")
+	stats_grouped=stats_table.groupby(['severity'])
 	print(stats_grouped.median())
-	#print(ttf_stats)
-	#fout.close()
-	#print(ttf_averages)
-	return ttf_averages
+	print(stats_grouped.mean())
+	print(stats_grouped.max())
+	counter=0
+	for (severity), group in stats_grouped:
+		medians.update({severity:int(stats_grouped.median().values[counter][0])})
+		means.update({severity:int(stats_grouped.mean().values[counter][0])})
+		maxs.update({severity:int(stats_grouped.max().values[counter][0])})
+		counter+=1
+	return means,medians,maxs
+
 
 
 def get_hostname(uuid,input_file):
