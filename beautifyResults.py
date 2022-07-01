@@ -48,7 +48,8 @@ def assets_subnet_summary(input_file,output_file,style_dir):
 	Produces a html report showing asset counts per /24 subnet.
 	Expected input is a json file from /assets/export API.
 	Use check_and_download_assets_chunks(api_keys,payload,asset_file) function
-	to generate the json file
+	to generate the json file.
+	See subnet_report_licensed.py and subnet_report_unlicensed.py for examples.
 	'''
 	decoded=ut.read_json_file(input_file)
 	if len(decoded) ==0:
@@ -85,8 +86,7 @@ def assets_subnet_summary(input_file,output_file,style_dir):
 	table_str="\n<h1>Class C Summary - Asset Count</h1>"
 	report_desc="This report shows the asset count per /24 subnet. Counts equal to 256 "
 	report_desc+="May indicate that a network appliance is responding instead of the actual "
-	report_desc+="endpoint. This should be investigated prior to running actual vulnerabilitiy "
-	report_desc+="scans to avoid license overage. "
+	report_desc+="endpoint."
 	report_desc+="\n<br>("+str(today)+")"
 	table_str+="<div class=reportdesc>"+report_desc+"</div>"
 	table_str+="<div class=page_section>\n"
@@ -170,7 +170,7 @@ def compliance_result_summary(assets_file,input_file,output_file,style_dir):
 		counter+=1
 	today=date.today()
 	table_str="\n<h1>Audit Findings Summary</h1>"
-	report_desc="This report shows a summary of the audit findings from all compliance/audit scans."
+	report_desc="This report shows a summary of the audit findings per host scan."
 	report_desc+="\n<br>("+str(today)+")"
 	table_str+="<div class=reportdesc>"+report_desc+"</div>"
 	table_str+="<div class=page_section>\n<table class=table1 width=100%>"
@@ -228,7 +228,7 @@ def compliance_result_detailed(assets_file,input_file,output_file,style_dir):
 		counter+=1
 	today=date.today()
 	table_str="\n<h1>Audit Findings</h1>"
-	report_desc="This report shows the detailed audit findings from all compliance/audit scans. Click on each record to see the audit details."
+	report_desc="This report shows the detailed audit findings per host scan. Click on each record to see the audit details."
 	report_desc+="\n<br>("+str(today)+")"
 	table_str+="<div class=reportdesc>"+report_desc+"</div>"
 	table_str+="<div class=page_section>\n<table>"
@@ -297,7 +297,7 @@ def assets_os_summary(input_file,output_file,style_dir):
 	asset_count=0
 	today=date.today()
 	table_str="\n<h1>Operating System Summary</h1>"
-	report_desc="This report shows counts for every discovered operating system."
+	report_desc="This report shows all discovered operating systems."
 	report_desc+="\n<br>("+str(today)+")"
 	table_str+="<div class=reportdesc>"+report_desc+"</div>"
 	table_str+="<div class=page_section>\n"
