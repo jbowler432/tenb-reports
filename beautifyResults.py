@@ -1,12 +1,105 @@
 import json
 import pandas as pd
 import sys
+import utilities as ut
 from datetime import datetime
+from datetime import date
 
-def read_json_file(input_file):
-	with open(input_file,'r') as openfile:
-		decoded=json.load(openfile)
-	return decoded
+'''
+Routines for producing html reports
+'''
+
+def gen_html_report(body_text,output_file,style_dir):
+	fout=open(output_file,'w+')
+	write_html_header(fout,style_dir)
+	fout.write(body_text)
+	fout.write('</html>')
+	fout.close()
+
+def write_html_header(f,style_dir):
+	html_header='<html>\n'\
+		'<head>\n'\
+		'<title>Tenable Report</title>\n'\
+		'<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />\n'\
+		'<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Expires" content="0" />\n'
+	f.write(html_header)
+	# readin style sheet
+	f2=open(style_dir+"style.css","r")
+	for line in f2:
+		f.write(line)
+	f2.close()
+	# readin javascript
+	f2=open(style_dir+"collapse.js","r")
+	for line in f2:
+		f.write(line)
+	f2.close()
+	# read in javascrip file for producing graphs
+	#f.write('<script>\n')
+	#
+	#f2=open("Chart.min.js","r")
+	#for line in f2:
+	#	f.write(line)
+	#f2.close()
+	#f.write('</script>\n')
+	f.write('</head>\n<body>\n')
+
+def assets_subnet_summary(input_file,output_file,style_dir):
+	'''
+	Produces a html report showing asset counts per /24 subnet.
+	Expected input is a json file from /assets/export API.
+	Use check_and_download_assets_chunks(api_keys,payload,asset_file) funtion
+	to generate the json file
+	'''
+	decoded=ut.read_json_file(input_file)
+	if len(decoded) ==0:
+		sys.exit("\nThe export query returned no data")
+	#print(decoded)
+	results=[]
+	for x in decoded:
+		ipv4=""
+		hostname=""
+		operating_system=""
+		subnet=""
+		if len(x['ipv4s']) > 0:
+			#print(x['ipv4s'])
+			ipv4=x['ipv4s'][0]
+			ipv4_parts=ipv4.split(".")
+			subnet=ipv4_parts[0]+"."+ipv4_parts[1]+"."+ipv4_parts[2]
+		if len(x['hostnames']) > 0:
+			hostname=x['hostnames'][0]
+		if len(x['operating_systems']) > 0:
+			operating_system=x['operating_systems'][0]
+		#data_subset=dict_subset(x,('id','ipv4s','hostnames','operating_systems'))
+		#results.append(data_subset)
+		if len(x['ipv4s']) > 0:
+			results.append({'ipv4':ipv4,'subnet':subnet,'hostname':hostname,'operating_system':operating_system})
+	myTable=pd.DataFrame(results)
+	#print(myTable)
+	grouped=myTable.groupby(['subnet'])
+	#print(grouped.count())
+	grouped_counts=grouped.count().values
+	#print(grouped_counts)
+	counter=0
+	asset_count=0
+	today=date.today()
+	table_str="\n<h1>Class C Summary - Asset Count</h1>"
+	report_desc="This report shows the asset count per /24 subnet. Counts equal to 256 "
+	report_desc+="May indicate that a network appliance is responding instead of the actual "
+	report_desc+="endpoint. This should be investigated prior to running actual vulnerabilitiy "
+	report_desc+="scans to avoid license overage. "
+	report_desc+="\n<br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	table_str+="<div class=page_section>\n"
+	table_str+="<table class=table1 width=350px>\n"
+	table_str+="<tr><td>Subnet</td><td align=center>Asset Count</td>"
+	for (subnet), group in grouped:
+		print(subnet,grouped_counts[counter][0])
+		asset_count+=grouped_counts[counter][0]
+		table_str+="<tr><td>"+str(subnet)+".0/24</td><td align=center>"+str(grouped_counts[counter][0])+"</td>"
+		counter+=1
+	print(asset_count)
+	table_str+="<tr><td align=right>Total</td><td align=center>"+str(asset_count)+"</td>"
+	gen_html_report(table_str,output_file,style_dir)
 
 def dict_subset(dict,keys):
 	new_dict={k: dict[k] for k in keys}
@@ -22,105 +115,8 @@ def extract_assetids(input_file):
 	#print(asset_lst)
 	return asset_lst
 
-def date_diff(first_found,last_fixed):
-	ff=datetime.fromisoformat(first_found.split("T")[0])
-	lf=datetime.fromisoformat(last_fixed.split("T")[0])
-	return abs((lf-ff).days)
-
-def patch_cadence_report(means,medians,maxs,output_file,style_dir):
-	table_str="<div class=page_section>\n<table class=table1 width=100%>"
-	table_str+="<tr><td>Severity</td><td>Mean</td><td>Median</td><td>Max</td>"
-	table_str+="\n<tr><td>Critical</td><td>"+str(means["critical"])+"</td><td>"+str(medians["critical"])+"</td><td>"+str(maxs["critical"])+"</td>"
-	table_str+="\n<tr><td>High</td><td>"+str(means["high"])+"</td><td>"+str(medians["high"])+"</td><td>"+str(maxs["high"])+"</td>"
-	table_str+="\n<tr><td>Medium</td><td>"+str(means["medium"])+"</td><td>"+str(medians["medium"])+"</td><td>"+str(maxs["medium"])+"</td>"
-	table_str+="\n<tr><td>Low</td><td>"+str(means["low"])+"</td><td>"+str(medians["low"])+"</td><td>"+str(maxs["low"])+"</td>"
-	table_str+="</table></div>"
-	gen_html_report(table_str,output_file,style_dir)
-
-def get_ttf_averages2(input_file):
-	decoded=read_json_file(input_file)
-	count=0
-	results=[]
-	for x in decoded:
-		ff=x["first_found"]
-		lf=x["last_fixed"]
-		ipv4=x["asset"]["ipv4"]
-		pid=x["plugin"]["id"]
-		sev=x["severity"]
-		ttfix=date_diff(ff,lf)
-		result_dct={"severity":sev,"time_to_fix":ttfix}
-		#print(ipv4,pid,sev,ttfix)
-		results.append(result_dct)
-		count+=1
-	print(count)
-	myTable=pd.DataFrame(results)
-	#print(myTable)
-	grouped=myTable.groupby(['severity'])
-	print(grouped.mean())
-	grouped_means=grouped.mean().values
-	counter=0
-	ttf_averages={}
-	for (severity), group in grouped:
-		ttf_averages.update({severity:int(grouped_means[counter][0])})
-		counter+=1
-	return ttf_averages
-
-def get_ttf_averages_vpr(input_file):
-	decoded=read_json_file(input_file)
-	count=0
-	results=[]
-	for x in decoded:
-		ffound=x["first_found"]
-		lfound=x["last_found"]
-		lfixed=x["last_fixed"]
-		ipv4=x["asset"]["ipv4"]
-		pid=x["plugin"]["id"]
-		sev_cvss=x["severity"]
-		severity=""
-		vpr=0
-		if "vpr" in x["plugin"]:
-			if "score" in x["plugin"]["vpr"]:
-				vpr=x["plugin"]["vpr"]["score"]
-			#print(vpr)
-		if vpr >= 9.0:
-			severity="critical"
-		elif vpr >= 7.0:
-			severity="high"
-		elif vpr >= 4.0:
-			severity="medium"
-		else:
-			severity="low"
-		ttfix=date_diff(ffound,lfixed)
-		result_dct={"severity":severity,"time_to_fix":ttfix,"ipv4":ipv4}
-		results.append(result_dct)
-		count+=1
-	myTable=pd.DataFrame(results)	#print(myTable)
-	fout=open("../results/host_time_to_fix.csv",'w+')
-	grouped=myTable.groupby(['ipv4','severity'])
-	grouped_means=grouped.mean().values
-	counter=0
-	ttf_stats=[]
-	for (ipv4,severity), group in grouped:
-		ttf_stats.append({"ipv4":ipv4,"severity":severity,"mean":int(grouped_means[counter][0])})
-		fout.write(ipv4+","+severity+","+str(int(grouped_means[counter][0]))+"\n")
-		counter+=1
-	stats_table=pd.DataFrame(ttf_stats)
-	stats_grouped=stats_table.groupby(['severity'])
-	print(stats_grouped.median())
-	print(stats_grouped.mean())
-	print(stats_grouped.max())
-	counter=0
-	for (severity), group in stats_grouped:
-		medians.update({severity:int(stats_grouped.median().values[counter][0])})
-		means.update({severity:int(stats_grouped.mean().values[counter][0])})
-		maxs.update({severity:int(stats_grouped.max().values[counter][0])})
-		counter+=1
-	return means,medians,maxs
-
-
-
 def get_hostname(uuid,input_file):
-	decoded=read_json_file(input_file)
+	decoded=ut.read_json_file(input_file)
 	#print(decoded)
 	hostname=""
 	ipv4=""
@@ -135,7 +131,7 @@ def get_hostname(uuid,input_file):
 	return hostname,ipv4,last_seen
 
 def compliance_result_summary(assets_file,input_file,output_file,style_dir):
-	decoded=read_json_file(input_file)
+	decoded=ut.read_json_file(input_file)
 	#print(decoded)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
@@ -164,7 +160,12 @@ def compliance_result_summary(assets_file,input_file,output_file,style_dir):
 			asset_dct[asset].update({status.lower():grouped_counts[counter][0]})
 		old_uuid=asset
 		counter+=1
-	table_str="<div class=page_section>\n<table class=table1 width=100%>"
+	today=date.today()
+	table_str="\n<h1>Audit Findings Summary</h1>"
+	report_desc="This report shows a summary of the audit findings from all compliance/audit scans."
+	report_desc+="\n<br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	table_str+="<div class=page_section>\n<table class=table1 width=100%>"
 	table_str+="<tr><td width=500px>Hostname</td><td>IP Address</td><td>Last Seen</td><td width=500px>Audit Type</td><td width=80px align=center>Failed</td><td width=80px align=center>Passed</td><td width=80px align=center>Warning</td>"
 	for (k,v) in asset_dct.items():
 		hostname,ipv4,last_seen=get_hostname(k,assets_file)
@@ -179,7 +180,7 @@ def compliance_result_summary(assets_file,input_file,output_file,style_dir):
 	gen_html_report(table_str,output_file,style_dir)
 
 def compliance_result_detailed(assets_file,input_file,output_file,style_dir):
-	decoded=read_json_file(input_file)
+	decoded=ut.read_json_file(input_file)
 	#print(decoded)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
@@ -208,7 +209,12 @@ def compliance_result_detailed(assets_file,input_file,output_file,style_dir):
 			asset_dct[asset].update({status.lower():grouped_counts[counter][0]})
 		old_uuid=asset
 		counter+=1
-	table_str="<div class=page_section>\n<table>"
+	today=date.today()
+	table_str="\n<h1>Audit Findings</h1>"
+	report_desc="This report shows the detailed audit findings from all compliance/audit scans. Click on each record to see the audit details."
+	report_desc+="\n<br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	table_str+="<div class=page_section>\n<table>"
 	table_str+="<tr><td width=500px>Hostname</td><td width=120px>IP Address</td><td width=500px>Audit Type</td><td width=80px align=center>Failed</td><td width=80px align=center>Passed</td><td width=80px align=center>Warning</td>"
 	table_str+="</table>"
 	for (k,v) in asset_dct.items():
@@ -239,7 +245,7 @@ def get_compliance_details(results,k):
 	return return_str
 
 def assets_os_summary(input_file,output_file,style_dir):
-	decoded=read_json_file(input_file)
+	decoded=ut.read_json_file(input_file)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
 	#print(decoded)
@@ -265,8 +271,13 @@ def assets_os_summary(input_file,output_file,style_dir):
 	#print(grouped_counts)
 	counter=0
 	asset_count=0
-	table_str="<div class=page_section>\n"
-	table_str+="<table class=table1>\n"
+	today=date.today()
+	table_str="\n<h1>Operating System Summary</h1>"
+	report_desc="This report shows counts for every discovered operating system."
+	report_desc+="\n<br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	table_str+="<div class=page_section>\n"
+	table_str+="<table class=table1 width=800px>\n"
 	for (operating_system), group in grouped:
 		print(operating_system,grouped_counts[counter][0])
 		asset_count+=grouped_counts[counter][0]
@@ -276,136 +287,9 @@ def assets_os_summary(input_file,output_file,style_dir):
 	table_str+="<tr><td align=right>Total</td><td>"+str(asset_count)+"</td>"
 	gen_html_report(table_str,output_file,style_dir)
 
-def assets_subnet_summary(input_file,output_file,style_dir):
-	decoded=read_json_file(input_file)
-	if len(decoded) ==0:
-		sys.exit("\nThe export query returned no data")
-	#print(decoded)
-	results=[]
-	for x in decoded:
-		ipv4=""
-		hostname=""
-		operating_system=""
-		subnet=""
-		if len(x['ipv4s']) > 0:
-			ipv4=x['ipv4s'][0]
-			ipv4_parts=ipv4.split(".")
-			subnet=ipv4_parts[0]+"."+ipv4_parts[1]+"."+ipv4_parts[2]
-		if len(x['hostnames']) > 0:
-			hostname=x['hostnames'][0]
-		if len(x['operating_systems']) > 0:
-			operating_system=x['operating_systems'][0]
-		#data_subset=dict_subset(x,('id','ipv4s','hostnames','operating_systems'))
-		#results.append(data_subset)
-		results.append({'ipv4':ipv4,'subnet':subnet,'hostname':hostname,'operating_system':operating_system})
-	myTable=pd.DataFrame(results)
-	print(myTable)
-	grouped=myTable.groupby(['subnet'])
-	print(grouped.count())
-	grouped_counts=grouped.count().values
-	#print(grouped_counts)
-	counter=0
-	asset_count=0
-	table_str="<div class=page_section>\n"
-	table_str+="<table class=table1>\n"
-	for (subnet), group in grouped:
-		print(subnet,grouped_counts[counter][0])
-		asset_count+=grouped_counts[counter][0]
-		table_str+="<tr><td>"+str(subnet)+"</td><td>"+str(grouped_counts[counter][0])+"</td>"
-		counter+=1
-	print(asset_count)
-	table_str+="<tr><td align=right>Total</td><td>"+str(asset_count)+"</td>"
-	gen_html_report(table_str,output_file,style_dir)
-
-def ghost_subnets(input_file,output_file,style_dir):
-	decoded=read_json_file(input_file)
-	if len(decoded) ==0:
-		sys.exit("\nThe export query returned no data")
-	#print(decoded)
-	results=[]
-	ghost_nets=""
-	for x in decoded:
-		ipv4=""
-		hostname=""
-		operating_system=""
-		subnet=""
-		if len(x['ipv4s']) > 0:
-			ipv4=x['ipv4s'][0]
-			ipv4_parts=ipv4.split(".")
-			subnet=ipv4_parts[0]+"."+ipv4_parts[1]+"."+ipv4_parts[2]+".0/24"
-		if len(x['hostnames']) > 0:
-			hostname=x['hostnames'][0]
-		if len(x['operating_systems']) > 0:
-			operating_system=x['operating_systems'][0]
-		#data_subset=dict_subset(x,('id','ipv4s','hostnames','operating_systems'))
-		#results.append(data_subset)
-		results.append({'ipv4':ipv4,'subnet':subnet,'hostname':hostname,'operating_system':operating_system})
-	myTable=pd.DataFrame(results)
-	print(myTable)
-	grouped=myTable.groupby(['subnet'])
-	print(grouped.count())
-	grouped_counts=grouped.count().values
-	#print(grouped_counts)
-	counter=0
-	asset_count=0
-	table_str="<div class=page_section>\n"
-	table_str+="<table class=table1>\n"
-	for (subnet), group in grouped:
-		if grouped_counts[counter][0] == 256:
-			print(subnet,grouped_counts[counter][0])
-			asset_count+=grouped_counts[counter][0]
-			table_str+="<tr><td>"+str(subnet)+"</td><td>"+str(grouped_counts[counter][0])+"</td>"
-			ghost_nets+=subnet+","
-		counter+=1
-	print(asset_count)
-	table_str+="<tr><td align=right>Total</td><td>"+str(asset_count)+"</td>"
-	gen_html_report(table_str,output_file,style_dir)
-	return ghost_nets[:-1]
-
-def os_by_subnet(input_file,output_file,style_dir):
-	decoded=read_json_file(input_file)
-	if len(decoded) ==0:
-		sys.exit("\nThe export query returned no data")
-	#print(decoded)
-	results=[]
-	for x in decoded:
-		ipv4=""
-		hostname=""
-		operating_system=""
-		subnet=""
-		if len(x['ipv4s']) > 0:
-			ipv4=x['ipv4s'][0]
-			ipv4_parts=ipv4.split(".")
-			subnet=ipv4_parts[0]+"."+ipv4_parts[1]+"."+ipv4_parts[2]
-		if len(x['hostnames']) > 0:
-			hostname=x['hostnames'][0]
-		if len(x['operating_systems']) > 0:
-			operating_system=x['operating_systems'][0]
-		#data_subset=dict_subset(x,('id','ipv4s','hostnames','operating_systems'))
-		#results.append(data_subset)
-		results.append({'ipv4':ipv4,'subnet':subnet,'hostname':hostname,'operating_system':operating_system})
-	myTable=pd.DataFrame(results)
-	print(myTable)
-	grouped=myTable.groupby(['subnet','operating_system'])
-	print(grouped.count())
-	grouped_counts=grouped.count().values
-	#print(grouped_counts)
-	counter=0
-	asset_count=0
-	table_str="<div class=page_section>\n"
-	table_str+="<table class=table1>\n"
-	for (subnet,operating_system), group in grouped:
-		print(subnet,operating_system,grouped_counts[counter][0])
-		asset_count+=grouped_counts[counter][0]
-		table_str+="<tr><td>"+str(subnet)+"</td><td>"+str(operating_system)+"</td><td>"+str(grouped_counts[counter][0])+"</td>"
-		counter+=1
-	print(asset_count)
-	table_str+="<tr><td align=right>Total</td><td>"+str(asset_count)+"</td>"
-	gen_html_report(table_str,output_file,style_dir)
-
 
 def show_installed_software(input_file,output_file,style_dir):
-	decoded=read_json_file(input_file)
+	decoded=ut.read_json_file(input_file)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
 	#print(decoded)
@@ -431,10 +315,8 @@ def show_installed_software(input_file,output_file,style_dir):
 	table_str+="</table></div>"
 	gen_html_report(table_str,output_file,style_dir)
 
-
-
 def vuln_result_summary(input_file,output_file,style_dir):
-	decoded=read_json_file(input_file)
+	decoded=ut.read_json_file(input_file)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
 	#print(decoded)
@@ -474,7 +356,12 @@ def vuln_result_summary(input_file,output_file,style_dir):
 		counter+=1
 		host_old=hostname
 	# gen html  report
-	table_str="<div class=page_section>\n<table class=table1 width=90%>"
+	today=date.today()
+	table_str="\n<h1>Vulnerability Summary Report</h1>"
+	report_desc="This report shows the vulnerability count per host."
+	report_desc+="\n<br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	table_str+="<div class=page_section>\n<table class=table1 width=90%>"
 	table_str+="<tr><td width=500px>Host</td><td>IP Address</td><td width=80px align=center>Critical</td><td width=80px align=center>High</td><td width=80px align=center>Medium</td><td width=80px align=center>Low</td><td width=80px align=center>Info</td>"
 	for (k,v) in host_dct.items():
 		table_str+="\n<tr><td>"+k+"</td>\n"
@@ -484,7 +371,8 @@ def vuln_result_summary(input_file,output_file,style_dir):
 	gen_html_report(table_str,output_file,style_dir)
 
 def vuln_result_detailed(input_file,output_file,style_dir):
-	decoded=read_json_file(input_file)
+	today=date.today()
+	decoded=ut.read_json_file(input_file)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
 	#print(decoded)
@@ -523,7 +411,12 @@ def vuln_result_detailed(input_file,output_file,style_dir):
 		counter+=1
 		host_old=hostname
 	# gen html  report
-	table_str="<div class=page_section>\n<table>"
+	table_str="\n<h1>Vulnerability Detailed Report</h1>"
+	report_desc="This report shows the vulnerability count per host. Click on each host to view "
+	report_desc+="the vulnerability details."
+	report_desc+="\n<br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	table_str+="<div class=page_section>\n<table>"
 	table_str+="<tr><td width=250px>Host</td><td width=120px>IP Address</td><td width=80px class=dummy>Critical</td><td width=80px class=dummy>High</td><td width=80px class=dummy>Medium</td><td width=80px class=dummy>Low</td><td width=80px class=dummy>Info</td>"
 	table_str+="</table>"
 	for (k,v) in host_dct.items():
@@ -558,38 +451,3 @@ def clean_string(mystr):
 	return_str=return_str.replace(">","&gt;")
 	return_str=return_str.replace("\n","<br>")
 	return return_str
-
-def gen_html_report(body,output_file,style_dir):
-	fout=open(output_file,'w+')
-	write_html_header(fout,style_dir)
-	fout.write(body)
-	fout.write('</html>')
-	fout.close()
-
-def write_html_header(f,style_dir):
-	html_header='<html>\n'\
-		'<head>\n'\
-		'<title>Tenable Report</title>\n'\
-		'<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />\n'\
-		'<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Expires" content="0" />\n'
-	f.write(html_header)
-	#
-	# readin style sheet
-	f2=open(style_dir+"style.css","r")
-	for line in f2:
-		f.write(line)
-	f2.close()
-	# readin javascript
-	f2=open(style_dir+"collapse.js","r")
-	for line in f2:
-		f.write(line)
-	f2.close()
-	# read in javascrip file for producing graphs
-	#f.write('<script>\n')
-	#
-	#f2=open("Chart.min.js","r")
-	#for line in f2:
-	#	f.write(line)
-	#f2.close()
-	#f.write('</script>\n')
-	f.write('</head>\n<body>\n')

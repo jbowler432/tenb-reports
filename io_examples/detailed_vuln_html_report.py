@@ -6,6 +6,7 @@ import tenbIOcore as tc
 key_file="../../io_keys.json" # location of your key file
 results_dir="../results/" # the directory for your results
 styles_dir="../styles/" #style sheet location for web pages
+reports_dir="../report_samples/"
 
 api_keys=tc.read_keys(key_file,"sandbox")
 host_ip_range="192.168.15.0/24"
@@ -15,5 +16,5 @@ filter={
 "filter.0.value":host_ip_range,
 }
 report_type="html"
-results_file=results_dir+"workbench.html"
+results_file=reports_dir+"detailed_vuln_report.html"
 tc.check_and_download_workbench(api_keys,filter,results_file,report_type)
