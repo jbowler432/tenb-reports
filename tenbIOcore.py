@@ -16,14 +16,6 @@ warnings.filterwarnings("ignore")
 Functions that interface with the raw REST APIs
 '''
 
-
-def unix_time(days):
-	now=datetime.now()
-	date_delta=timedelta(days)
-	new_date=now-date_delta
-	unixtime=datetime.timestamp(new_date)
-	return unixtime
-
 def read_keys(keys_file,instance):
 	f=open(keys_file,"r")
 	keys=json.load(f)

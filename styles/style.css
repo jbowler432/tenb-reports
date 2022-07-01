@@ -23,6 +23,13 @@ td {
 font-size: 0.9em;
 padding: 2px;
 }
+.reportdesc {
+font-size: 0.9em;
+padding-bottom: 10px;
+padding-left: 15px;
+padding-right: 10px;
+width: 700px;
+}
 .page_section b {
 font-size: 1.2em;
 }
