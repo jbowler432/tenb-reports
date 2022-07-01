@@ -1,0 +1,244 @@
+<html>
+<head>
+<title>Tenable Report</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Expires" content="0" />
+<style>
+body {
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+text-align: left;
+background-color: #f7f7f7;
+}
+h1 {
+font-size: 1.6em;
+padding-left: 10px;
+}
+h2 {
+font-size: 1.4em;
+}
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+#  white-space: -moz-pre-wrap;
+#  white-space: -pre-wrap;
+#  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+td {
+font-size: 0.9em;
+padding: 2px;
+}
+.reportdesc {
+font-size: 0.9em;
+padding-bottom: 10px;
+padding-left: 15px;
+padding-right: 10px;
+width: 700px;
+}
+.page_section b {
+font-size: 1.2em;
+}
+.page_section {
+font-size: 0.8em;
+float: left;
+background-color: white;
+padding: 10px;
+margin: 10px;
+text-align: left;
+border: 2px solid white;
+border-radius: 3px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.scrollable_table {
+float: left;
+overflow: auto;
+height: 350px;
+}
+.table1 tr:nth-child(even) {
+background-color: #f7f7f7;
+}
+.table1 tr:nth-child(odd) {
+background-color: white;
+}
+.table1 td {
+padding-right: 10px;
+}
+.breakdown td{
+border-bottom: 1px solid #ddd;
+border-right: 1px solid #ddd;
+padding: 2px;
+}
+
+.td_orange{
+font-size: 0.9em;
+background-color: #FF9757;
+}
+.td_green{
+font-size: 0.9em;
+background-color: #78AF43;
+}
+.td_red{
+font-size: 0.9em;
+background-color: #F6303E;
+}
+.page_heading {
+padding-left: 15px;
+}
+.bar_chart_fl b {
+font-size: 1.2em;
+}
+.bar_chart_fl {
+font-size: 0.8em;
+float: left;
+background-color: white;
+padding: 10px;
+margin: 10px;
+text-align: left;
+border: 2px solid white;
+border-radius: 3px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.hideme {
+display: none;
+}
+.dummy {
+text-align: center;
+border: 2px solid white;
+border-radius: 3px;
+padding: 2px;
+}
+.failed {
+background-color: #f63442;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.critical {
+background-color: #f63442;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.high {
+background-color: #ff9757;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.warning {
+background-color: #ff9757;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.medium {
+background-color: #f9c23b;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.passed {
+background-color: #7bb147;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.low {
+background-color: #7bb147;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.info {
+background-color: #0070b6;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+pre {
+overflow-x: auto;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+.floatleft {
+float: left;
+}
+.floatright {
+float: right;
+}
+.border1 {
+border: 2px solid #4b4b4b;
+border-radius: 5px;
+background-color: white;
+padding: 10px;
+margin-bottom: 10px;
+margin-top: 10px;
+}
+.plugout {
+border: 2px solid black;
+border-radius: 5px;
+width: 70%;
+background-color: #0d3d5c;
+color: white;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
+.plugdesc {
+border: 2px solid #708090;
+border-radius: 5px;
+background-color: #f7f7f7;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
+.article_no_page {
+padding-left: 30px;
+padding-right: 30px;
+margin-bottom: 20px;
+background-color: #ececec;
+border: 2px solid #4b4b4b;
+color: black;
+border-radius: 3px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+}
+</style>
+<script type="text/javascript">
+        function toggle(divId) {
+            var divObj = document.getElementById(divId);
+            if (divObj) {
+                var displayType = divObj.style.display;
+                if (displayType == "" || displayType == "block") {
+                    divObj.style.display = "none";
+                } else {
+                    divObj.style.display = "block";
+                }
+            }
+        }
+</script>
+</head>
+<body>
+
+<h1>Operating System Summary</h1><div class=reportdesc>This report shows counts for every discovered operating system.
+<br>(2022-07-01)</div><div class=page_section>
+<table class=table1 width=800px>
+<tr><td>ADTRAN Operating System</td><td>2</td><tr><td>AIX 7.1 TL 1 SP 4</td><td>2</td><tr><td>Alcatel-Lucent Appliance</td><td>2</td><tr><td>Android</td><td>3</td><tr><td>Apple AirPort Extreme Base Station</td><td>1</td><tr><td>Apple Mac OS X</td><td>1</td><tr><td>Apple Mac OS X 10.14.5</td><td>2</td><tr><td>Apple Mac OS X 10.14.6</td><td>2</td><tr><td>Arista EOS</td><td>12</td><tr><td>Arista EOS 4.16.7M (i386) on a DCS-7010T-48</td><td>1</td><tr><td>Blue Coat Appliance</td><td>1</td><tr><td>Brocade Switch</td><td>2</td><tr><td>Buffalo TeraStation 3.20-0.45</td><td>2</td><tr><td>CISCO ASA 5500</td><td>1</td><tr><td>CISCO IOS 12</td><td>1</td><tr><td>CISCO IOS 12, CISCO PIX, Cisco IOS XE, CISCO IOS 15</td><td>1</td><tr><td>CISCO IOS 15.5(3)M3</td><td>2</td><tr><td>CISCO IOS Cisco IOS Software</td><td>1</td><tr><td>CISCO IOS Cisco IOS Software, C2951 Software (C2951-UNIVERSALK9-M), Version 15.6(3)M0a, RELEASE SOFTWARE (fc1)</td><td>1</td><tr><td>CISCO IOS Cisco IOS Software, C860 Software (C860-UNIVERSALK9-M), Version 15.6(1)T0a, RELEASE SOFTWARE (fc1)</td><td>1</td><tr><td>CISCO IOS, Cisco IOS XE</td><td>1</td><tr><td>CISCO NX-OS 14.2(3l)</td><td>1</td><tr><td>CISCO NX-OS 4.1(1l)</td><td>2</td><tr><td>CentOS Linux 6 Linux Kernel 2.6</td><td>10</td><tr><td>CentOS Linux 7 Linux Kernel 3.10</td><td>45</td><tr><td>Cisco</td><td>1</td><tr><td>Cisco ASA5506-X Threat Defense (75) Version 6.2.3.15 (Build 39)</td><td>2</td><tr><td>Cisco Adaptive Security Appliance Software Version 9.2(4)13</td><td>1</td><tr><td>Cisco IOS XE 16.6.3</td><td>2</td><tr><td>Cisco IOS XR</td><td>19</td><tr><td>Cisco Integrated Management Controller 4.0(1a)</td><td>2</td><tr><td>Cisco Intrusion Prevention System Version 7.0(2)E3</td><td>2</td><tr><td>Cisco NX-OS</td><td>4</td><tr><td>Cisco NX-OS Version 5.0(3)U3(1)</td><td>2</td><tr><td>Cisco NX-OS Version 7.0(3)I7(9)</td><td>2</td><tr><td>Cisco NX-OS Version 7.3(8)N1(1)</td><td>2</td><tr><td>Cisco Wireless Controller</td><td>2</td><tr><td>Darwin</td><td>1</td><tr><td>Debian 7.0 Linux Kernel 3.2</td><td>1</td><tr><td>Dell PowerConnect Switch</td><td>1</td><tr><td>Dell iDRAC Controller</td><td>1</td><tr><td>Dell iDRAC Controller, KYOCERA Printer, Linux Kernel 2.6</td><td>1</td><tr><td>EthernetBoard OkiLAN 8100e</td><td>1</td><tr><td>ExtremeXOS</td><td>8</td><tr><td>FortiOS 5.2.13</td><td>1</td><tr><td>FortiOS 5.2.13,build0762,171212 on FortiGate-310B</td><td>1</td><tr><td>FortiOS 6.4.2</td><td>1</td><tr><td>FortiOS 6.4.2,build1723,200730 on FortiGate-60E</td><td>1</td><tr><td>FreeBSD 10.3</td><td>1</td><tr><td>FreeBSD 11.0_16</td><td>2</td><tr><td>FreeBSD 11.3_14</td><td>1</td><tr><td>FreeBSD 12.2-STABLE (amd64)</td><td>1</td><tr><td>FreeBSD 12.2_3</td><td>2</td><tr><td>FreeBSD 13.0</td><td>2</td><tr><td>HP 3500yl-24G Switch (J8692A) with software revision K.16.02.0020</td><td>2</td><tr><td>HP Integrated Lights-Out</td><td>2</td><tr><td>HP-UX B.11.31</td><td>2</td><tr><td>Huawei</td><td>2</td><tr><td>IBMi OS V7R1M0</td><td>2</td><tr><td>Integrated Dell Remote Access Controller (iDRAC)</td><td>4</td><tr><td>Juniper Junos</td><td>2</td><tr><td>Juniper Junos Version 17.4R2.4</td><td>2</td><tr><td>KYOCERA Printer</td><td>1</td><tr><td>Lantronix Universal Device Server UDS1100</td><td>2</td><tr><td>Linksys Wireless Access Point</td><td>2</td><tr><td>Linksys Wireless Access Point, Linux Kernel 2.6, Palo Alto Networks PAN-OS</td><td>1</td><tr><td>Linksys Wireless Access Point, Oracle Integrated Lights Out Manager, EPSON Stylus Printer</td><td>1</td><tr><td>Linux</td><td>1</td><tr><td>Linux Kernel</td><td>2</td><tr><td>Linux Kernel 2.4</td><td>3</td><tr><td>Linux Kernel 2.6</td><td>41</td><tr><td>Linux Kernel 2.6 on Brocade Switch with Fabric OS 8.2.1c</td><td>2</td><tr><td>Linux Kernel 2.6 on CentOS Linux release 6</td><td>3</td><tr><td>Linux Kernel 2.6.18-398.el5 on CentOS release 5.11 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32</td><td>1</td><tr><td>Linux Kernel 2.6.32-431.el6.x86_64 on CentOS release 6.5 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-573.12.1.el6.x86_64 on CentOS release 6.7 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-573.el6.x86_64 on CentOS release 6.7 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-642.3.1.el6.x86_64 on CentOS release 6.8 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-696.16.1.el6.i686 on CentOS release 6.9 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-696.el6.x86_64 on CentOS release 6.9 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-754.10.1.el6.x86_64 on CentOS release 6.10 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-754.2.1.el6.x86_64 on CentOS release 6.10 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-754.23.1.el6.x86_64 on CentOS release 6.10 (Final)</td><td>19</td><tr><td>Linux Kernel 2.6.32-754.24.3.el6.x86_64 on CentOS release 6.10 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-754.25.1.el6.x86_64 on Red Hat Enterprise Linux Server release 6.6 (Santiago)</td><td>2</td><tr><td>Linux Kernel 2.6.32-754.28.1.el6.x86_64 (x86_64)</td><td>2</td><tr><td>Linux Kernel 2.6.32-754.3.5.el6.x86_64 on CentOS release 6.10 (Final)</td><td>4</td><tr><td>Linux Kernel 2.6.32-754.33.1.el6.x86_64 (x86_64)</td><td>1</td><tr><td>Linux Kernel 2.6.32-754.33.1.el6.x86_64 on CentOS release 6.10 (Final)</td><td>2</td><tr><td>Linux Kernel 2.6.32-754.35.1.el6.x86_64 (x86_64)</td><td>1</td><tr><td>Linux Kernel 2.6.32-754.6.3.el6.x86_64 on CentOS release 6.10 (Final)</td><td>4</td><tr><td>Linux Kernel 2.6.39-400.328.1.el6uek.i686 on Oracle Linux Server release 6.10</td><td>2</td><tr><td>Linux Kernel 3.1</td><td>2</td><tr><td>Linux Kernel 3.10</td><td>25</td><tr><td>Linux Kernel 3.10 on CentOS Linux release 7</td><td>2</td><tr><td>Linux Kernel 3.10 on Check Point Gaia R80.40</td><td>2</td><tr><td>Linux Kernel 3.10, Linux Kernel 3.5, Linux Kernel 3.8, Linux Kernel 3.9</td><td>28</td><tr><td>Linux Kernel 3.10.0-1062.1.2.el7.x86_64 on CentOS Linux release 7.7.1908 (Core)</td><td>101</td><tr><td>Linux Kernel 3.10.0-1062.1.2.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-1062.12.1.el7.x86_64 on CentOS Linux release 7.7.1908 (Core)</td><td>8</td><tr><td>Linux Kernel 3.10.0-1062.18.1.el7.x86_64 on CentOS Linux release 7.7.1908 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-1062.4.1.el7.x86_64 on CentOS Linux release 7.7.1908 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-1127.13.1.el7.x86_64 on CentOS Linux release 7.8.2003 (Core)</td><td>4</td><tr><td>Linux Kernel 3.10.0-1127.19.1.el7.x86_64 on CentOS Linux release 7.6.1810 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-1127.19.1.el7.x86_64 on CentOS Linux release 7.8.2003 (Core)</td><td>4</td><tr><td>Linux Kernel 3.10.0-1127.19.1.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-1127.el7.x86_64 on Red Hat Enterprise Linux Server release 7.8 (Maipo)</td><td>2</td><tr><td>Linux Kernel 3.10.0-1160.11.1.el7.x86_64 on CentOS Linux release 7.7.1908 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-1160.11.1.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-1160.15.2.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>5</td><tr><td>Linux Kernel 3.10.0-1160.25.1.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>4</td><tr><td>Linux Kernel 3.10.0-1160.36.2.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-1160.41.1.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>3</td><tr><td>Linux Kernel 3.10.0-1160.45.1.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>3</td><tr><td>Linux Kernel 3.10.0-1160.49.1.el7.x86_64 on CentOS Linux release 7.8.2003 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-1160.49.1.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>4</td><tr><td>Linux Kernel 3.10.0-1160.6.1.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-1160.62.1.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-1160.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>8</td><tr><td>Linux Kernel 3.10.0-229.el7.x86_64 on CentOS Linux release 7.1.1503 (Core)</td><td>3</td><tr><td>Linux Kernel 3.10.0-327.22.2.el7.x86_64 on CentOS Linux release 7.2.1511 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-514.16.1.el7.x86_64 on CentOS Linux release 7.3.1611 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-514.6.1.el7.x86_64 on CentOS Linux release 7.3.1611 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-693.11.6.el7.x86_64 on CentOS Linux release 7.4.1708 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-693.2.2.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-693.21.1.el7.x86_64 on CentOS Linux release 7.4.1708 (Core)</td><td>4</td><tr><td>Linux Kernel 3.10.0-693.5.2.el7.x86_64 on CentOS Linux release 7.4.1708 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-693.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-693.el7.x86_64 on Red Hat Enterprise Linux Server release 7.4 (Maipo)</td><td>1</td><tr><td>Linux Kernel 3.10.0-862.9.1.el7.x86_64 on CentOS Linux release 7.5.1804 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-862.el7.x86_64 on CentOS Linux release 7.5.1804 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-957.1.3.el7.x86_64 on CentOS Linux release 7.6.1810 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-957.10.1.el7.x86_64 on CentOS Linux release 7.6.1810 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-957.12.1.el7.x86_64 on CentOS Linux release 7.6.1810 (Core)</td><td>4</td><tr><td>Linux Kernel 3.10.0-957.21.3.el7.x86_64 on CentOS Linux release 7.6.1810 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-957.27.2.el7.x86_64 on CentOS Linux release 7.6.1810 (Core)</td><td>1</td><tr><td>Linux Kernel 3.10.0-957.5.1.el7.x86_64 on CentOS Linux release 7.6.1810 (Core)</td><td>9</td><tr><td>Linux Kernel 3.10.0-957.5.1.el7.x86_64 on CentOS Linux release 7.9.2009 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-957.el7.x86_64 on CentOS Linux release 7.6.1810 (Core)</td><td>2</td><tr><td>Linux Kernel 3.10.0-uc0</td><td>4</td><tr><td>Linux Kernel 3.13</td><td>54</td><tr><td>Linux Kernel 3.13, Linux Kernel 3.10, Linux Kernel 4.2, Linux Kernel 4.8</td><td>56</td><tr><td>Linux Kernel 3.14.62.0.0insieme-0</td><td>1</td><tr><td>Linux Kernel 3.14.62.0.0insieme-0, CISCO NX-OS 14.2(3l)</td><td>1</td><tr><td>Linux Kernel 3.16 on Debian 8.0 (jessie)</td><td>8</td><tr><td>Linux Kernel 3.16.0-4-amd64 on Debian 8.7</td><td>2</td><tr><td>Linux Kernel 3.2</td><td>6</td><tr><td>Linux Kernel 3.2, Linux Kernel 3.3</td><td>1</td><tr><td>Linux Kernel 3.2.0-88-virtual on Ubuntu 12.04</td><td>3</td><tr><td>Linux Kernel 3.3</td><td>1</td><tr><td>Linux Kernel 4.1.12-124.49.3.1.el7uek.x86_64 on Oracle Linux Server release 7.9</td><td>2</td><tr><td>Linux Kernel 4.10 on Ubuntu 17.04 (zesty)</td><td>2</td><tr><td>Linux Kernel 4.12.14-25.25-default on SuSE15.0</td><td>1</td><tr><td>Linux Kernel 4.13 on Ubuntu 17.10 (artful)</td><td>2</td><tr><td>Linux Kernel 4.14.123-86.109.amzn1.x86_64 on Amazon Linux AMI</td><td>1</td><tr><td>Linux Kernel 4.14.203-116.332.amzn1.x86_64 on Amazon Linux AMI</td><td>1</td><tr><td>Linux Kernel 4.14.275-142.503.amzn1.x86_64 on Amazon Linux AMI</td><td>1</td><tr><td>Linux Kernel 4.14.77-70.59.amzn1.x86_64 on Amazon Linux AMI</td><td>2</td><tr><td>Linux Kernel 4.14.88-72.73.amzn1.x86_64 on Amazon Linux AMI</td><td>1</td><tr><td>Linux Kernel 4.15 on Ubuntu 18.04 (bionic)</td><td>2</td><tr><td>Linux Kernel 4.15.0-1027-gcp on Ubuntu 16.04</td><td>1</td><tr><td>Linux Kernel 4.15.0-1035-azure on Ubuntu 16.04</td><td>1</td><tr><td>Linux Kernel 4.15.0-1095-gcp on Ubuntu 16.04</td><td>1</td><tr><td>Linux Kernel 4.15.0-1113-azure on Ubuntu 16.04</td><td>1</td><tr><td>Linux Kernel 4.15.0-140-generic on Ubuntu 18.04</td><td>3</td><tr><td>Linux Kernel 4.15.0-153-generic on Ubuntu 18.04</td><td>1</td><tr><td>Linux Kernel 4.15.0-162-generic on Ubuntu 18.04</td><td>1</td><tr><td>Linux Kernel 4.15.0-44-generic on Ubuntu 18.04</td><td>2</td><tr><td>Linux Kernel 4.15.0-54-generic on Debian buster/sid</td><td>2</td><tr><td>Linux Kernel 4.18.0-147.el8.x86_64 on CentOS Linux release 8.1.1911 (Core)</td><td>1</td><tr><td>Linux Kernel 4.18.0-193.6.3.el8_2.x86_64 on CentOS Linux release 8.2.2004 (Core)</td><td>1</td><tr><td>Linux Kernel 4.18.0-193.6.3.el8_2.x86_64 on CentOS Linux release 8.2.2004 (Core), Linux Kernel 4.18.0-193.6.3.el8_2.x86_64 on CentOS Linux release 8.2.2004 (Core), Linux Kernel 4.18.0-193.19.1.el8_2.x86_64 on CentOS Linux release 8.2.2004 (Core)</td><td>1</td><tr><td>Linux Kernel 4.18.0-193.el8.x86_64 on Red Hat Enterprise Linux release 8.2 (Ootpa)</td><td>2</td><tr><td>Linux Kernel 4.18.0-240.10.1.el8_3.x86_64 on CentOS Linux release 8.3.2011</td><td>1</td><tr><td>Linux Kernel 4.18.0-240.10.1.el8_3.x86_64 on CentOS Linux release 8.3.2011, Linux Kernel 4.18.0-80.11.2.el8_0.x86_64 on CentOS Linux release 8.0.1905 (Core)</td><td>1</td><tr><td>Linux Kernel 4.18.0-240.15.1.el8_3.x86_64 on Red Hat Enterprise Linux release 8.3 (Ootpa)</td><td>1</td><tr><td>Linux Kernel 4.18.0-240.22.1.el8_3.x86_64 on CentOS Linux release 8.4.2105</td><td>1</td><tr><td>Linux Kernel 4.18.0-305.12.1.el8_4.x86_64 on CentOS Linux release 8.4.2105</td><td>1</td><tr><td>Linux Kernel 4.18.0-305.3.1.el8.x86_64 on CentOS Linux release 8.4.2105</td><td>2</td><tr><td>Linux Kernel 4.18.0-305.el8.x86_64 on Oracle Linux Server release 8.4</td><td>2</td><tr><td>Linux Kernel 4.18.0-348.2.1.el8_5.x86_64 on CentOS Linux release 8.5.2111</td><td>1</td><tr><td>Linux Kernel 4.18.0-348.el8.x86_64 on CentOS Linux release 8.5.2111</td><td>1</td><tr><td>Linux Kernel 4.18.0-348.el8.x86_64 on Red Hat Enterprise Linux release 8.5 (Ootpa)</td><td>1</td><tr><td>Linux Kernel 4.18.0-80.11.2.el8_0.x86_64 on CentOS Linux release 8.0.1905 (Core)</td><td>71</td><tr><td>Linux Kernel 4.18.0-80.11.2.el8_0.x86_64 on CentOS Linux release 8.4.2105</td><td>1</td><tr><td>Linux Kernel 4.19.0+1</td><td>2</td><tr><td>Linux Kernel 4.19.0-0.bpo.10-amd64 on Debian 9.13</td><td>2</td><tr><td>Linux Kernel 4.19.0-17-amd64 on Debian 10.10</td><td>1</td><tr><td>Linux Kernel 4.19.0-18-amd64 on Debian 10.11</td><td>2</td><tr><td>Linux Kernel 4.20.4-desktop-3omv4000 on OpenMandriva Lx release 4.0 (Nitrogen) for x86_64</td><td>1</td><tr><td>Linux Kernel 4.4 on Ubuntu 16.04 (xenial)</td><td>6</td><tr><td>Linux Kernel 4.4.0-1075-aws on Ubuntu 16.04</td><td>1</td><tr><td>Linux Kernel 4.4.0-210-generic on Ubuntu 16.04</td><td>2</td><tr><td>Linux Kernel 4.4.179-99-default on openSUSE 42.3</td><td>2</td><tr><td>Linux Kernel 4.8</td><td>16</td><tr><td>Linux Kernel 4.8.0-53-generic on Ubuntu 16.04</td><td>3</td><tr><td>Linux Kernel 4.9.0-3-amd64 on Debian 9.2</td><td>2</td><tr><td>Linux Kernel 4.9.0-8-amd64 on Debian 9.7</td><td>2</td><tr><td>Linux Kernel 5.10.0-8-amd64 on Debian 11.0</td><td>2</td><tr><td>Linux Kernel 5.10.0-kali7-amd64</td><td>1</td><tr><td>Linux Kernel 5.11.0-17-generic on Ubuntu 21.04</td><td>1</td><tr><td>Linux Kernel 5.11.0-25-generic on Ubuntu 21.04</td><td>1</td><tr><td>Linux Kernel 5.11.0-27-generic on Ubuntu 20.04</td><td>1</td><tr><td>Linux Kernel 5.11.0-40-generic on Ubuntu 20.04</td><td>1</td><tr><td>Linux Kernel 5.11.11-200.fc33.x86_64 on Fedora release 33 (Thirty Three)</td><td>1</td><tr><td>Linux Kernel 5.11.12-300.fc34.x86_64 on Fedora release 34 (Thirty Four)</td><td>2</td><tr><td>Linux Kernel 5.14.0-22.el9.x86_64</td><td>1</td><tr><td>Linux Kernel 5.14.0-kali4-amd64</td><td>1</td><tr><td>Linux Kernel 5.14.10-300.fc35.x86_64 on Fedora release 35 (Thirty Five)</td><td>2</td><tr><td>Linux Kernel 5.3.18-59.10-default on openSUSE 15.3</td><td>1</td><tr><td>Linux Kernel 5.3.18-lp152.75-default on openSUSE 15.2</td><td>1</td><tr><td>Linux Kernel 5.4.0-1037-aws on Ubuntu 18.04</td><td>1</td><tr><td>Linux Kernel 5.4.0-110-generic on Ubuntu 20.04</td><td>1</td><tr><td>Linux Kernel 5.4.0-26-generic on Debian bullseye/sid</td><td>1</td><tr><td>Linux Kernel 5.4.0-72-generic on Ubuntu 18.04</td><td>1</td><tr><td>Linux Kernel 5.4.0-81-generic on Ubuntu 20.04</td><td>1</td><tr><td>Linux Kernel 5.4.0-90-generic on Debian bullseye/sid</td><td>1</td><tr><td>Linux Kernel 5.4.0-90-generic on Ubuntu 20.04</td><td>1</td><tr><td>Linux Kernel 5.4.17-2102.201.3.el8uek.x86_64 on Oracle Linux Server release 8.4</td><td>4</td><tr><td>Linux Kernel 5.4.87-218 on Ubuntu 20.04</td><td>1</td><tr><td>Linux Kernel 5.6.6-300.fc32.x86_64 on Fedora release 32 (Thirty Two)</td><td>2</td><tr><td>Linux Kernel 5.8.0-44-generic on Ubuntu 20.10</td><td>1</td><tr><td>Linux Kernel 5.8.0-63-generic on Ubuntu 20.10</td><td>5</td><tr><td>Linux Kernel 5.8.15-301.fc33.x86_64 on Fedora release 33 (Thirty Three)</td><td>4</td><tr><td>Mac OS X 10.12</td><td>4</td><tr><td>Mac OS X 10.13.4</td><td>3</td><tr><td>Mac OS X 10.14</td><td>2</td><tr><td>Mac OS X 10.14.3</td><td>1</td><tr><td>Mac OS X 10.14.4</td><td>7</td><tr><td>Mac OS X 10.14.5</td><td>2</td><tr><td>Mac OS X 10.14.6</td><td>4</td><tr><td>Mac OS X 10.15</td><td>2</td><tr><td>Mac OS X 10.15.1</td><td>3</td><tr><td>Mac OS X 10.15.2</td><td>2</td><tr><td>Mac OS X 10.15.5</td><td>1</td><tr><td>Mac OS X 10.15.7</td><td>1</td><tr><td>Mac OS X 11.0.1</td><td>1</td><tr><td>Mac OS X 12.0.1</td><td>2</td><tr><td>Microsoft Corporation Xbox 360 2</td><td>1</td><tr><td>Microsoft Windows</td><td>1</td><tr><td>Microsoft Windows 10</td><td>15</td><tr><td>Microsoft Windows 10 Enterprise</td><td>2</td><tr><td>Microsoft Windows 10 Home 10.0.19041</td><td>1</td><tr><td>Microsoft Windows 10 Home 10.0.19043</td><td>1</td><tr><td>Microsoft Windows 10 Pro</td><td>39</td><tr><td>Microsoft Windows 10 Pro, Linux Kernel 4.18.0-80.11.2.el8_0.x86_64 on CentOS Linux release 8.0.1905 (Core)</td><td>1</td><tr><td>Microsoft Windows 7</td><td>1</td><tr><td>Microsoft Windows 7 Ultimate Service Pack 1</td><td>1</td><tr><td>Microsoft Windows 8 Pro</td><td>1</td><tr><td>Microsoft Windows 8.1 Pro</td><td>2</td><tr><td>Microsoft Windows Server 2008 Enterprise Service Pack 2</td><td>2</td><tr><td>Microsoft Windows Server 2008 R2 Datacenter Service Pack 1</td><td>7</td><tr><td>Microsoft Windows Server 2008 R2 Enterprise Service Pack 1</td><td>2</td><tr><td>Microsoft Windows Server 2008 R2 Standard Service Pack 1</td><td>25</td><tr><td>Microsoft Windows Server 2012 R2</td><td>3</td><tr><td>Microsoft Windows Server 2012 R2 Datacenter</td><td>4</td><tr><td>Microsoft Windows Server 2012 R2 Standard</td><td>22</td><tr><td>Microsoft Windows Server 2012 Standard</td><td>4</td><tr><td>Microsoft Windows Server 2016 Datacenter</td><td>5</td><tr><td>Microsoft Windows Server 2016 Standard</td><td>12</td><tr><td>Microsoft Windows Server 2019 Datacenter</td><td>3</td><tr><td>Microsoft Windows Server 2019 Standard</td><td>27</td><tr><td>Microsoft Windows Server 2022 Standard</td><td>3</td><tr><td>Microsoft Windows Vista</td><td>1</td><tr><td>Palo Alto Networks PAN-OS</td><td>2</td><tr><td>Polycom SIP Device</td><td>2</td><tr><td>Polycom SoundPoint IP Telephone</td><td>1</td><tr><td>Riverbed Optimization System (RiOS) 9.6.1 on a VCX</td><td>1</td><tr><td>Solaris 10 (sparc)</td><td>6</td><tr><td>Solaris 11</td><td>3</td><tr><td>Solaris 11 (i386)</td><td>2</td><tr><td>Solaris 11 (sparc)</td><td>2</td><tr><td>Solaris 11, Solaris 11.1</td><td>1</td><tr><td>SonicWALL</td><td>2</td><tr><td>Super Micro</td><td>2</td><tr><td>TP-LINK Archer_A10 1.0</td><td>1</td><tr><td>TiMOS B-8.0.R12 on Nokia SAS-T 12F10T 4XFP 7210</td><td>2</td><tr><td>Ubuntu 14.04 Linux Kernel 3.13</td><td>2</td><tr><td>Ubuntu 16.04 Linux Kernel 4.4</td><td>42</td><tr><td>Unix</td><td>5</td><tr><td>VMware ESX</td><td>2</td><tr><td>VMware ESXi</td><td>1</td><tr><td>VMware ESXi 6.7.0 build-13006603</td><td>2</td><tr><td>VMware ESXi 7.0.0 build-15843807</td><td>2</td><tr><td>VMware vCenter Server 6.7.0 build-10244857</td><td>2</td><tr><td>VMware vCenter Server 6.7.0 build-13007421</td><td>2</td><tr><td>VMware vCenter Server 7.0.0 build-16749670</td><td>2</td><tr><td>Windows</td><td>16</td><tr><td>Windows 11</td><td>1</td><tr><td>Windows Server 2016 Datacenter 14393</td><td>2</td><tr><td>Windows Server 2016 Standard 14393</td><td>8</td><tr><td>iPhone or iPad</td><td>2</td><tr><td>uname ex2300.dc.demo.io</td><td>2</td><tr><td align=right>Total</td><td>1246</td></html>
