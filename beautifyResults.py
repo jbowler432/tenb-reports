@@ -47,7 +47,7 @@ def assets_subnet_summary(input_file,output_file,style_dir):
 	'''
 	Produces a html report showing asset counts per /24 subnet.
 	Expected input is a json file from /assets/export API.
-	Use check_and_download_assets_chunks(api_keys,payload,asset_file) funtion
+	Use check_and_download_assets_chunks(api_keys,payload,asset_file) function
 	to generate the json file
 	'''
 	decoded=ut.read_json_file(input_file)
@@ -131,6 +131,14 @@ def get_hostname(uuid,input_file):
 	return hostname,ipv4,last_seen
 
 def compliance_result_summary(assets_file,input_file,output_file,style_dir):
+	'''
+	Generates a html report showing a summary of all audit scan findings.
+	Needs both asset and compliance json input files generated from the
+	/compliance/export and /assets/export api. Files can be downloaded using
+	check_and_download_compliance_chunks(api_keys,payload,compliance_file)
+	check_and_download_assets_chunks(api_keys,payload,asset_file)
+	See compliance_audit_report.py for an example
+	'''
 	decoded=ut.read_json_file(input_file)
 	#print(decoded)
 	if len(decoded) ==0:
@@ -180,6 +188,15 @@ def compliance_result_summary(assets_file,input_file,output_file,style_dir):
 	gen_html_report(table_str,output_file,style_dir)
 
 def compliance_result_detailed(assets_file,input_file,output_file,style_dir):
+	'''
+	Generates a html report showing a summary of all audit scan findings.
+	The summary findings can be expanded by clicking on each record to show the fulle details.
+	Needs both asset and compliance json input files generated from the
+	/compliance/export and /assets/export api. Files can be downloaded using
+	check_and_download_compliance_chunks(api_keys,payload,compliance_file)
+	check_and_download_assets_chunks(api_keys,payload,asset_file)
+	See compliance_audit_report.py for an example
+	'''
 	decoded=ut.read_json_file(input_file)
 	#print(decoded)
 	if len(decoded) ==0:
@@ -245,6 +262,13 @@ def get_compliance_details(results,k):
 	return return_str
 
 def assets_os_summary(input_file,output_file,style_dir):
+	'''
+	Generates a html report showing all discovered operating systems
+	and the asset counts per OS. Uses a json input file from the /assets/export API.
+	The required file can be downloaded using.
+	check_and_download_assets_chunks(api_keys,payload,asset_file)
+	See os_report.py for an example
+	'''
 	decoded=ut.read_json_file(input_file)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
@@ -316,6 +340,13 @@ def show_installed_software(input_file,output_file,style_dir):
 	gen_html_report(table_str,output_file,style_dir)
 
 def vuln_result_summary(input_file,output_file,style_dir):
+	'''
+	Generates a html report showing a summary of vuln findings per host.
+	Expects an json input file generated from the /vulns/export API. The
+	required file can be generated using
+	check_and_download_vuln_chunks(api_keys,payload,results_file)
+	See export_vuln_data_html.py for an example
+	'''
 	decoded=ut.read_json_file(input_file)
 	if len(decoded) ==0:
 		sys.exit("\nThe export query returned no data")
@@ -371,6 +402,14 @@ def vuln_result_summary(input_file,output_file,style_dir):
 	gen_html_report(table_str,output_file,style_dir)
 
 def vuln_result_detailed(input_file,output_file,style_dir):
+	'''
+	Generates a html report showing a summary of vuln findings per host.
+	Full vuln details can be viewed by clicking on each host record.
+	Expects an json input file generated from the /vulns/export API. The
+	required file can be generated using
+	check_and_download_vuln_chunks(api_keys,payload,results_file)
+	See export_vuln_data_html.py for an example
+	'''
 	today=date.today()
 	decoded=ut.read_json_file(input_file)
 	if len(decoded) ==0:
