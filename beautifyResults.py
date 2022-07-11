@@ -4,6 +4,7 @@ import sys
 import utilities as ut
 from datetime import datetime
 from datetime import date
+import csv
 
 '''
 Routines for producing html reports
@@ -42,6 +43,60 @@ def write_html_header(f,style_dir):
 	#f2.close()
 	#f.write('</script>\n')
 	f.write('</head>\n<body>\n')
+
+def software_bom(input_file,html_file,style_dir,csv_file):
+	'''
+	This function is processing json output from SC.
+	'''
+	decoded=ut.read_json_file(input_file)
+	today=date.today()
+	table_str="\n<h1>Software BOM</h1>"
+	report_desc="This report shows the installed software per host. "
+	report_desc+="It looks at the plugin output for plugins 22869 (SSH), 20811 (Windows), 83991 (OSX)."
+	report_desc+="Click on the rows to show the software."
+	report_desc+="\n<br><br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	table_str+="<div class=page_section>\n"
+	table_str+="<table class=table1>\n"
+	table_str+="<tr><td>Host Name</td><td align=center>IP Address</td><td>Operating System</td><td>Plugin ID</td><td>Installed Software Count</td>"
+	fout=open(csv_file,"w")
+	writer=csv.writer(fout)
+	id=1
+	for results in decoded:
+		os=str(results["os"])
+		hostname=results["hostname"]
+		output=results["output"]
+		ipv4=results["ipv4"]
+		pluginID=str(results["pluginID"])
+		pluginOutput=clean_plugin_output(output)
+		lines=pluginOutput.split("\n")
+		for x in lines:
+			writer.writerow([hostname,ipv4,os,pluginID,x.replace("\t","").strip()])
+		#table_str+="\n<tr><td valign=top>"+hostname+"</td><td valign=top>"+ipv4+"</td><td valign=top>"+pluginID+"</td><td>"+clean_string(pluginOutput.strip())+"</td>"
+		table_str+='\n<tr onclick="toggle(\''+str(id)+'\')" onmouseover="this.style.cursor=\'pointer\'"><td valign=top>'+hostname+"</td><td valign=top>"+ipv4+"</td><td valign=top>"+os+"</td><td valign=top>"+pluginID+"</td><td>"+str(len(pluginOutput.strip().split("\n")))+"</td>"
+		table_str+='\n<tr id="'+str(id)+'" style="display:none;"><td>'+clean_string(pluginOutput.strip())+"</td>"
+		id+=1
+		#for (k,v) in results.items():
+		#	print(k)
+		#print(results["dnsName"],results["ips"],results["uuid"],results["pluginID"])
+	gen_html_report(table_str,html_file,style_dir)
+	fout.close()
+
+def clean_plugin_output(input):
+	lines=input.split("\n")
+	output=""
+	exclude_list=[" ","","The following software are installed on the remote host :","</plugin_output>"]
+	#exclude_list.append("Here is the list of packages installed on the remote CentOS Linux system : ")
+	#print(exclude_list)
+	for line in lines:
+		#print(line)
+		if line not in exclude_list:
+			if "Here is the list of packages" not in line:
+				if "#" not in line:
+					if "<plugin_output>" not in line:
+						output+=line+"\n"
+	return output
+
 
 def assets_subnet_summary(input_file,output_file,style_dir):
 	'''
@@ -489,4 +544,5 @@ def clean_string(mystr):
 	return_str=mystr.replace("<","&lt;")
 	return_str=return_str.replace(">","&gt;")
 	return_str=return_str.replace("\n","<br>")
+	return_str=return_str.replace("\t","")
 	return return_str
