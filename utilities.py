@@ -16,6 +16,21 @@ warnings.filterwarnings("ignore")
 Useful functions
 '''
 
+def get_ip_lst(fname,column_for_ips):
+	# reads a csv file containing IP addresses and returns a list
+	ip_lst=""
+	print("reading "+fname)
+	with open(fname) as csv_file:
+		csv_reader = csv.reader(csv_file, delimiter=',')
+		line_count=0
+		for row in csv_reader:
+			if len(row)>0:
+				#print(row)
+				ip_lst+=(row[column_for_ips])+","
+				line_count+=1
+	print("processed "+str(line_count)+" rows")
+	return ip_lst
+
 def unix_time(days):
 	# returns the current time as a Unix time
 	now=datetime.now()

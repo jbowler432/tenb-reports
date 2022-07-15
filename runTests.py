@@ -13,39 +13,24 @@ styles_dir="styles/" #style sheet location for web pages
 output_file=results_dir+"statistics_by_tag.html"
 results_file=results_dir+"vulns.json"
 
-sc_keys=sc.read_SC_keys(sc_key_file)
 api_keys=tc.read_keys(key_file,"sandbox")
 
-# export some vuln data
-num_assets=100
-filters={
-	"state":["fixed"],
-	"severity":["critical","high","medium","low"]
-#	"last_fixed":1648249791
-	}
-payload={
-	"filters": filters,
-	"num_assets": num_assets
-}
-chunk_results=tc.check_and_download_vuln_chunks(api_keys,payload,results_file)
+sc_keys=sc.read_SC_keys(sc_key_file)
+sc_server,port,token,cookies=sc.get_token(sc_keys)
+#filters= [{'filterName': 'repository', 'operator': '=', 'value': [{'id': '4'},{'id': '6'}]}]
+#filters=[]
 
-results=br.read_json_file(results_file)
-count=0
-for x in results:
-	ff=x["first_found"]
-	lf=x["last_fixed"]
-	ipv4=x["asset"]["ipv4"]
-	pid=x["plugin"]["id"]
-	sev=x["severity"]
-	ttfix=tc.date_diff(ff,lf)
-	print(ipv4,sev,ttfix)
-	count+=1
-print(count)
+decoded=sc.add_sc_asset_static(sc_server,port,token,cookies,"tag9","192.168.50.45,10.0.23.99,")
+print(decoded)
+'''
+print(" ")
+for x in decoded["response"]["manageable"]:
+	id=str(x["id"])
+	name=str(x["name"])
+	if name=='tag1':
+		asset=sc.call_sc_asset_id(sc_server,port,token,cookies,id)
+		print(id,name)
+		print(asset)
+'''
 
-now=datetime.datetime.now()
-date_delta=datetime.timedelta(90)
-back90=now-date_delta
-unixtime90=datetime.datetime.timestamp(back90)
-print(now)
-print(back90)
-print(unixtime90)
+sc.close_session(sc_server,port,token,cookies)
