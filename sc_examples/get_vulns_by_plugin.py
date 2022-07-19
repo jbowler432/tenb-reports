@@ -6,6 +6,7 @@ import tenbSCcore as sc
 sc_key_file="../../sc_keys.json"
 results_dir="../results/" # the directory for your results
 styles_dir="../styles/" #style sheet location for web pages
+
 '''
 The sc_keys.json file is a text file with the following format.
 It contains a single disctionary object
