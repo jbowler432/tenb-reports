@@ -72,6 +72,7 @@ def list_scans(api_keys):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
+
 def list_workbenches_assets(api_keys,querystring):
 	url = "https://cloud.tenable.com/workbenches/assets"
 	results_json=get_query(api_keys,url,querystring)
@@ -139,6 +140,32 @@ def list_permissions(api_keys):
 	querystring={}
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
+
+def list_user_permissions(api_keys,uuid):
+	url = "https://cloud.tenable.com/api/v3/access-control/permissions/users/"+uuid
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+
+def list_users(api_keys):
+	url = "https://cloud.tenable.com/users"
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+def list_groups(api_keys):
+	url = "https://cloud.tenable.com/groups"
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+def create_group(api_keys,group_name):
+	url = "https://cloud.tenable.com/groups"
+	payload={"name":group_name}
+	results_json=post_query(api_keys,url,payload)
+	return results_json
+
 
 def update_permissions(api_keys,uuid,name,actions,objects,subjects):
 	url = "https://cloud.tenable.com/api/v3/access-control/permissions/"+uuid
