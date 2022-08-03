@@ -36,6 +36,19 @@ def get_query(api_keys,url,querystring):
 	except Exception as e:
 		return {"exception":e}
 
+def delete_query(api_keys,url):
+	headers = {
+	'accept': "application/json",
+	'X-APIKeys': api_keys
+	}
+	response = requests.request("DELETE", url, headers=headers)
+	try:
+		decoded = json.loads(response.text)
+		return decoded
+	except Exception as e:
+		return {"exception":e}
+
+
 def post_query(api_keys,url,payload):
 	headers = {
 	'accept': "application/json",
@@ -158,6 +171,24 @@ def list_groups(api_keys):
 	url = "https://cloud.tenable.com/groups"
 	querystring={}
 	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+def list_access_groups(api_keys):
+	url = "https://cloud.tenable.com/v2/access-groups"
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+def get_access_group_details(api_keys,id):
+	url = "https://cloud.tenable.com/v2/access-groups/"+id
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
+def delete_access_group(api_keys,id):
+	url = "https://cloud.tenable.com/v2/access-groups/"+id
+	querystring={}
+	results_json=delete_query(api_keys,url)
 	return results_json
 
 def create_group(api_keys,group_name):
