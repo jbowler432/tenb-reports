@@ -54,6 +54,15 @@ float: left;
 overflow: auto;
 height: 350px;
 }
+.table2 {
+border: 2px solid #708090;
+border-radius: 5px;
+background-color: #f7f7f7;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
 .table1 tr:nth-child(even) {
 background-color: #f7f7f7;
 }
@@ -61,6 +70,24 @@ background-color: #f7f7f7;
 background-color: white;
 }
 .table1 td {
+padding-right: 10px;
+}
+.table3 {
+border: 2px solid #708090;
+border-radius: 5px;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+margin-bottom: 10px;
+}
+.table3 tr:nth-child(even) {
+background-color: #f7f7f7;
+}
+.table3 tr:nth-child(odd) {
+background-color: white;
+}
+.table3 td {
 padding-right: 10px;
 }
 .breakdown td{
@@ -239,51 +266,81 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <body>
 
 <h1>Vulnerability Summary Report</h1><div class=reportdesc>This report shows the vulnerability count per host.
-<br>(2022-07-01)</div><div class=page_section>
+<br>(2022-07-28)</div><div class=page_section>
 <table class=table1 width=90%><tr><td width=500px>Host</td><td>IP Address</td><td width=80px align=center>Critical</td><td width=80px align=center>High</td><td width=80px align=center>Medium</td><td width=80px align=center>Low</td><td width=80px align=center>Info</td>
-<tr><td>10.10.2.134</td>
-<td class=ipv4>10.10.2.134</td><td class=critical>0</td><td class=high>1</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>10.10.2.137</td>
-<td class=ipv4>10.10.2.137</td><td class=critical>0</td><td class=high>2</td><td class=medium>3</td><td class=low>0</td><td class=info>0</td>
-<tr><td>10.10.2.191</td>
-<td class=ipv4>10.10.2.191</td><td class=critical>0</td><td class=high>4</td><td class=medium>3</td><td class=low>1</td><td class=info>0</td>
-<tr><td>10.10.2.78</td>
-<td class=ipv4>10.10.2.78</td><td class=critical>0</td><td class=high>2</td><td class=medium>3</td><td class=low>0</td><td class=info>0</td>
-<tr><td>10.200.0.64</td>
-<td class=ipv4>10.200.0.64</td><td class=critical>0</td><td class=high>1</td><td class=medium>2</td><td class=low>0</td><td class=info>0</td>
-<tr><td>192.168.0.1</td>
-<td class=ipv4>192.168.0.1</td><td class=critical>1</td><td class=high>0</td><td class=medium>2</td><td class=low>3</td><td class=info>0</td>
-<tr><td>192.168.0.105</td>
-<td class=ipv4>192.168.0.105</td><td class=critical>1</td><td class=high>0</td><td class=medium>1</td><td class=low>2</td><td class=info>0</td>
-<tr><td>192.168.0.106</td>
-<td class=ipv4>192.168.0.106</td><td class=critical>0</td><td class=high>0</td><td class=medium>7</td><td class=low>0</td><td class=info>0</td>
-<tr><td>192.168.68.133</td>
-<td class=ipv4>192.168.68.133</td><td class=critical>0</td><td class=high>0</td><td class=medium>1</td><td class=low>0</td><td class=info>0</td>
-<tr><td>192.168.68.20</td>
-<td class=ipv4>192.168.68.20</td><td class=critical>0</td><td class=high>0</td><td class=medium>3</td><td class=low>0</td><td class=info>0</td>
-<tr><td>az-dev-nessusbyol-1.internal.cloudapp.net</td>
-<td class=ipv4>10.20.1.6</td><td class=critical>0</td><td class=high>1</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>az-ubuntuserver-1.internal.cloudapp.net</td>
-<td class=ipv4>10.20.1.7</td><td class=critical>0</td><td class=high>1</td><td class=medium>2</td><td class=low>0</td><td class=info>0</td>
-<tr><td>az-ubuntuserver-2.internal.cloudapp.net</td>
-<td class=ipv4>10.20.2.6</td><td class=critical>0</td><td class=high>1</td><td class=medium>2</td><td class=low>0</td><td class=info>0</td>
-<tr><td>az-win2008r2-1.internal.cloudapp.net</td>
-<td class=ipv4>10.20.1.9</td><td class=critical>0</td><td class=high>1</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>az-win2008r2-2.internal.cloudapp.net</td>
-<td class=ipv4>10.20.2.8</td><td class=critical>0</td><td class=high>2</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>az-win2012r2-2.internal.cloudapp.net</td>
-<td class=ipv4>10.20.2.5</td><td class=critical>0</td><td class=high>1</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>az-win2016-1.internal.cloudapp.net</td>
-<td class=ipv4>10.20.1.8</td><td class=critical>0</td><td class=high>2</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>az-win2016-2.internal.cloudapp.net</td>
-<td class=ipv4>10.20.2.7</td><td class=critical>0</td><td class=high>2</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>az-win2019-2.internal.cloudapp.net</td>
-<td class=ipv4>10.20.2.4</td><td class=critical>0</td><td class=high>2</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>demoio-gcp-prod-us-east4-centos7-1.c.production-demoio.internal</td>
-<td class=ipv4>10.30.1.5</td><td class=critical>0</td><td class=high>1</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>demoio-gcp-prod-us-east4-centos7-2.c.production-demoio.internal</td>
-<td class=ipv4>10.30.2.4</td><td class=critical>0</td><td class=high>1</td><td class=medium>0</td><td class=low>0</td><td class=info>0</td>
-<tr><td>demoio-gcp-prod-us-east4-ubuntu1604-1.c.production-demoio.internal</td>
-<td class=ipv4>10.30.1.4</td><td class=critical>0</td><td class=high>0</td><td class=medium>2</td><td class=low>0</td><td class=info>0</td>
-<tr><td>demoio-gcp-prod-us-east4-ubuntu1604-2.c.production-demoio.internal</td>
-<td class=ipv4>10.30.2.2</td><td class=critical>0</td><td class=high>0</td><td class=medium>2</td><td class=low>0</td><td class=info>0</td></table></div></html>
+<tr><td>192.168.16.134</td>
+<td class=ipv4>192.168.16.134</td><td class=critical>27</td><td class=high>157</td><td class=medium>84</td><td class=low>7</td><td class=info>175</td>
+<tr><td>192.168.16.161</td>
+<td class=ipv4>192.168.16.161</td><td class=critical>0</td><td class=high>0</td><td class=medium>2</td><td class=low>0</td><td class=info>49</td>
+<tr><td>192.168.16.185</td>
+<td class=ipv4>192.168.16.185</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>25</td>
+<tr><td>192.168.16.234</td>
+<td class=ipv4>192.168.16.234</td><td class=critical>0</td><td class=high>3</td><td class=medium>27</td><td class=low>1</td><td class=info>331</td>
+<tr><td>adam</td>
+<td class=ipv4>10.0.75.1</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>adam.demo.io</td>
+<td class=ipv4>192.168.16.133</td><td class=critical>28</td><td class=high>162</td><td class=medium>107</td><td class=low>10</td><td class=info>183</td>
+<tr><td>alice</td>
+<td class=ipv4>192.168.16.129</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>18</td>
+<tr><td>alice.demo.io</td>
+<td class=ipv4>192.168.16.129</td><td class=critical>0</td><td class=high>10</td><td class=medium>17</td><td class=low>0</td><td class=info>42</td>
+<tr><td>archie</td>
+<td class=ipv4>192.168.16.147</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>32</td>
+<tr><td>archie.demo.io</td>
+<td class=ipv4>192.168.16.147</td><td class=critical>1</td><td class=high>0</td><td class=medium>2</td><td class=low>0</td><td class=info>71</td>
+<tr><td>brian</td>
+<td class=ipv4>192.168.16.151</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>brian.demo.io</td>
+<td class=ipv4>192.168.16.151</td><td class=critical>26</td><td class=high>149</td><td class=medium>86</td><td class=low>5</td><td class=info>186</td>
+<tr><td>carlos</td>
+<td class=ipv4>192.168.16.136</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>carlos.demo.io</td>
+<td class=ipv4>192.168.16.136</td><td class=critical>26</td><td class=high>148</td><td class=medium>86</td><td class=low>6</td><td class=info>173</td>
+<tr><td>chris.demo.io</td>
+<td class=ipv4>192.168.16.55</td><td class=critical>12</td><td class=high>124</td><td class=medium>66</td><td class=low>9</td><td class=info>151</td>
+<tr><td>denise</td>
+<td class=ipv4>192.168.16.128</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>denise.demo.io</td>
+<td class=ipv4>192.168.16.128</td><td class=critical>26</td><td class=high>148</td><td class=medium>86</td><td class=low>5</td><td class=info>175</td>
+<tr><td>domingo</td>
+<td class=ipv4>192.168.16.134</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>jeffree</td>
+<td class=ipv4>192.168.16.32</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>14</td>
+<tr><td>jeffree.demo.io</td>
+<td class=ipv4>192.168.16.32</td><td class=critical>7</td><td class=high>29</td><td class=medium>12</td><td class=low>2</td><td class=info>183</td>
+<tr><td>jia</td>
+<td class=ipv4>192.168.16.118</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>jia.demo.io</td>
+<td class=ipv4>192.168.16.118</td><td class=critical>27</td><td class=high>156</td><td class=medium>83</td><td class=low>6</td><td class=info>172</td>
+<tr><td>jim</td>
+<td class=ipv4>192.168.16.131</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>jim.demo.io</td>
+<td class=ipv4>192.168.16.131</td><td class=critical>26</td><td class=high>149</td><td class=medium>86</td><td class=low>6</td><td class=info>173</td>
+<tr><td>john</td>
+<td class=ipv4>192.168.16.84</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>john.demo.io</td>
+<td class=ipv4>192.168.16.84</td><td class=critical>27</td><td class=high>156</td><td class=medium>86</td><td class=low>7</td><td class=info>172</td>
+<tr><td>josh</td>
+<td class=ipv4>192.168.16.68</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>josh.demo.io</td>
+<td class=ipv4>192.168.16.68</td><td class=critical>23</td><td class=high>106</td><td class=medium>55</td><td class=low>4</td><td class=info>156</td>
+<tr><td>kevin</td>
+<td class=ipv4>192.168.16.46</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>kevin.demo.io</td>
+<td class=ipv4>192.168.16.46</td><td class=critical>3</td><td class=high>8</td><td class=medium>10</td><td class=low>2</td><td class=info>182</td>
+<tr><td>miles</td>
+<td class=ipv4>192.168.16.138</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>miles.demo.io</td>
+<td class=ipv4>192.168.16.138</td><td class=critical>26</td><td class=high>148</td><td class=medium>86</td><td class=low>6</td><td class=info>172</td>
+<tr><td>rita</td>
+<td class=ipv4>192.168.16.139</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>rita.demo.io</td>
+<td class=ipv4>192.168.16.139</td><td class=critical>26</td><td class=high>148</td><td class=medium>86</td><td class=low>6</td><td class=info>171</td>
+<tr><td>sam</td>
+<td class=ipv4>192.168.16.123</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>sam.demo.io</td>
+<td class=ipv4>192.168.16.123</td><td class=critical>28</td><td class=high>165</td><td class=medium>84</td><td class=low>7</td><td class=info>170</td>
+<tr><td>shane</td>
+<td class=ipv4>192.168.16.135</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>12</td>
+<tr><td>shane.demo.io</td>
+<td class=ipv4>192.168.16.135</td><td class=critical>27</td><td class=high>158</td><td class=medium>103</td><td class=low>7</td><td class=info>191</td></table></div></html>

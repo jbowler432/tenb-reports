@@ -10,7 +10,7 @@ results_dir="../results/" # the directory for your results
 styles_dir="../styles/" #style sheet location for web pages
 reports_dir="../report_samples/"
 
-get_new_data=0
+get_new_data=1
 
 if get_new_data==1:
 	# export some vuln data
@@ -21,7 +21,7 @@ if get_new_data==1:
 		"num_assets": num_assets
 	}
 	results_file=results_dir+"vulns.json"
-	api_keys=tc.read_keys(key_file,"sandbox")
+	api_keys=tc.read_keys(key_file,"restricted")
 	chunk_results=tc.check_and_download_vuln_chunks(api_keys,payload,results_file)
 
 # produce html report off downloaded data
