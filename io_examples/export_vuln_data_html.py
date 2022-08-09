@@ -4,6 +4,14 @@ import tenbIOcore as tc
 import beautifyResults as br
 import datetime
 
+'''
+Uses the export APIs to download the vulnerabilty database as
+a json file. Reads the downloaded json file to produce to custom
+html reports. One is a summary and the other a detailed report.
+The detailed report can be dynamically expanded to show all the
+vulnerability details.
+'''
+
 # file and directory locations
 key_file="../../io_keys.json" # location of your key file
 results_dir="../results/" # the directory for your results
