@@ -54,6 +54,15 @@ float: left;
 overflow: auto;
 height: 350px;
 }
+.table2 {
+border: 2px solid #708090;
+border-radius: 5px;
+background-color: #f7f7f7;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
 .table1 tr:nth-child(even) {
 background-color: #f7f7f7;
 }
@@ -61,6 +70,24 @@ background-color: #f7f7f7;
 background-color: white;
 }
 .table1 td {
+padding-right: 10px;
+}
+.table3 {
+border: 2px solid #708090;
+border-radius: 5px;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+margin-bottom: 10px;
+}
+.table3 tr:nth-child(even) {
+background-color: #f7f7f7;
+}
+.table3 tr:nth-child(odd) {
+background-color: white;
+}
+.table3 td {
 padding-right: 10px;
 }
 .breakdown td{
@@ -238,12 +265,11 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 </head>
 <body>
 
-<h1>Vulnerability Statistics Report</h1><div class=reportdesc>This report takes a tag category as an input and trawls through every tag value to produce a range of vulnerabiity statistics. CES scores are only shown if the tag values have been added to the business context view in Lumin.</div><div class=page_section><h2>Tag Category : Department</h2>
-(2022-07-01)
+<h1>Vulnerability Statistics Report</h1><div class=reportdesc>This report takes a tag category as an input and trawls through every tag value to produce a range of vulnerabiity statistics. CES scores are only shown if the tag values have been added to the business context view in Lumin.</div><div class=page_section><h2>Tag Category : Networks</h2>
+(2022-08-09)
 <table class=table1 width=90%>
 <tr><td>Description</td><td align=center>Total Assets</td><td align=center>Licensed Assets</td><td align=center>Asset Scan Percentage</td><td align=center>Total Vulns</td><td align=center>Critical</td><td align=center>High</td><td align=center>CES</td>
-<tr><td width=550>All Assets</td><td width=100px align=center>4,381</td><td width=100px align=center>690</td><td width=100px align=center style='color:red;'>15.7</td><td width=100px align=center>25,882</td><td class=critical width=100px>1,445</td><td class=high width=100px>9,274</td><td align=center width=80px>551</td>
-<tr><td width=550>Department:Finance</td><td width=100px align=center>2,877</td><td width=100px align=center>681</td><td width=100px align=center style='color:red;'>23.7</td><td width=100px align=center>25,882</td><td class=critical width=100px>1,445</td><td class=high width=100px>9,274</td><td align=center width=80px>551</td>
-<tr><td width=550>Department:Research and Development</td><td width=100px align=center>1,495</td><td width=100px align=center>623</td><td width=100px align=center style='color:red;'>41.7</td><td width=100px align=center>24,807</td><td class=critical width=100px>1,347</td><td class=high width=100px>8,871</td><td align=center width=80px>549</td>
-<tr><td width=550>Department:Information Technology</td><td width=100px align=center>867</td><td width=100px align=center>0</td><td width=100px align=center style='color:red;'>0.0</td><td width=100px align=center>0</td><td class=critical width=100px>0</td><td class=high width=100px>0</td><td align=center width=80px></td>
-<tr><td width=550>Department:Human Resources</td><td width=100px align=center>157</td><td width=100px align=center>149</td><td width=100px align=center style='color:black;'>94.9</td><td width=100px align=center>8,079</td><td class=critical width=100px>285</td><td class=high width=100px>2,605</td><td align=center width=80px>563</td></table></div></html>
+<tr><td width=550>All Assets</td><td width=100px align=center>4,998</td><td width=100px align=center>622</td><td width=100px align=center style='color:red;'>12.4</td><td width=100px align=center>2,069</td><td class=critical width=100px>186</td><td class=high width=100px>722</td><td align=center width=80px>554</td>
+<tr><td width=550>Networks:192-168-0-0</td><td width=100px align=center>385</td><td width=100px align=center>98</td><td width=100px align=center style='color:red;'>25.5</td><td width=100px align=center>0</td><td class=critical width=100px>0</td><td class=high width=100px>0</td><td align=center width=80px></td>
+<tr><td width=550>Networks:SC</td><td width=100px align=center>726</td><td width=100px align=center>0</td><td width=100px align=center style='color:red;'>0.0</td><td width=100px align=center>0</td><td class=critical width=100px>0</td><td class=high width=100px>0</td><td align=center width=80px></td>
+<tr><td width=550>Networks:192-168-16</td><td width=100px align=center>0</td><td width=100px align=center>0</td><td width=100px align=center style='color:red;'>0.0</td><td width=100px align=center>0</td><td class=critical width=100px>0</td><td class=high width=100px>0</td><td align=center width=80px></td></table></div></html>

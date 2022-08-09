@@ -29,9 +29,9 @@ results_file=results_dir+"tag_statistics.json"
 
 api_keys=tc.read_keys(key_file,"sandbox")
 
-tag_cat="Department"
+tag_cat="Networks"
 
-get_new_data=0
+get_new_data=1
 
 if get_new_data==1:
 	# get tag values for tag category
