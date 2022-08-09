@@ -2,6 +2,12 @@ import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
 
+'''
+Uses the standard api for directly downloaded a html report
+of vulnerability data. Provides a filter example if you want to
+restrict the data in the report.
+'''
+
 # file and directory locations
 key_file="../../io_keys.json" # location of your key file
 results_dir="../results/" # the directory for your results
