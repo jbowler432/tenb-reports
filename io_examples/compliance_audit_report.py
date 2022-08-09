@@ -4,7 +4,12 @@ import tenbIOcore as tc
 import beautifyResults as br
 import datetime
 
-
+'''
+Produces reports on compliance findings. A summary and detailed
+report are produced. The detailed report is expandable interactively.
+If get_new_data is set, then it downloads a fresh set of asset and compliance data.
+The saved json files are used to produce the two reports.
+'''
 # file and directory locations
 key_file="../../io_keys.json" # location of your key file
 results_dir="../results/" # the directory for your results
@@ -14,8 +19,10 @@ reports_dir="../report_samples/"
 asset_file=results_dir+"assets.json"
 compliance_file=results_dir+"compliance.json"
 
-get_new_data=0
+get_new_data=1
 
+# get new asset and compliance data. Asset data is used in the compliance report
+# to turn asset uuids into more meaningful information
 if get_new_data==1:
 	# export some asset data
 	api_keys=tc.read_keys(key_file,"sandbox")

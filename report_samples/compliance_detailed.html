@@ -54,6 +54,15 @@ float: left;
 overflow: auto;
 height: 350px;
 }
+.table2 {
+border: 2px solid #708090;
+border-radius: 5px;
+background-color: #f7f7f7;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
 .table1 tr:nth-child(even) {
 background-color: #f7f7f7;
 }
@@ -61,6 +70,24 @@ background-color: #f7f7f7;
 background-color: white;
 }
 .table1 td {
+padding-right: 10px;
+}
+.table3 {
+border: 2px solid #708090;
+border-radius: 5px;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+margin-bottom: 10px;
+}
+.table3 tr:nth-child(even) {
+background-color: #f7f7f7;
+}
+.table3 tr:nth-child(odd) {
+background-color: white;
+}
+.table3 td {
 padding-right: 10px;
 }
 .breakdown td{
@@ -239,7 +266,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <body>
 
 <h1>Audit Findings</h1><div class=reportdesc>This report shows the detailed audit findings per host scan. Click on each record to see the audit details.
-<br>(2022-07-01)</div><div class=page_section>
+<br>(2022-08-09)</div><div class=page_section>
 <table><tr><td width=500px>Hostname</td><td width=120px>IP Address</td><td width=500px>Audit Type</td><td width=80px align=center>Failed</td><td width=80px align=center>Passed</td><td width=80px align=center>Warning</td></table><table><tr onclick="toggle('021efaa2-12b7-4f83-aafd-b789a118d0f3')" onmouseover="this.style.cursor='pointer'"><td width=500px>az-win2016-2</td><td width=120px>10.20.2.7 </td>
 <td width=500px>CIS_MS_SERVER_2016_Level_1_v1.2.0.audit</td><td class=critical width=80px>195</td><td class=low width=80px>101</td><td class=high width=80px>0</td></table><table><tr id="021efaa2-12b7-4f83-aafd-b789a118d0f3" style="display:none;"><td>
 <table class=plugdesc><tr><td class=failed>FAILED</td><td>2.3.1.1 Ensure 'Accounts: Administrator account status' is set to 'Disabled' (MS only)</td>
@@ -2177,7 +2204,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 </table></td></table><table><tr onclick="toggle('51a9850b-98f8-4953-9f39-1a5adda5b02f')" onmouseover="this.style.cursor='pointer'"><td width=500px>az-dev-nessusbyol-1.internal.cloudapp.net</td><td width=120px>10.20.1.6 </td>
 <td width=500px>CIS_Ubuntu_16.04_LTS_Server_v1.1.0_L1.audit</td><td class=critical width=80px>0</td><td class=low width=80px>0</td><td class=high width=80px>1</td></table><table><tr id="51a9850b-98f8-4953-9f39-1a5adda5b02f" style="display:none;"><td>
 <table class=plugdesc><tr><td class=warning>WARNING</td><td>CIS Ubuntu 16.04 LTS Server Benchmark L1 v1.1.0</td>
-</table></td></table><table><tr onclick="toggle('52ce53fe-b5e3-46e2-97bf-0730c44c997d')" onmouseover="this.style.cursor='pointer'"><td width=500px>ubuntu-one</td><td width=120px>10.200.0.64 </td>
+</table></td></table><table><tr onclick="toggle('52ce53fe-b5e3-46e2-97bf-0730c44c997d')" onmouseover="this.style.cursor='pointer'"><td width=500px>jeffs-ubuntu</td><td width=120px>10.200.0.64 </td>
 <td width=500px>CIS_Ubuntu_20.04_LTS_v1.1.0_Server_L1.audit</td><td class=critical width=80px>154</td><td class=low width=80px>148</td><td class=high width=80px>14</td></table><table><tr id="52ce53fe-b5e3-46e2-97bf-0730c44c997d" style="display:none;"><td>
 <table class=plugdesc><tr><td class=failed>FAILED</td><td>3.3.3 Ensure secure ICMP redirects are not accepted - 'net.ipv4.conf.all.secure_redirects' (sysctl.conf/sysctl.d)</td>
 <tr><td class=failed>FAILED</td><td>3.5.3.2.3 Ensure iptables default deny firewall policy - 'Chain FORWARD'</td>
@@ -3164,6 +3191,92 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <td width=500px>CIS_Amazon_Linux_v2.1.0_L1.audit</td><td class=critical width=80px>0</td><td class=low width=80px>0</td><td class=high width=80px>1</td></table><table><tr id="b55b002b-2a82-4e23-874b-6b2a63e01cff" style="display:none;"><td>
 <table class=plugdesc><tr><td class=warning>WARNING</td><td>CIS Amazon Linux Benchmark Level 1</td>
 <tr><td class=warning>WARNING</td><td>CIS Amazon Linux Benchmark Level 2</td>
+</table></td></table><table><tr onclick="toggle('b9242266-7040-4f33-92e4-4dc8b85662d5')" onmouseover="this.style.cursor='pointer'"><td width=500px>b9242266-7040-4f33-92e4-4dc8b85662d5</td><td width=120px></td>
+<td width=500px>CIS_Amazon_Web_Services_Three-tier_Web_Architecture_L1_v1.0.0.audit</td><td class=critical width=80px>43</td><td class=low width=80px>18</td><td class=high width=80px>23</td></table><table><tr id="b9242266-7040-4f33-92e4-4dc8b85662d5" style="display:none;"><td>
+<table class=plugdesc><tr><td class=failed>FAILED</td><td>1.7 Ensure all Customer owned Amazon Machine Images for Web Tier are not shared publicly</td>
+<tr><td class=failed>FAILED</td><td>3.8 Ensure Web Tier Elastic Load Balancer has application layer Health Check Configured</td>
+<tr><td class=failed>FAILED</td><td>5.4 Ensure Cloudwatch Log Group is created for Web Tier</td>
+<tr><td class=failed>FAILED</td><td>3.7 Ensure Relational Database Service backup retention policy is set</td>
+<tr><td class=failed>FAILED</td><td>6.21 Create the App tier ELB Security Group and ensure only accepts HTTP/HTTPS</td>
+<tr><td class=failed>FAILED</td><td>5.11 Ensure an AWS Managed Config Rule for encrypted volumes is applied to App Tier - KMS ID</td>
+<tr><td class=failed>FAILED</td><td>5.10 Ensure an AWS Managed Config Rule for encrypted volumes is applied to Web Tier - Encryption</td>
+<tr><td class=failed>FAILED</td><td>3.14 Ensure App Tier Auto-Scaling Group has an associated Elastic Load Balancer</td>
+<tr><td class=failed>FAILED</td><td>2.3 Ensure an IAM Role for Amazon EC2 is created for Web Tier</td>
+<tr><td class=failed>FAILED</td><td>3.3 Ensure Auto-Scaling Launch Configuration for Web-Tier is configured to use an approved Amazon Machine Image</td>
+<tr><td class=failed>FAILED</td><td>4.6 Ensure that a log metric filter for the Cloudwatch group assigned to the "VPC Flow Logs" is created</td>
+<tr><td class=failed>FAILED</td><td>3.4 Ensure Auto-Scaling Launch Configuration for App-Tier is configured to use an approved Amazon Machine Image</td>
+<tr><td class=failed>FAILED</td><td>6.34 Ensure RDS Database is configured to use the Data Tier Security Group</td>
+<tr><td class=failed>FAILED</td><td>5.7 Ensure Cloudwatch Log Group for App Tier has a retention period</td>
+<tr><td class=failed>FAILED</td><td>1.4 Ensure Databases running on RDS have encryption at rest enabled</td>
+<tr><td class=failed>FAILED</td><td>6.33 Ensure Auto-Scaling Launch Configuration for App Tier is configured to use the App Tier Security Group</td>
+<tr><td class=failed>FAILED</td><td>5.3 Ensure AWS Cloudfront Logging is enabled</td>
+<tr><td class=failed>FAILED</td><td>5.11 Ensure an AWS Managed Config Rule for encrypted volumes is applied to App Tier - Encryption</td>
+<tr><td class=failed>FAILED</td><td>6.32 Ensure Auto-Scaling Launch Configuration for Web Tier is configured to use the Web Tier Security Group</td>
+<tr><td class=failed>FAILED</td><td>6.26 Ensure the App tier ELB is created as Internal</td>
+<tr><td class=failed>FAILED</td><td>1.9 Ensure Web Tier ELB have SSL/TLS Certificate attached</td>
+<tr><td class=failed>FAILED</td><td>3.10 Ensure S3 buckets have versioning enabled</td>
+<tr><td class=failed>FAILED</td><td>3.2 Ensure each Auto-Scaling Group is configured for multiple Availability Zones</td>
+<tr><td class=failed>FAILED</td><td>3.1 Ensure each Auto-Scaling Group has an associated Elastic Load Balancer</td>
+<tr><td class=failed>FAILED</td><td>5.5 Ensure Cloudwatch Log Group is created for App Tier</td>
+<tr><td class=failed>FAILED</td><td>2.8 Ensure an IAM policy that allows admin privileges for all services used is created - Policy Exist</td>
+<tr><td class=failed>FAILED</td><td>2.5 Ensure AutoScaling Group Launch Configuration for Web Tier is configured to use a customer created Web-Tier IAM Role</td>
+<tr><td class=failed>FAILED</td><td>5.6 Ensure Cloudwatch Log Group for Web Tier has a retention period</td>
+<tr><td class=failed>FAILED</td><td>3.9 Ensure App Tier Elastic Load Balancer has application layer Health Check Configured</td>
+<tr><td class=failed>FAILED</td><td>5.10 Ensure an AWS Managed Config Rule for encrypted volumes is applied to Web Tier - KMS ID</td>
+<tr><td class=failed>FAILED</td><td>2.7 Ensure an IAM group for administration purposes is created</td>
+<tr><td class=failed>FAILED</td><td>4.7 Ensure that a Cloudwatch Alarm is created for the "VPC Flow Logs" metric filter, and an Alarm Action is configured</td>
+<tr><td class=failed>FAILED</td><td>3.5 Ensure Relational Database Service is Multi-AZ Enabled</td>
+<tr><td class=failed>FAILED</td><td>3.6 Ensure Relational Database Service Instances have Auto Minor Version Upgrade Enabled</td>
+<tr><td class=failed>FAILED</td><td>2.6 Ensure AutoScaling Group Launch Configuration for App Tier is configured to use an App-Tier IAM Role</td>
+<tr><td class=failed>FAILED</td><td>1.8 Ensure all Customer owned Amazon Machine Images for Application Tier are not shared publicly</td>
+<tr><td class=failed>FAILED</td><td>3.13 Ensure Web Tier Auto-Scaling Group has an associated Elastic Load Balancer</td>
+<tr><td class=failed>FAILED</td><td>5.12 Ensure an AWS Managed Config Rule for EIPs attached to EC2 instances within VPC</td>
+<tr><td class=failed>FAILED</td><td>2.4 Ensure an IAM Role for Amazon EC2 is created for App Tier</td>
+<tr><td class=failed>FAILED</td><td>6.5 Ensure subnets for the Web tier ELB are created</td>
+<tr><td class=failed>FAILED</td><td>6.18 Ensure Web tier ELB Security Group is not used in the Auto Scaling launch configuration of any other tier (Web, App)</td>
+<tr><td class=failed>FAILED</td><td>1.16 Ensure all S3 buckets have policy to require server-side and in transit encryption for all objects stored in bucket.</td>
+<tr><td class=failed>FAILED</td><td>6.17 Use a Web-Tier ELB Security Group to accept only HTTP/HTTPS</td>
+<tr><td class=passed>PASSED</td><td>6.22 Create the App tier Security Group and ensure it allows inbound connections from App tier ELB Security Group for explicit ports</td>
+<tr><td class=passed>PASSED</td><td>6.15 Ensure Routing Table associated with App tier subnet have the default route (0.0.0.0/0) defined to allow connectivity</td>
+<tr><td class=passed>PASSED</td><td>6.12 Ensure a route table for the private subnets is created</td>
+<tr><td class=passed>PASSED</td><td>6.7 Ensure subnets for the App tier are created</td>
+<tr><td class=passed>PASSED</td><td>6.8 Ensure subnets for the Data tier are created</td>
+<tr><td class=passed>PASSED</td><td>6.14 Ensure Routing Table associated with Web tier subnet have the default route (0.0.0.0/0) defined to allow connectivity</td>
+<tr><td class=passed>PASSED</td><td>4.1 Ensure a SNS topic is created for sending out notifications from Cloudtwatch Alarms and Auto-Scaling Groups - CloudwatchAlarms</td>
+<tr><td class=passed>PASSED</td><td>6.3 Use CloudFront Content Distribution Network</td>
+<tr><td class=passed>PASSED</td><td>2.10 Ensure SNS Topics do not Allow Everyone To Subscribe</td>
+<tr><td class=passed>PASSED</td><td>6.13 Ensure Routing Table associated with Web tier ELB subnet have the default route (0.0.0.0/0) defined to allow connectivity</td>
+<tr><td class=passed>PASSED</td><td>6.19 Create the Web tier Security Group and ensure it allows inbound connections from Web tier ELB Security Group for explicit ports</td>
+<tr><td class=passed>PASSED</td><td>6.11 Ensure a route table for the public subnets is created</td>
+<tr><td class=passed>PASSED</td><td>6.25 Ensure Data tier Security Group has no inbound rules for CIDR of 0 (Global Allow)</td>
+<tr><td class=passed>PASSED</td><td>6.23 Ensure App tier Security Group has no inbound rules for CIDR of 0 (Global Allow)</td>
+<tr><td class=passed>PASSED</td><td>2.9 Ensure SNS Topics do not Allow Everyone To Publish</td>
+<tr><td class=passed>PASSED</td><td>6.16 Ensure Routing Table associated with Data tier subnet have NO default route (0.0.0.0/0) defined to allow connectivity</td>
+<tr><td class=passed>PASSED</td><td>6.24 Create the Data tier Security Group and ensure it allows inbound connections from App tier Security Group for explicit ports</td>
+<tr><td class=passed>PASSED</td><td>6.20 Ensure Web tier Security Group has no inbound rules for CIDR of 0 (Global Allow)</td>
+<tr><td class=warning>WARNING</td><td>6.10 Ensure NAT Gateways are created in at least 2 Availability Zones - Subnet1</td>
+<tr><td class=warning>WARNING</td><td>5.9 Ensure an agent for AWS Cloudwatch Logs is installed within Auto-Scaling Group for App-Tier</td>
+<tr><td class=warning>WARNING</td><td>6.9 Ensure Elastic IPs for the NAT Gateways are allocated</td>
+<tr><td class=warning>WARNING</td><td>5.1 Ensure all resources are correctly tagged</td>
+<tr><td class=warning>WARNING</td><td>2.2 Ensure IAM Policy for EC2 IAM Roles for App tier is configured</td>
+<tr><td class=warning>WARNING</td><td>1.6 Ensure all EBS volumes for App-Tier are encrypted</td>
+<tr><td class=warning>WARNING</td><td>6.27 Ensure EC2 instances within Web Tier have no Elastic / Public IP addresses associated</td>
+<tr><td class=warning>WARNING</td><td>6.10 Ensure NAT Gateways are created in at least 2 Availability Zones - Subnet2</td>
+<tr><td class=warning>WARNING</td><td>2.8 Ensure an IAM policy that allows admin privileges for all services used is created - Review Policy Document</td>
+<tr><td class=warning>WARNING</td><td>4.3 Ensure RDS event subscriptions are enabled for Instance level events</td>
+<tr><td class=warning>WARNING</td><td>4.8 Ensure Billing Alerts are enabled for increments of X spend</td>
+<tr><td class=warning>WARNING</td><td>5.8 Ensure an agent for AWS Cloudwatch Logs is installed within Auto-Scaling Group for Web-Tier</td>
+<tr><td class=warning>WARNING</td><td>4.2 Ensure a SNS topic is created for sending out notifications from RDS events - RDS Event Subscriptions</td>
+<tr><td class=warning>WARNING</td><td>4.2 Ensure a SNS topic is created for sending out notifications from RDS events - List SNS Subscriptions</td>
+<tr><td class=warning>WARNING</td><td>5.2 Ensure AWS Elastic Load Balancer logging is enabled</td>
+<tr><td class=warning>WARNING</td><td>2.1 Ensure IAM Policy for EC2 IAM Roles for Web tier is configured</td>
+<tr><td class=warning>WARNING</td><td>4.1 Ensure a SNS topic is created for sending out notifications from Cloudtwatch Alarms and Auto-Scaling Groups - List SNS Subscriptions</td>
+<tr><td class=warning>WARNING</td><td>6.6 Ensure subnets for the Web tier are created</td>
+<tr><td class=warning>WARNING</td><td>6.29 Ensure EC2 instances within Data Tier have no Elastic / Public IP addresses associated</td>
+<tr><td class=warning>WARNING</td><td>1.5 Ensure all EBS volumes for Web-Tier are encrypted</td>
+<tr><td class=warning>WARNING</td><td>6.28 Ensure EC2 instances within App Tier have no Elastic / Public IP addresses associated</td>
+<tr><td class=warning>WARNING</td><td>1.10 Ensure Web Tier ELB have the latest SSL Security Policies configured</td>
+<tr><td class=warning>WARNING</td><td>4.4 Ensure RDS event subscriptions are enabled for DB security groups</td>
 </table></td></table><table><tr onclick="toggle('c00856ab-3aa9-4315-ba6e-d108c05f1ba6')" onmouseover="this.style.cursor='pointer'"><td width=500px>c00856ab-3aa9-4315-ba6e-d108c05f1ba6</td><td width=120px></td>
 <td width=500px>CIS_Amazon_Web_Services_Three-tier_Web_Architecture_L1_v1.0.0.audit</td><td class=critical width=80px>43</td><td class=low width=80px>18</td><td class=high width=80px>23</td></table><table><tr id="c00856ab-3aa9-4315-ba6e-d108c05f1ba6" style="display:none;"><td>
 <table class=plugdesc><tr><td class=failed>FAILED</td><td>1.7 Ensure all Customer owned Amazon Machine Images for Web Tier are not shared publicly</td>
