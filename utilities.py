@@ -16,6 +16,14 @@ warnings.filterwarnings("ignore")
 Useful functions
 '''
 
+def list_to_string(mylst):
+	# for coverting an array of IP addresses into a comma
+	# seperated list of ip addresses
+	mystring=""
+	for x in mylst:
+		mystring+=str(x)+", "
+	return mystring[:-2]
+
 def get_ip_lst(fname,column_for_ips):
 	# reads a csv file containing IP addresses and returns a list
 	ip_lst=""

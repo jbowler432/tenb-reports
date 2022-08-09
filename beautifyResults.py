@@ -394,6 +394,38 @@ def show_installed_software(input_file,output_file,style_dir):
 	table_str+="</table></div>"
 	gen_html_report(table_str,output_file,style_dir)
 
+def vuln_report_by_plugin(input_dct,output_file,style_dir):
+	'''
+	Generates a html report showing a summary of vuln findings per plugin.
+	See produce_list_of_exploitable_vulns.py for an example
+	'''
+	today=date.today()
+	table_str="\n<h1>Vulnerability by Plugin Report</h1>"
+	report_desc="This report shows the vulnerability count per plugin."
+	report_desc+="\n<br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	table_str+="<div class=page_section>\n<table class=table1>"
+	table_str+="<tr><td width=50px>PluginID</td><td width=150px>Name</td><td>Synopsis</td><td align=center>Count</td><td>Severity</td>"
+	for k,v in input_dct.items():
+		pid=k
+		pname=v["pname"]
+		psynopsis=v["psynopsis"]
+		count=v["count"]
+		severity=v["severity"]
+		pdesc=v["pdesc"]
+		psolution=v["psolution"]
+		assets=ut.list_to_string(v["assets"])
+		table_str+="\n<tr><td><b>"+str(pid)+"</b></td>"
+		#table_str+='\n<tr onclick="toggle(\''+str(pid)+'\')" onmouseover="this.style.cursor=\'pointer\'"><td>'+str(pid)+"</td>"
+		table_str+="<td>"+pname+"</td><td>"+psynopsis+"</td><td align=center>"+str(count)+"</td><td class="+severity+">"+severity+"</td>"
+		#table_str+='<tr id="'+str(pid)+'" style="display:none;"><td>'+clean_string(pdesc)+'</td>\n'
+		table_str+="\n<tr><td>&nbsp;</td><td valign=top>"+clean_string(pdesc)+"</td>"
+		table_str+="<td colspan=3 valign=top>"+psolution+"<br><br>Impacted Assets<br>"+assets+"</td>"
+		#table_str+="\n<tr><td>&nbsp;</td><td align=right>Impacted Assets</td><td colspan=3>"+assets+"</td>"
+	table_str=table_str+"</table></div>"
+	gen_html_report(table_str,output_file,style_dir)
+
+
 def vuln_result_summary(input_file,output_file,style_dir):
 	'''
 	Generates a html report showing a summary of vuln findings per host.
