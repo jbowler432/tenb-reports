@@ -45,9 +45,6 @@ def write_html_header(f,style_dir):
 	f.write('</head>\n<body>\n')
 
 def software_bom(input_file,html_file,style_dir,csv_file):
-	'''
-	This function is processing json output from SC.
-	'''
 	decoded=ut.read_json_file(input_file)
 	today=date.today()
 	table_str="\n<h1>Software BOM</h1>"
@@ -79,8 +76,94 @@ def software_bom(input_file,html_file,style_dir,csv_file):
 		#for (k,v) in results.items():
 		#	print(k)
 		#print(results["dnsName"],results["ips"],results["uuid"],results["pluginID"])
+	table_str+="</table></div>"
 	gen_html_report(table_str,html_file,style_dir)
 	fout.close()
+
+def software_not_installed(search_lst,input_file,html_file,style_dir):
+	decoded=ut.read_json_file(input_file)
+	today=date.today()
+	table_str="\n<h1>Required Software Installed or Missing</h1>"
+	report_desc="This report using a serach string to look for software installed on computers. "
+	report_desc+="It looks at the plugin output for plugins 22869 (SSH), 20811 (Windows), 83991 (OSX). "
+	report_desc+="Two different tables are provided. One showing computers where the software is missing "
+	report_desc+="and another showing a table where the software was found. "
+	report_desc+="Click on the rows to show the software lists."
+	report_desc+="\n<br><br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	id=1
+	installed=[]
+	missing=[]
+	found_counter={}
+	for x in search_lst:
+		found_counter.update({x:0})
+	for results in decoded:
+		os=str(results["os"])
+		hostname=results["hostname"]
+		output=results["output"]
+		ipv4=results["ipv4"]
+		pluginID=results["pluginID"]
+		found=0
+		for x in search_lst:
+			if x in output:
+				found=1
+				current_count=found_counter[x]
+				found_counter.update({x:current_count+1})
+		if found==1:
+			installed.append({"os":os,"hostname":hostname,"output":output,"ipv4":ipv4,"pluginID":pluginID})
+	for results in decoded:
+		if results not in installed:
+			missing.append(results)
+	#print(found_counter)
+	table_str+="<div class=page_section>\n"
+	table_str+="Searching for any of the following "+str(search_lst)
+	for (k,v) in found_counter.items():
+		print(k,v)
+		table_str+="<br>Found "+str(v)+" instances of "+str(k)
+	table_str+="<br>Machines missing the required software = "+str(len(missing))
+	table_str+="</div>"
+	table_str+="<table width=100%><tr><td>&nbsp;</td></table>"
+	table_str+="<div class=page_section>\n"
+	table_str+="<h2>Machines missing the required software</h2>"
+	table_str+="<table class=table1 width=1000px>\n"
+	table_str+="<tr><td>Host Name</td><td align=center>IP Address</td><td>Operating System</td><td>Plugin ID</td><td>Installed Software Count</td>"
+	for results in missing:
+		os=str(results["os"])
+		hostname=results["hostname"]
+		output=results["output"]
+		ipv4=results["ipv4"]
+		pluginID=str(results["pluginID"])
+		pluginOutput=clean_plugin_output(output)
+		table_str+='\n<tr onclick="toggle(\''+str(id)+'\')" onmouseover="this.style.cursor=\'pointer\'"><td valign=top>'+hostname+"</td><td valign=top>"+ipv4+"</td><td valign=top>"+os+"</td><td valign=top>"+pluginID+"</td><td>"+str(len(pluginOutput.strip().split("\n")))+"</td>"
+		table_str+='\n<tr id="'+str(id)+'" style="display:none;"><td>'+clean_string(pluginOutput.strip())+"</td>"
+		id+=1
+		#for (k,v) in results.items():
+		#	print(k)
+		#print(results["dnsName"],results["ips"],results["uuid"],results["pluginID"])
+	table_str+="</table></div>"
+	table_str+="<table width=100%><tr><td>&nbsp;</td></table>"
+	table_str+="<div class=page_section>\n"
+	table_str+="<h2>Machines with required software installed</h2>"
+	table_str+="<table class=table1 width=1000px>\n"
+	table_str+="<tr><td>Host Name</td><td align=center>IP Address</td><td>Operating System</td><td>Plugin ID</td><td>Installed Software Count</td>"
+	for results in installed:
+		os=str(results["os"])
+		hostname=results["hostname"]
+		output=results["output"]
+		ipv4=results["ipv4"]
+		pluginID=str(results["pluginID"])
+		pluginOutput=clean_plugin_output(output)
+		lines=pluginOutput.split("\n")
+		table_str+='\n<tr onclick="toggle(\''+str(id)+'\')" onmouseover="this.style.cursor=\'pointer\'"><td valign=top>'+hostname+"</td><td valign=top>"+ipv4+"</td><td valign=top>"+os+"</td><td valign=top>"+pluginID+"</td><td>"+str(len(pluginOutput.strip().split("\n")))+"</td>"
+		table_str+='\n<tr id="'+str(id)+'" style="display:none;"><td>'+clean_string(pluginOutput.strip())+"</td>"
+		id+=1
+		#for (k,v) in results.items():
+		#	print(k)
+		#print(results["dnsName"],results["ips"],results["uuid"],results["pluginID"])
+	table_str+="</table>"
+	table_str+="</div>"
+	gen_html_report(table_str,html_file,style_dir)
+
 
 def clean_plugin_output(input):
 	lines=input.split("\n")
