@@ -54,6 +54,15 @@ float: left;
 overflow: auto;
 height: 350px;
 }
+.table2 {
+border: 2px solid #708090;
+border-radius: 5px;
+background-color: #f7f7f7;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
 .table1 tr:nth-child(even) {
 background-color: #f7f7f7;
 }
@@ -61,6 +70,24 @@ background-color: #f7f7f7;
 background-color: white;
 }
 .table1 td {
+padding-right: 10px;
+}
+.table3 {
+border: 2px solid #708090;
+border-radius: 5px;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+margin-bottom: 10px;
+}
+.table3 tr:nth-child(even) {
+background-color: #f7f7f7;
+}
+.table3 tr:nth-child(odd) {
+background-color: white;
+}
+.table3 td {
 padding-right: 10px;
 }
 .breakdown td{
@@ -240,25 +267,25 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <h1>Patch Cadence Report</h1><div class=reportdesc>This report shows statistics for patching times calculated by exporting the vuln database and calculating the difference between the last_fixed and first_seen dates. Statistics are calculated at the host level first then averaged across all hosts. Different views are provided to show the differences between using medians and means, both at a host and system wide level. Different aggregations are also shown depending on whether severity categories are aligned to CVSS or VPR.</div><div class=page_section>
 <h2>Stats for Host Means</h2>(severity = cvss)
 <br><br><table class=table1 width=350px><tr><td>Severity</td><td align=center>Mean</td><td align=center>Median</td><td align=center>Max</td>
-<tr><td>Critical</td><td align=center>760</td><td align=center>760</td><td align=center>816</td>
-<tr><td>High</td><td align=center>285</td><td align=center>194</td><td align=center>985</td>
-<tr><td>Medium</td><td align=center>376</td><td align=center>117</td><td align=center>1198</td>
-<tr><td>Low</td><td align=center>581</td><td align=center>632</td><td align=center>816</td></table></div><div class=page_section>
+<tr><td>Critical</td><td align=center>283</td><td align=center>43</td><td align=center>855</td>
+<tr><td>High</td><td align=center>202</td><td align=center>42</td><td align=center>1059</td>
+<tr><td>Medium</td><td align=center>301</td><td align=center>88</td><td align=center>1198</td>
+<tr><td>Low</td><td align=center>477</td><td align=center>632</td><td align=center>872</td></table></div><div class=page_section>
 <h2>Stats for Host Medians</h2>(severity = cvss)
 <br><br><table class=table1 width=350px><tr><td>Severity</td><td align=center>Mean</td><td align=center>Median</td><td align=center>Max</td>
-<tr><td>Critical</td><td align=center>760</td><td align=center>760</td><td align=center>816</td>
-<tr><td>High</td><td align=center>281</td><td align=center>164</td><td align=center>985</td>
-<tr><td>Medium</td><td align=center>356</td><td align=center>117</td><td align=center>1198</td>
-<tr><td>Low</td><td align=center>605</td><td align=center>704</td><td align=center>816</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section>
+<tr><td>Critical</td><td align=center>283</td><td align=center>43</td><td align=center>855</td>
+<tr><td>High</td><td align=center>184</td><td align=center>43</td><td align=center>1059</td>
+<tr><td>Medium</td><td align=center>307</td><td align=center>88</td><td align=center>1198</td>
+<tr><td>Low</td><td align=center>487</td><td align=center>704</td><td align=center>850</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section>
 <h2>Stats for Host Means</h2>(severity = vpr)
 <br><br><table class=table1 width=350px><tr><td>Severity</td><td align=center>Mean</td><td align=center>Median</td><td align=center>Max</td>
-<tr><td>Critical</td><td align=center>355</td><td align=center>84</td><td align=center>936</td>
-<tr><td>High</td><td align=center>83</td><td align=center>84</td><td align=center>98</td>
-<tr><td>Medium</td><td align=center>365</td><td align=center>174</td><td align=center>1198</td>
-<tr><td>Low</td><td align=center>556</td><td align=center>618</td><td align=center>1198</td></table></div><div class=page_section>
+<tr><td>Critical</td><td align=center>122</td><td align=center>37</td><td align=center>626</td>
+<tr><td>High</td><td align=center>212</td><td align=center>127</td><td align=center>904</td>
+<tr><td>Medium</td><td align=center>295</td><td align=center>49</td><td align=center>1198</td>
+<tr><td>Low</td><td align=center>637</td><td align=center>721</td><td align=center>1198</td></table></div><div class=page_section>
 <h2>Stats for Host Medians</h2>(severity = vpr)
 <br><br><table class=table1 width=350px><tr><td>Severity</td><td align=center>Mean</td><td align=center>Median</td><td align=center>Max</td>
-<tr><td>Critical</td><td align=center>355</td><td align=center>84</td><td align=center>936</td>
-<tr><td>High</td><td align=center>83</td><td align=center>84</td><td align=center>98</td>
-<tr><td>Medium</td><td align=center>360</td><td align=center>174</td><td align=center>1198</td>
-<tr><td>Low</td><td align=center>563</td><td align=center>704</td><td align=center>1198</td></table></div></html>
+<tr><td>Critical</td><td align=center>104</td><td align=center>37</td><td align=center>626</td>
+<tr><td>High</td><td align=center>212</td><td align=center>127</td><td align=center>904</td>
+<tr><td>Medium</td><td align=center>288</td><td align=center>43</td><td align=center>1198</td>
+<tr><td>Low</td><td align=center>653</td><td align=center>760</td><td align=center>1198</td></table></div></html>

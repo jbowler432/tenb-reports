@@ -200,8 +200,7 @@ today=datetime.date.today()
 # gen html  report
 table_str="\n<h1>Vulnerability Statistics Report</h1>"
 report_desc="This report takes a tag category as an input and trawls through every "
-report_desc+="tag value to produce a range of vulnerabiity statistics. CES scores are only "
-report_desc+="shown if the tag values have been added to the business context view in Lumin."
+report_desc+="tag value to produce a range of vulnerabiity statistics."
 table_str+="<div class=reportdesc>"+report_desc+"</div>"
 table_str+="<div class=page_section>"
 table_str+="<h2>Tag Category : "+tag_cat+"</h2>"
@@ -209,7 +208,7 @@ table_str+="\n("+str(today)+")"
 table_str+="\n<table class=table1 width=90%>"
 table_str+="\n<tr><td>Description</td><td align=center>Total Assets</td>"
 table_str+="<td align=center>Licensed Assets</td><td align=center>Asset Scan Percentage</td><td align=center>Total Vulns</td>"
-table_str+="<td align=center>Critical</td><td align=center>High</td><td align=center>CES</td>"
+table_str+="<td align=center>Critical</td><td align=center>High</td>"
 for x in results:
 	print(x)
 	assets_scanned=0
@@ -225,6 +224,6 @@ for x in results:
 	table_str+="<td width=100px align=center>"+str("{:,}".format(x["vuln_total"]))+"</td>"
 	table_str+="<td class=critical width=100px>"+str("{:,}".format(x["vuln_crit"]))+"</td>"
 	table_str+="<td class=high width=100px>"+str("{:,}".format(x["vuln_high"]))+"</td>"
-	table_str+="<td align=center width=80px>"+str(x["ces"])+"</td>"
+	#table_str+="<td align=center width=80px>"+str(x["ces"])+"</td>"
 table_str=table_str+"</table></div>"
 br.gen_html_report(table_str,output_file,styles_dir)
