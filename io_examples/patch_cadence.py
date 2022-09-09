@@ -112,7 +112,7 @@ get_new_data = 0
 
 if get_new_data==1:
 	# export fixed data for last 90 days
-	unixtime=tc.unix_time(90)
+	unixtime=ut.unix_time(90)
 	num_assets=1000
 	filters={
 		"state":["fixed"],
@@ -137,7 +137,7 @@ report_desc+="calculated at the host level first then averaged across all hosts.
 report_desc+="Different views are provided to show the differences between using "
 report_desc+="medians and means, both at a host and system wide level. Different "
 report_desc+="aggregations are also shown depending on whether severity categories "
-report_desc+="are aligned to CVSS or VPR." 
+report_desc+="are aligned to CVSS or VPR."
 body_text+="<div class=reportdesc>"+report_desc+"</div>"
 heading="\n<h2>Stats for Host Means</h2>(severity = cvss)"
 return_text=gen_widget(means,medians,maxs,heading,body_text)
