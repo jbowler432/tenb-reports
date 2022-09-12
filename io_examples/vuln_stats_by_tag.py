@@ -31,7 +31,7 @@ api_keys=tc.read_keys(key_file,"sandbox")
 
 tag_cat="Networks"
 
-get_new_data=0
+get_new_data=1
 
 if get_new_data==1:
 	# get tag values for tag category
@@ -41,18 +41,6 @@ if get_new_data==1:
 	for x in decoded["values"]:
 		tag_values.append({"category":x["category_name"],"value":x["value"],"uuid":x["uuid"]})
 		print({"category":x["category_name"],"value":x["value"],"uuid":x["uuid"]})
-
-
-	# get the ces scores
-	querystring={}
-	decoded=tc.exposure_score_assets(api_keys,querystring)
-	ces_scores={}
-	for x in decoded["asset_groups"]:
-		ces_scores.update({x["name"]:x["exposure_score"]})
-	#print(ces_scores)
-	with open(results_dir+"ces_scores.json",'w') as outfile:
-		json.dump(ces_scores,outfile)
-
 
 	# get total asset count
 	payload = {
@@ -94,15 +82,13 @@ if get_new_data==1:
 	vuln_high=tc.get_vulnerability_count(api_keys,querystring)
 
 	results=[]
-	ces=ces_scores["Your Organization"]
 	result_dct={
 		"description": "All Assets",
 		"total_asset_count":total_asset_count,
 		"licensed_asset_count":licensed_asset_count,
 		"vuln_total": vuln_total,
 		"vuln_crit" : vuln_crit,
-		"vuln_high" : vuln_high,
-		"ces" : ces
+		"vuln_high" : vuln_high
 		}
 	results.append(result_dct)
 	print(result_dct)
@@ -113,10 +99,7 @@ if get_new_data==1:
 		tag_uuid=tag["uuid"]
 		tag_cat=tag["category"]
 		tag_value=tag["value"]
-		ces=""
 		key_value=tag_cat+":"+tag_value
-		if key_value in ces_scores:
-			ces=ces_scores[key_value]
 
 		# get total asset count
 		payload = {
@@ -184,8 +167,7 @@ if get_new_data==1:
 			"licensed_asset_count":licensed_asset_count,
 			"vuln_total": vuln_total,
 			"vuln_crit" : vuln_crit,
-			"vuln_high" : vuln_high,
-			"ces" : ces
+			"vuln_high" : vuln_high
 			}
 		results.append(result_dct)
 		print(result_dct)

@@ -78,11 +78,6 @@ def list_workbenches_assets(api_keys,querystring):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
-def exposure_score_assets(api_keys,querystring):
-	url = "https://cloud.tenable.com/lumin/widgets/exposure-score-assets"
-	results_json=get_query(api_keys,url,querystring)
-	return results_json
-
 def list_workbenches_vulnerabilities(api_keys,querystring):
 	url = "https://cloud.tenable.com/workbenches/vulnerabilities"
 	results_json=get_query(api_keys,url,querystring)
