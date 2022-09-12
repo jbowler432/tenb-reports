@@ -2,6 +2,7 @@ import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
 import htmlRoutines as hr
+import reportTemplates as rt
 import utilities as ut
 import datetime
 import json
@@ -88,6 +89,9 @@ for (k,v) in found_counter.items():
 table_str+="<br>Machines missing the required software = "+str(len(missing))
 table_str+="</div>"
 table_str+="<table width=100%><tr><td>&nbsp;</td></table>"
+body_txt,id_end=rt.software_bom_widget(table_str,missing,"Machines missing the required software",1)
+table_str=body_txt
+'''
 table_str+="<div class=page_section>\n"
 table_str+="<h2>Machines missing the required software</h2>"
 table_str+="<table class=table1 width=1000px>\n"
@@ -106,7 +110,11 @@ for results in missing:
 	#	print(k)
 	#print(results["dnsName"],results["ips"],results["uuid"],results["pluginID"])
 table_str+="</table></div>"
+'''
 table_str+="<table width=100%><tr><td>&nbsp;</td></table>"
+body_txt,id=rt.software_bom_widget(table_str,installed,"Machines with required software installed",id_end)
+table_str=body_txt
+'''
 table_str+="<div class=page_section>\n"
 table_str+="<h2>Machines with required software installed</h2>"
 table_str+="<table class=table1 width=1000px>\n"
@@ -127,4 +135,5 @@ for results in installed:
 	#print(results["dnsName"],results["ips"],results["uuid"],results["pluginID"])
 table_str+="</table>"
 table_str+="</div>"
+'''
 hr.gen_html_report(table_str,html_file,styles_dir)

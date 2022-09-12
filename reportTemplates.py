@@ -255,10 +255,17 @@ def software_bom(results_file,html_file,styles_dir):
 	report_desc+="Click on the rows to show the software."
 	report_desc+="\n<br><br>("+str(today)+")"
 	table_str+="<div class=reportdesc>"+report_desc+"</div>"
-	table_str+="<div class=page_section>\n"
-	table_str+="<table class=table1>\n"
-	table_str+="<tr><td>Host Name</td><td align=center>IP Address</td><td>Operating System</td><td>Plugin ID</td><td>Installed Software Count</td>"
-	id=1
+	body_txt,id_end=software_bom_widget(table_str,decoded,"",1)
+	hr.gen_html_report(body_txt,html_file,styles_dir)
+
+def software_bom_widget(body_txt,decoded,heading,id_start):
+	table_str=body_txt+"<div class=page_section>\n"
+	if heading!="":
+		table_str+="<h2>"+heading+"</h2>"
+	table_str+="<table class=table4 width=1100px>\n"
+	table_str+="<tr><td width=450px valign=top>Host Name</td><td width=150px valign=top>IP Address</td><td width=200px valign=top>Operating System</td><td width=100px valign=top>Plugin ID</td><td width=100px valign=top>Installed Software Count</td>"
+	table_str+="</table>"
+	id=id_start
 	for results in decoded:
 		os=str(results["os"])
 		hostname=results["hostname"]
@@ -266,13 +273,17 @@ def software_bom(results_file,html_file,styles_dir):
 		ipv4=results["ipv4"]
 		pluginID=str(results["pluginID"])
 		pluginOutput=ut.clean_plugin_output(output)
-		lines=pluginOutput.split("\n")
+		#lines=pluginOutput.split("\n")
 		#table_str+="\n<tr><td valign=top>"+hostname+"</td><td valign=top>"+ipv4+"</td><td valign=top>"+pluginID+"</td><td>"+clean_string(pluginOutput.strip())+"</td>"
-		table_str+='\n<tr onclick="toggle(\''+str(id)+'\')" onmouseover="this.style.cursor=\'pointer\'"><td valign=top>'+hostname+"</td><td valign=top>"+ipv4+"</td><td valign=top>"+os+"</td><td valign=top>"+pluginID+"</td><td>"+str(len(pluginOutput.strip().split("\n")))+"</td>"
-		table_str+='\n<tr id="'+str(id)+'" style="display:none;"><td>'+hr.clean_string(pluginOutput.strip())+"</td>"
+		table_str+="<table class=table4 width=1100px>"
+		table_str+='\n<tr onclick="toggle(\''+str(id)+'\')" onmouseover="this.style.cursor=\'pointer\'"><td valign=top width=450px>'+hostname+"</td><td valign=top width=150px>"+ipv4+"</td><td valign=top width=200px>"+os+"</td><td valign=top width=100px>"+pluginID+"</td><td valign=top width=100px>"+str(len(pluginOutput.strip().split("\n")))+"</td>"
+		table_str+="</table>"
+		table_str+="<table class=table4 width=1100px>"
+		table_str+='\n<tr id="'+str(id)+'" style="display:none;"><td width=1000px>'+hr.clean_string(pluginOutput.strip())+"</td>"
+		table_str+="</table>"
 		id+=1
 		#for (k,v) in results.items():
 		#	print(k)
 		#print(results["dnsName"],results["ips"],results["uuid"],results["pluginID"])
-	table_str+="</table></div>"
-	hr.gen_html_report(table_str,html_file,styles_dir)
+	table_str+="</div>"
+	return table_str,id

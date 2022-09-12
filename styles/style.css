@@ -90,7 +90,10 @@ border-bottom: 1px solid #ddd;
 border-right: 1px solid #ddd;
 padding: 2px;
 }
-
+.table4 td{
+border-bottom: 1px solid #ddd;
+padding-right: 10px;
+}
 .td_orange{
 font-size: 0.9em;
 background-color: #FF9757;
