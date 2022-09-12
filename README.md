@@ -18,6 +18,4 @@ tenbIOcore.py contains the core functions to interface with the tenable.IO rest 
 
 tenbSCcore.py contains the core functions to interface with tenable.sc.
 
-beautifyResults.py is used to process the saved json files and turn them into prettier html formats
-
-look at the examples dir for some examples
+/io_examples and /sc_examples show example code for generating a variety of reports. Samples of the report outputs are shown in /report_samples

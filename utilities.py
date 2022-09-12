@@ -58,3 +58,47 @@ def read_json_file(input_file):
 	with open(input_file,'r') as openfile:
 		decoded=json.load(openfile)
 	return decoded
+
+def dict_subset(dict,keys):
+	new_dict={k: dict[k] for k in keys}
+	return new_dict
+
+def get_hostname(uuid,input_file):
+	decoded=read_json_file(input_file)
+	#print(decoded)
+	hostname=""
+	ipv4=""
+	last_seen=""
+	for x in decoded:
+		if x['id']==uuid:
+			hostname=str(x['hostnames'][0])
+			ipv4_lst=x['ipv4s']
+			last_seen=x['last_seen']
+			for x in ipv4_lst:
+				ipv4+=x + ' '
+	return hostname,ipv4,last_seen
+
+def extract_assetids(input_file):
+	with open(input_file,'r') as openfile:
+		decoded=json.load(openfile)
+	asset_lst=[]
+	for x in decoded:
+		asset={"id":x["id"]}
+		asset_lst.append(asset)
+	#print(asset_lst)
+	return asset_lst
+
+def clean_plugin_output(input):
+	lines=input.split("\n")
+	output=""
+	exclude_list=[" ","","The following software are installed on the remote host :","</plugin_output>"]
+	#exclude_list.append("Here is the list of packages installed on the remote CentOS Linux system : ")
+	#print(exclude_list)
+	for line in lines:
+		#print(line)
+		if line not in exclude_list:
+			if "Here is the list of packages" not in line:
+				if "#" not in line:
+					if "<plugin_output>" not in line:
+						output+=line+"\n"
+	return output

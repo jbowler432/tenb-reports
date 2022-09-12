@@ -1,7 +1,7 @@
 import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbSCcore as sc
-import beautifyResults as br
+import reportTemplates as rt
 import json
 
 # file and directory locations
@@ -20,7 +20,6 @@ It contains a single disctionary object
 get_new_data=1
 results_file=results_dir+"software_bom_sc.json"
 html_file=reports_dir+"software_bom_sc.html"
-csv_file=results_dir+"software_bom_sc.csv"
 
 if get_new_data==1:
 	sc_keys=sc.read_SC_keys(sc_key_file)
@@ -38,4 +37,4 @@ if get_new_data==1:
 
 
 
-br.software_bom(results_file,html_file,styles_dir,csv_file)
+rt.software_bom(results_file,html_file,styles_dir)
