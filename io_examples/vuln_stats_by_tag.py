@@ -2,7 +2,7 @@ import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
 import utilities as ut
-import beautifyResults as br
+import htmlRoutines as hr
 import datetime
 import time
 import json
@@ -31,7 +31,7 @@ api_keys=tc.read_keys(key_file,"sandbox")
 
 tag_cat="Networks"
 
-get_new_data=1
+get_new_data=0
 
 if get_new_data==1:
 	# get tag values for tag category
@@ -226,4 +226,4 @@ for x in results:
 	table_str+="<td class=high width=100px>"+str("{:,}".format(x["vuln_high"]))+"</td>"
 	#table_str+="<td align=center width=80px>"+str(x["ces"])+"</td>"
 table_str=table_str+"</table></div>"
-br.gen_html_report(table_str,output_file,styles_dir)
+hr.gen_html_report(table_str,output_file,styles_dir)

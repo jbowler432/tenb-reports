@@ -1,15 +1,16 @@
 import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
-import beautifyResults as br
+#import beautifyResults as br
 import utilities as ut
 import datetime
 import json
 import pandas as pd
 import re
-import matplotlib.pyplot as plt
 import base64
 import time
+import chart
+import htmlRoutines as hr
 
 # file and directory locations
 key_file="../../io_keys.json" # location of your key file
@@ -83,24 +84,17 @@ for i in grouped.mean().index:
 	results2.append({'date':i,'count':int(grouped.count().values[j][0]),'mean':int(grouped.mean().values[j][0])})
 	j+=1
 
-df2=pd.DataFrame(results2)
-df2=df2.set_index('date')
-df2.index.name="Date"
-print(df2)
-df2["count"].plot(label="Hosts Scanned", legend=True, marker='.')
-df2["mean"].plot(secondary_y=True,label="Mean Scan Time/Host (sec)",legend=True,marker='.')
-plt.savefig(image_file)
+ylabels=["Hosts Scanned","Mean Scan Time/Host (sec)"]
+img_tag=chart.line_dual_y(results2,ylabels)
+#img_tag=chart.bar(results2,ylabels)
 
-time.sleep(2)
+body_txt="\n<h1>Scan Statistics</h1>"
 today=datetime.date.today()
-
-data_uri = base64.b64encode(open(image_file, 'rb').read()).decode('utf-8')
-img_tag = '<img src="data:image/png;base64,{0}">'.format(data_uri)
-table_str="\n<h1>Scan Statistics</h1>"
 report_desc="Shows the number of hosts scanned and the average scan time per host."
 report_desc+="\n<br>("+str(today)+")"
-table_str+="<div class=reportdesc>"+report_desc+"</div>"
-table_str+="<div class=page_section>\n"
-table_str+=img_tag
-table_str+="</div>"
-br.gen_html_report(table_str,html_file,styles_dir)
+body_txt+="<div class=reportdesc>"+report_desc+"</div>"
+body_txt+="<div class=page_section>\n"
+body_txt+=img_tag
+body_txt+="</div>"
+
+hr.gen_html_report(body_txt,html_file,styles_dir)

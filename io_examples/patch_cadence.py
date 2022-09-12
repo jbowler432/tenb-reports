@@ -2,7 +2,7 @@ import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
 import utilities as ut
-import beautifyResults as br
+import htmlRoutines as hr
 import pandas as pd
 import datetime
 import time
@@ -95,6 +95,9 @@ def gen_widget(means,medians,maxs,heading,current_text):
 	body_text+="</div>"
 	return body_text
 
+'''
+Main Program
+'''
 # file and directory locations
 key_file="../../io_keys.json" # location of your key file
 #sc_key_file="../../sc_keys.json"
@@ -108,7 +111,7 @@ fixed_vulns=results_dir+"fixed_vulns.json"
 #sc_keys=sc.read_SC_keys(sc_key_file)
 api_keys=tc.read_keys(key_file,"sandbox")
 
-get_new_data = 1
+get_new_data = 0
 
 if get_new_data==1:
 	# export fixed data for last 90 days
@@ -164,4 +167,4 @@ heading="\n<h2>Stats for Host Medians</h2>(severity = vpr)"
 body_text=gen_widget(means,medians,maxs,heading,return_text)
 
 
-br.gen_html_report(body_text,output_file,styles_dir)
+hr.gen_html_report(body_text,output_file,styles_dir)

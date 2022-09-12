@@ -1,7 +1,7 @@
 import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
-import beautifyResults as br
+import utilities as ut
 import datetime
 
 # There is no direct update acr api by tag so
@@ -32,6 +32,6 @@ tc.check_and_download_assets_chunks(api_keys,payload,results_file)
 
 # Now we have the list of assets, update the acr values
 # THe acr score needs to be an integer
-asset_lst=br.extract_assetids(results_file)
+asset_lst=ut.extract_assetids(results_file)
 acr_score=10
 response=tc.update_acr_scores(api_keys,asset_lst,acr_score)

@@ -2,7 +2,7 @@ import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
 import tenbSCcore as sc
-import beautifyResults as br
+import htmlRoutines as hr
 import datetime
 import time
 import json
@@ -50,4 +50,4 @@ for x in users["users"]:
 	table_str+="</div>"
 	#force new line
 	table_str+="<table width=100%><tr><td>&nbsp;</td></table>"
-br.gen_html_report(table_str,output_file,styles_dir)
+hr.gen_html_report(table_str,output_file,styles_dir)

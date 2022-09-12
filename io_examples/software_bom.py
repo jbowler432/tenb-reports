@@ -1,7 +1,9 @@
 import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
-import beautifyResults as br
+import htmlRoutines as hr
+import utilities as ut
+import reportTemplates as rt
 import datetime
 import json
 
@@ -11,10 +13,9 @@ results_dir="../results/" # the directory for your results
 styles_dir="../styles/" #style sheet location for web pages
 reports_dir="../report_samples/"
 
-get_new_data=1
+get_new_data=0
 results_file=results_dir+"software_bom_io.json"
 html_file=reports_dir+"software_bom_io.html"
-csv_file=results_dir+"software_bom_io.csv"
 
 if get_new_data==1:
 	# export some vuln data
@@ -41,4 +42,7 @@ if get_new_data==1:
 	with open(results_file,'w') as outfile:
 		json.dump(software,outfile)
 
-br.software_bom(results_file,html_file,styles_dir,csv_file)
+'''
+Generate the html report from the downloaded data
+'''
+rt.software_bom(results_file,html_file,styles_dir)

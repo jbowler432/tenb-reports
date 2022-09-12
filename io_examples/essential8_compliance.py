@@ -2,7 +2,7 @@ import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
 import utilities as ut
-import beautifyResults as br
+import htmlRoutines as hr
 import pandas as pd
 import datetime
 import time
@@ -56,10 +56,22 @@ def gen_widget(heading,current_text,compliant,not_compliant,totals):
 	thigh=get_val(totals,"high")
 	tmedium=get_val(totals,"medium")
 	tlow=get_val(totals,"low")
-	ccrit_per=str(int(100*int(ccrit)/int(tcrit)))
-	chigh_per=str(int(100*int(chigh)/int(thigh)))
-	cmedium_per=str(int(100*int(cmedium)/int(tmedium)))
-	clow_per=str(int(100*int(clow)/int(tlow)))
+	if tcrit!="":
+		ccrit_per=str(int(100*int(ccrit)/int(tcrit)))
+	else:
+		ccrit_per="0"
+	if thigh!="":
+		chigh_per=str(int(100*int(chigh)/int(thigh)))
+	else:
+		chigh_per="0"
+	if tmedium!="":
+		cmedium_per=str(int(100*int(cmedium)/int(tmedium)))
+	else:
+		cmedium_per="0"
+	if tlow!="":
+		clow_per=str(int(100*int(clow)/int(tlow)))
+	else:
+		clow_per="0"
 	body_text+="<div class=page_section>"
 	body_text+=heading
 	body_text+="\n<br><br><table class=table1 width=450px>"
@@ -87,7 +99,9 @@ def get_val(myseries,key):
 			return_val=str(v)
 	return return_val
 
-
+'''
+Main Program
+'''
 # file and directory locations
 key_file="../../io_keys.json" # location of your key file
 #sc_key_file="../../sc_keys.json"
@@ -121,6 +135,7 @@ if get_new_data==1:
 
 # process the saved json files and generate html report
 exploitable_fixes,fixes=get_ttf_compliance(fixed_vulns)
+print(exploitable_fixes)
 
 compliant,not_compliant,totals=process_df(exploitable_fixes,2)
 
@@ -136,4 +151,4 @@ heading="\n<h2>Everything Else</h2>(patch within 2 weeks)"
 body_text=gen_widget(heading,return_text,compliant,not_compliant,totals)
 
 
-br.gen_html_report(body_text,output_file,styles_dir)
+hr.gen_html_report(body_text,output_file,styles_dir)

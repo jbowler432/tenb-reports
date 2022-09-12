@@ -1,7 +1,7 @@
 import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 import tenbIOcore as tc
-import beautifyResults as br
+import reportTemplates as rt
 import datetime
 
 '''
@@ -31,4 +31,4 @@ if get_new_data==1:
 	}
 	decoded=tc.check_and_download_assets_chunks(api_keys,payload,asset_file)
 
-br.assets_subnet_summary(asset_file,output_file,styles_dir)
+rt.assets_subnet_summary(asset_file,output_file,styles_dir)
