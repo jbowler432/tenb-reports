@@ -266,7 +266,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <body>
 
 <h1>User Permission Report</h1><div class=reportdesc>Shows granted permissions for all users.
-<br>(2022-07-22)</div><div class=page_section><h2>jbowler@sandbox.io</h2>
+<br>(2022-09-12)</div><div class=page_section><h2>jbowler@sandbox.io</h2>
 <table class=table2 width=800px>
 <tr><td>uuid</td><td>759848a5-c3fc-4563-8a51-445078e5c159</td>
 <tr><td>id</td><td>2</td>
@@ -276,18 +276,42 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>name</td><td>jbowler@demo.tenable</td>
 <tr><td>type</td><td>local</td>
 <tr><td>permissions</td><td>64</td>
-<tr><td>last_login_attempt</td><td>1658295806586</td>
+<tr><td>last_login_attempt</td><td>1662681786677</td>
 <tr><td>login_fail_count</td><td>0</td>
-<tr><td>login_fail_total</td><td>54</td>
-<tr><td>last_apikey_access</td><td>1658477035997</td>
+<tr><td>login_fail_total</td><td>63</td>
+<tr><td>last_apikey_access</td><td>1662968082283</td>
 <tr><td>enabled</td><td>True</td>
 <tr><td>undeletable</td><td>True</td>
 <tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000', '624b5915-5433-445e-992f-840af3a203a2', '919a5673-82d4-48e1-a78d-9fc0160c56b6']</td>
 <tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'true', 'enableAssetWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'true', 'tenableGridState': 'null'}</td>
+<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'false', 'enableAssetWorkbench': 'false', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'false', 'tenableGridState': 'null'}</td>
 <tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
-<tr><td>lastlogin</td><td>1658476583259</td>
+<tr><td>lastlogin</td><td>1662934852054</td>
 <tr><td>uuid_id</td><td>759848a5-c3fc-4563-8a51-445078e5c159</td></table><h2>Granted Permissions</h2>
+<table class=table3 width=800px>
+<tr><td>permission_uuid</td><td>08f7be4f-4df7-4eb3-a918-faeb97c8d35c</td>
+<tr><td>name</td><td>Tag 'Essential8:Internet-Facing' owner permissions</td>
+<tr><td>subjects</td><td>[{'type': 'User', 'uuid': '759848a5-c3fc-4563-8a51-445078e5c159', 'name': 'jbowler@sandbox.io'}]</td>
+<tr><td>actions</td><td>['CanUse', 'CanEdit']</td>
+<tr><td>objects</td><td>[{'type': 'Tag', 'uuid': 'bf0f2eb2-98ca-42ae-9ee9-05163532f957', 'name': 'Essential8:Internet-Facing'}]</td>
+<tr><td>created_at</td><td>1659510655834</td>
+<tr><td>created_by</td><td>jbowler@sandbox.io</td></table>
+<table class=table3 width=800px>
+<tr><td>permission_uuid</td><td>9375c76c-513b-46b4-969f-55571d066ee4</td>
+<tr><td>name</td><td>Tag 'Essential8:Exploitable' owner permissions</td>
+<tr><td>subjects</td><td>[{'type': 'User', 'uuid': '759848a5-c3fc-4563-8a51-445078e5c159', 'name': 'jbowler@sandbox.io'}]</td>
+<tr><td>actions</td><td>['CanUse', 'CanEdit']</td>
+<tr><td>objects</td><td>[{'type': 'Tag', 'uuid': 'ea3da64c-48e3-4a81-8770-cf0ac54762a3', 'name': 'Essential8:Exploitable'}]</td>
+<tr><td>created_at</td><td>1659512456587</td>
+<tr><td>created_by</td><td>jbowler@sandbox.io</td></table>
+<table class=table3 width=800px>
+<tr><td>permission_uuid</td><td>a002939f-0dee-4bfc-84f8-94402d8687ed</td>
+<tr><td>name</td><td>Tag 'Essential8:Internal' owner permissions</td>
+<tr><td>subjects</td><td>[{'type': 'User', 'uuid': '759848a5-c3fc-4563-8a51-445078e5c159', 'name': 'jbowler@sandbox.io'}]</td>
+<tr><td>actions</td><td>['CanUse', 'CanEdit']</td>
+<tr><td>objects</td><td>[{'type': 'Tag', 'uuid': '63d7880f-97fc-46c5-8c8b-703e76f1d737', 'name': 'Essential8:Internal'}]</td>
+<tr><td>created_at</td><td>1659510719020</td>
+<tr><td>created_by</td><td>jbowler@sandbox.io</td></table>
 <table class=table3 width=800px>
 <tr><td>permission_uuid</td><td>b90f676a-3b28-4ead-b446-d1ff336a8de2</td>
 <tr><td>name</td><td>All Assets [CanScan, CanView]</td>
@@ -295,44 +319,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>actions</td><td>['CanView', 'CanScan']</td>
 <tr><td>objects</td><td>[{'type': 'AllAssets'}]</td>
 <tr><td>created_at</td><td>1648562400564</td>
-<tr><td>created_by</td><td>SYSTEM</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>jbowler432@sandbox.io</h2>
-<table class=table2 width=800px>
-<tr><td>uuid</td><td>bbdd452d-0a2e-4409-b78e-214b62d99906</td>
-<tr><td>id</td><td>3</td>
-<tr><td>user_name</td><td>jbowler432@sandbox.io</td>
-<tr><td>username</td><td>jbowler432@sandbox.io</td>
-<tr><td>email</td><td>jbowler432@sandbox.io</td>
-<tr><td>type</td><td>local</td>
-<tr><td>permissions</td><td>40</td>
-<tr><td>login_fail_count</td><td>0</td>
-<tr><td>login_fail_total</td><td>0</td>
-<tr><td>enabled</td><td>False</td>
-<tr><td>undeletable</td><td>False</td>
-<tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000']</td>
-<tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'tenableGridState': 'null', 'enableAssetWorkbench': 'true', 'enableVMWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'true'}</td>
-<tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
-<tr><td>lastlogin</td><td>1594185122300</td>
-<tr><td>uuid_id</td><td>bbdd452d-0a2e-4409-b78e-214b62d99906</td></table><h2>Granted Permissions</h2></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>scasperson@sandbox.io</h2>
-<table class=table2 width=800px>
-<tr><td>uuid</td><td>8f7a8884-efb7-4c8a-9c26-43c16528f598</td>
-<tr><td>id</td><td>4</td>
-<tr><td>user_name</td><td>scasperson@sandbox.io</td>
-<tr><td>username</td><td>scasperson@sandbox.io</td>
-<tr><td>email</td><td>scasperson@sandbox.io</td>
-<tr><td>name</td><td>Sam Casperson</td>
-<tr><td>type</td><td>local</td>
-<tr><td>permissions</td><td>64</td>
-<tr><td>login_fail_count</td><td>0</td>
-<tr><td>login_fail_total</td><td>0</td>
-<tr><td>enabled</td><td>False</td>
-<tr><td>undeletable</td><td>False</td>
-<tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000', '919a5673-82d4-48e1-a78d-9fc0160c56b6']</td>
-<tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'tenableGridState': 'null', 'enableAssetWorkbench': 'true', 'enableVMWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'true'}</td>
-<tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
-<tr><td>lastlogin</td><td>1571783233902</td>
-<tr><td>uuid_id</td><td>8f7a8884-efb7-4c8a-9c26-43c16528f598</td></table><h2>Granted Permissions</h2></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>4lumin@sandbox.io</h2>
+<tr><td>created_by</td><td>SYSTEM</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>4lumin@sandbox.io</h2>
 <table class=table2 width=800px>
 <tr><td>uuid</td><td>b5991acc-0ebe-4e2b-9b95-c8f113534d02</td>
 <tr><td>id</td><td>2007984</td>
@@ -348,7 +335,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>undeletable</td><td>False</td>
 <tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000', '624b5915-5433-445e-992f-840af3a203a2', '919a5673-82d4-48e1-a78d-9fc0160c56b6']</td>
 <tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'tenableGridState': 'null', 'enableAssetWorkbench': 'true', 'enableVMWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'true'}</td>
+<tr><td>preferences</td><td>{'enableExplore': 'true', 'tenableGridState': 'null', 'enableAssetWorkbench': 'false', 'enableVMWorkbench': 'false', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'false'}</td>
 <tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
 <tr><td>uuid_id</td><td>b5991acc-0ebe-4e2b-9b95-c8f113534d02</td></table><h2>Granted Permissions</h2>
 <table class=table3 width=800px>
@@ -358,26 +345,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>actions</td><td>['CanView', 'CanScan']</td>
 <tr><td>objects</td><td>[{'type': 'AllAssets'}]</td>
 <tr><td>created_at</td><td>1648562400564</td>
-<tr><td>created_by</td><td>SYSTEM</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>tlaughton@sandbox.io</h2>
-<table class=table2 width=800px>
-<tr><td>uuid</td><td>1d3562a5-13e2-4cde-bcf6-2552725316cf</td>
-<tr><td>id</td><td>2209490</td>
-<tr><td>user_name</td><td>tlaughton@sandbox.io</td>
-<tr><td>username</td><td>tlaughton@sandbox.io</td>
-<tr><td>email</td><td>tlaughton@sandbox.io</td>
-<tr><td>name</td><td>Trevor</td>
-<tr><td>type</td><td>local</td>
-<tr><td>permissions</td><td>64</td>
-<tr><td>login_fail_count</td><td>0</td>
-<tr><td>login_fail_total</td><td>0</td>
-<tr><td>enabled</td><td>False</td>
-<tr><td>undeletable</td><td>False</td>
-<tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000']</td>
-<tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'tenableGridState': 'null', 'enableAssetWorkbench': 'true', 'enableVMWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'true'}</td>
-<tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
-<tr><td>lastlogin</td><td>1623909331252</td>
-<tr><td>uuid_id</td><td>1d3562a5-13e2-4cde-bcf6-2552725316cf</td></table><h2>Granted Permissions</h2></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>espoon@sandbox.io</h2>
+<tr><td>created_by</td><td>SYSTEM</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>espoon@sandbox.io</h2>
 <table class=table2 width=800px>
 <tr><td>uuid</td><td>48004485-ec27-42f4-8cdc-39126ed351dc</td>
 <tr><td>id</td><td>2249971</td>
@@ -393,7 +361,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>undeletable</td><td>False</td>
 <tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000', '624b5915-5433-445e-992f-840af3a203a2', '919a5673-82d4-48e1-a78d-9fc0160c56b6']</td>
 <tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'tenableGridState': 'null', 'enableAssetWorkbench': 'true', 'enableVMWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'true'}</td>
+<tr><td>preferences</td><td>{'enableExplore': 'true', 'tenableGridState': 'null', 'enableAssetWorkbench': 'false', 'enableVMWorkbench': 'false', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'false'}</td>
 <tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
 <tr><td>lastlogin</td><td>1642046332295</td>
 <tr><td>uuid_id</td><td>48004485-ec27-42f4-8cdc-39126ed351dc</td></table><h2>Granted Permissions</h2>
@@ -404,85 +372,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>actions</td><td>['CanView', 'CanScan']</td>
 <tr><td>objects</td><td>[{'type': 'AllAssets'}]</td>
 <tr><td>created_at</td><td>1648562400564</td>
-<tr><td>created_by</td><td>SYSTEM</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>harkirat@sandbox.io</h2>
-<table class=table2 width=800px>
-<tr><td>uuid</td><td>b0f02c2d-afc3-427b-af16-0a7240f806cc</td>
-<tr><td>id</td><td>2252660</td>
-<tr><td>user_name</td><td>harkirat@sandbox.io</td>
-<tr><td>username</td><td>harkirat@sandbox.io</td>
-<tr><td>email</td><td>harkirat@sandbox.io</td>
-<tr><td>name</td><td>Harkirat</td>
-<tr><td>type</td><td>local</td>
-<tr><td>permissions</td><td>64</td>
-<tr><td>login_fail_count</td><td>0</td>
-<tr><td>login_fail_total</td><td>0</td>
-<tr><td>enabled</td><td>True</td>
-<tr><td>undeletable</td><td>False</td>
-<tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000', '919a5673-82d4-48e1-a78d-9fc0160c56b6']</td>
-<tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableAssetWorkbench': 'true', 'enableVMWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'true', 'tenableGridState': 'null'}</td>
-<tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
-<tr><td>lastlogin</td><td>1646973360253</td>
-<tr><td>uuid_id</td><td>b0f02c2d-afc3-427b-af16-0a7240f806cc</td></table><h2>Granted Permissions</h2></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>api_restricted@sandbox.io</h2>
-<table class=table2 width=800px>
-<tr><td>uuid</td><td>319e9b60-8f16-4983-a3f5-a6a4038f47d8</td>
-<tr><td>id</td><td>2252880</td>
-<tr><td>user_name</td><td>api_restricted@sandbox.io</td>
-<tr><td>username</td><td>api_restricted@sandbox.io</td>
-<tr><td>email</td><td>api_restricted@sandbox.io</td>
-<tr><td>name</td><td>api_restricted</td>
-<tr><td>type</td><td>local</td>
-<tr><td>permissions</td><td>64</td>
-<tr><td>last_login_attempt</td><td>1647497243628</td>
-<tr><td>login_fail_count</td><td>0</td>
-<tr><td>login_fail_total</td><td>1</td>
-<tr><td>last_apikey_access</td><td>1647561089142</td>
-<tr><td>enabled</td><td>True</td>
-<tr><td>undeletable</td><td>False</td>
-<tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000']</td>
-<tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableAssetWorkbench': 'true', 'enableVMWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'true', 'tenableGridState': 'null'}</td>
-<tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
-<tr><td>lastlogin</td><td>1647559910063</td>
-<tr><td>uuid_id</td><td>319e9b60-8f16-4983-a3f5-a6a4038f47d8</td></table><h2>Granted Permissions</h2></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>user_restricted@sandbox.io</h2>
-<table class=table2 width=800px>
-<tr><td>uuid</td><td>3ba739c0-085c-49c8-9613-7a0030ca9716</td>
-<tr><td>id</td><td>2252912</td>
-<tr><td>user_name</td><td>user_restricted@sandbox.io</td>
-<tr><td>username</td><td>user_restricted@sandbox.io</td>
-<tr><td>email</td><td>user_restricted@sandbox.io</td>
-<tr><td>name</td><td>user_restricted</td>
-<tr><td>type</td><td>local</td>
-<tr><td>permissions</td><td>40</td>
-<tr><td>login_fail_count</td><td>0</td>
-<tr><td>login_fail_total</td><td>0</td>
-<tr><td>enabled</td><td>True</td>
-<tr><td>undeletable</td><td>False</td>
-<tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000']</td>
-<tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableAssetWorkbench': 'true', 'enableVMWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'true', 'tenableGridState': 'null'}</td>
-<tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
-<tr><td>lastlogin</td><td>1647827847144</td>
-<tr><td>uuid_id</td><td>3ba739c0-085c-49c8-9613-7a0030ca9716</td></table><h2>Granted Permissions</h2></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>user2_restricted@sandbox.io</h2>
-<table class=table2 width=800px>
-<tr><td>uuid</td><td>f96c07fc-7c77-41b2-a031-d0e56543ed74</td>
-<tr><td>id</td><td>2253018</td>
-<tr><td>user_name</td><td>user2_restricted@sandbox.io</td>
-<tr><td>username</td><td>user2_restricted@sandbox.io</td>
-<tr><td>email</td><td>user2_restricted@sandbox.io</td>
-<tr><td>name</td><td>user2_restricted</td>
-<tr><td>type</td><td>local</td>
-<tr><td>permissions</td><td>40</td>
-<tr><td>login_fail_count</td><td>0</td>
-<tr><td>login_fail_total</td><td>0</td>
-<tr><td>enabled</td><td>True</td>
-<tr><td>undeletable</td><td>False</td>
-<tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000']</td>
-<tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableAssetWorkbench': 'true', 'enableVMWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableWebAppWorkbench': 'true', 'tenableGridState': 'null'}</td>
-<tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
-<tr><td>lastlogin</td><td>1647826807978</td>
-<tr><td>uuid_id</td><td>f96c07fc-7c77-41b2-a031-d0e56543ed74</td></table><h2>Granted Permissions</h2></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>sn_jbowler@sandbox.io</h2>
+<tr><td>created_by</td><td>SYSTEM</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>sn_jbowler@sandbox.io</h2>
 <table class=table2 width=800px>
 <tr><td>uuid</td><td>0d4e0b2e-185b-4049-9df8-09b59ee88921</td>
 <tr><td>id</td><td>2254837</td>
@@ -494,12 +384,12 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>permissions</td><td>64</td>
 <tr><td>login_fail_count</td><td>0</td>
 <tr><td>login_fail_total</td><td>0</td>
-<tr><td>last_apikey_access</td><td>1658473728047</td>
+<tr><td>last_apikey_access</td><td>1662970127106</td>
 <tr><td>enabled</td><td>True</td>
 <tr><td>undeletable</td><td>False</td>
 <tr><td>group_uuids</td><td>['624b5915-5433-445e-992f-840af3a203a2', '00000000-0000-0000-0000-000000000000', '3c758c75-e5d1-4120-b6f4-b715d5372428', '919a5673-82d4-48e1-a78d-9fc0160c56b6']</td>
 <tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'true', 'enableAssetWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'true', 'tenableGridState': 'null'}</td>
+<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'false', 'enableAssetWorkbench': 'false', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'false', 'tenableGridState': 'null'}</td>
 <tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
 <tr><td>lastlogin</td><td>1651799709916</td>
 <tr><td>uuid_id</td><td>0d4e0b2e-185b-4049-9df8-09b59ee88921</td></table><h2>Granted Permissions</h2>
@@ -511,7 +401,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>objects</td><td>[{'type': 'AllAssets'}]</td>
 <tr><td>created_at</td><td>1648562400551</td>
 <tr><td>created_by</td><td>SYSTEM</td>
-<tr><td>updated_at</td><td>1658478099736</td>
+<tr><td>updated_at</td><td>1658965819616</td>
 <tr><td>updated_by</td><td>jbowler@sandbox.io</td></table>
 <table class=table3 width=800px>
 <tr><td>permission_uuid</td><td>b90f676a-3b28-4ead-b446-d1ff336a8de2</td>
@@ -536,7 +426,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>undeletable</td><td>False</td>
 <tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000', '3c758c75-e5d1-4120-b6f4-b715d5372428']</td>
 <tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'true', 'enableAssetWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'true', 'tenableGridState': 'null'}</td>
+<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'false', 'enableAssetWorkbench': 'false', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'false', 'tenableGridState': 'null'}</td>
 <tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
 <tr><td>lastlogin</td><td>1654747781267</td>
 <tr><td>uuid_id</td><td>cbe6e562-d1d9-40b4-9e63-5653177c5ed5</td></table><h2>Granted Permissions</h2>
@@ -548,7 +438,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>objects</td><td>[{'type': 'AllAssets'}]</td>
 <tr><td>created_at</td><td>1648562400551</td>
 <tr><td>created_by</td><td>SYSTEM</td>
-<tr><td>updated_at</td><td>1658478099736</td>
+<tr><td>updated_at</td><td>1658965819616</td>
 <tr><td>updated_by</td><td>jbowler@sandbox.io</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>sn2_jbowler@sandbox.io</h2>
 <table class=table2 width=800px>
 <tr><td>uuid</td><td>75dfc54f-88c4-46aa-a2ce-d98f028c908f</td>
@@ -561,12 +451,12 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>permissions</td><td>64</td>
 <tr><td>login_fail_count</td><td>0</td>
 <tr><td>login_fail_total</td><td>0</td>
-<tr><td>last_apikey_access</td><td>1658476810226</td>
+<tr><td>last_apikey_access</td><td>1662969622515</td>
 <tr><td>enabled</td><td>True</td>
 <tr><td>undeletable</td><td>False</td>
 <tr><td>group_uuids</td><td>['624b5915-5433-445e-992f-840af3a203a2', '00000000-0000-0000-0000-000000000000', '3c758c75-e5d1-4120-b6f4-b715d5372428', '919a5673-82d4-48e1-a78d-9fc0160c56b6']</td>
 <tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'true', 'enableAssetWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'true', 'tenableGridState': 'null'}</td>
+<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'false', 'enableAssetWorkbench': 'false', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'false', 'tenableGridState': 'null'}</td>
 <tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
 <tr><td>lastlogin</td><td>1655077383746</td>
 <tr><td>uuid_id</td><td>75dfc54f-88c4-46aa-a2ce-d98f028c908f</td></table><h2>Granted Permissions</h2>
@@ -578,7 +468,7 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>objects</td><td>[{'type': 'AllAssets'}]</td>
 <tr><td>created_at</td><td>1648562400551</td>
 <tr><td>created_by</td><td>SYSTEM</td>
-<tr><td>updated_at</td><td>1658478099736</td>
+<tr><td>updated_at</td><td>1658965819616</td>
 <tr><td>updated_by</td><td>jbowler@sandbox.io</td></table>
 <table class=table3 width=800px>
 <tr><td>permission_uuid</td><td>b90f676a-3b28-4ead-b446-d1ff336a8de2</td>
@@ -587,24 +477,32 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 <tr><td>actions</td><td>['CanView', 'CanScan']</td>
 <tr><td>objects</td><td>[{'type': 'AllAssets'}]</td>
 <tr><td>created_at</td><td>1648562400564</td>
-<tr><td>created_by</td><td>SYSTEM</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>user3_standard@sandbox.io</h2>
+<tr><td>created_by</td><td>SYSTEM</td></table></div><table width=100%><tr><td>&nbsp;</td></table><div class=page_section><h2>api_restricted@sandbox.io</h2>
 <table class=table2 width=800px>
-<tr><td>uuid</td><td>67598cc6-eb50-468d-ae3b-f9bef93d997f</td>
-<tr><td>id</td><td>2258539</td>
-<tr><td>user_name</td><td>user3_standard@sandbox.io</td>
-<tr><td>username</td><td>user3_standard@sandbox.io</td>
-<tr><td>email</td><td>user3_standard@sandbox.io</td>
-<tr><td>name</td><td>user3_standard@sandbox.io</td>
+<tr><td>uuid</td><td>e19edcc7-08de-4709-9c32-38a0269eedc5</td>
+<tr><td>id</td><td>2258604</td>
+<tr><td>user_name</td><td>api_restricted@sandbox.io</td>
+<tr><td>username</td><td>api_restricted@sandbox.io</td>
+<tr><td>email</td><td>api_restricted@sandbox.io</td>
+<tr><td>name</td><td>api_restricted@sandbox.io</td>
 <tr><td>type</td><td>local</td>
-<tr><td>permissions</td><td>32</td>
+<tr><td>permissions</td><td>64</td>
 <tr><td>login_fail_count</td><td>0</td>
 <tr><td>login_fail_total</td><td>0</td>
-<tr><td>last_apikey_access</td><td>1658273346878</td>
+<tr><td>last_apikey_access</td><td>1662965798275</td>
 <tr><td>enabled</td><td>True</td>
 <tr><td>undeletable</td><td>False</td>
 <tr><td>group_uuids</td><td>['00000000-0000-0000-0000-000000000000']</td>
 <tr><td>lockout</td><td>0</td>
-<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'true', 'enableAssetWorkbench': 'true', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'true', 'tenableGridState': 'null'}</td>
+<tr><td>preferences</td><td>{'enableExplore': 'true', 'enableWebAppWorkbench': 'false', 'enableAssetWorkbench': 'false', 'enableUnifiedScanConfiguration': 'false', 'enableVMWorkbench': 'false', 'tenableGridState': 'null'}</td>
 <tr><td>container_uuid</td><td>211bc73c-c7a9-4e8b-8947-b8ded04f5d67</td>
-<tr><td>lastlogin</td><td>1658467843004</td>
-<tr><td>uuid_id</td><td>67598cc6-eb50-468d-ae3b-f9bef93d997f</td></table><h2>Granted Permissions</h2></div><table width=100%><tr><td>&nbsp;</td></table></html>
+<tr><td>lastlogin</td><td>1659051497310</td>
+<tr><td>uuid_id</td><td>e19edcc7-08de-4709-9c32-38a0269eedc5</td></table><h2>Granted Permissions</h2>
+<table class=table3 width=800px>
+<tr><td>permission_uuid</td><td>4b604869-682b-40d3-bfe4-6b2af80263d2</td>
+<tr><td>name</td><td>View Only 192-168-16</td>
+<tr><td>subjects</td><td>[{'type': 'User', 'uuid': 'e19edcc7-08de-4709-9c32-38a0269eedc5', 'name': 'api_restricted@sandbox.io'}]</td>
+<tr><td>actions</td><td>['CanView']</td>
+<tr><td>objects</td><td>[{'type': 'Tag', 'uuid': 'd73614e0-8229-451e-bbb4-59b82dbd3862', 'name': 'Networks:192-168-16'}]</td>
+<tr><td>created_at</td><td>1661997603134</td>
+<tr><td>created_by</td><td>jbowler@sandbox.io</td></table></div><table width=100%><tr><td>&nbsp;</td></table></html>
