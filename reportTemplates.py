@@ -26,6 +26,7 @@ def vuln_report_by_plugin(input_dct,output_file,style_dir):
 	table_str+="<tr><td width=50px>PluginID</td><td width=150px>Name</td><td>Synopsis</td><td align=center>Count</td><td>Severity</td>"
 	for k,v in input_dct.items():
 		pid=k
+		exploits=v["exploits"]
 		pname=v["pname"]
 		psynopsis=v["psynopsis"]
 		count=v["count"]
@@ -38,7 +39,10 @@ def vuln_report_by_plugin(input_dct,output_file,style_dir):
 		table_str+="<td>"+pname+"</td><td>"+psynopsis+"</td><td align=center>"+str(count)+"</td><td class="+severity+">"+severity+"</td>"
 		#table_str+='<tr id="'+str(pid)+'" style="display:none;"><td>'+clean_string(pdesc)+'</td>\n'
 		table_str+="\n<tr><td>&nbsp;</td><td valign=top>"+hr.clean_string(pdesc)+"</td>"
-		table_str+="<td colspan=3 valign=top>"+psolution+"<br><br>Impacted Assets<br>"+assets+"</td>"
+		table_str+="<td colspan=3 valign=top>"+psolution
+		table_str+="<br><br>"+exploits
+		table_str+="<br>Impacted Assets<br>"+assets
+		table_str+="</td>"
 		#table_str+="\n<tr><td>&nbsp;</td><td align=right>Impacted Assets</td><td colspan=3>"+assets+"</td>"
 	table_str=table_str+"</table></div>"
 	hr.gen_html_report(table_str,output_file,style_dir)
