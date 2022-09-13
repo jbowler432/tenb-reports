@@ -111,7 +111,7 @@ fixed_vulns=results_dir+"fixed_vulns.json"
 #sc_keys=sc.read_SC_keys(sc_key_file)
 api_keys=tc.read_keys(key_file,"sandbox")
 
-get_new_data = 0
+get_new_data = 1
 
 if get_new_data==1:
 	# export fixed data for last 90 days
