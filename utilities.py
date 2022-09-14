@@ -8,6 +8,7 @@ import operator
 import socket
 import warnings
 import sys
+import pandas as pd
 from datetime import datetime
 from datetime import timedelta
 warnings.filterwarnings("ignore")
@@ -102,3 +103,22 @@ def clean_plugin_output(input):
 					if "<plugin_output>" not in line:
 						output+=line+"\n"
 	return output
+
+def calculate_fix_times(input_file):
+	decoded=read_json_file(input_file)
+	count=0
+	results=[]
+	for x in decoded:
+		ffound=x["first_found"]
+		lfound=x["last_found"]
+		lfixed=x["last_fixed"]
+		ipv4=x["asset"]["ipv4"]
+		uuid=x["asset"]["uuid"]
+		pid=x["plugin"]["id"]
+		severity=x["severity"]
+		ttfix=date_diff(ffound,lfixed)
+		fix_date=lfixed.split("T")[0]
+		mydct={'date':pd.to_datetime(fix_date),'ttfix':ttfix,'severity':severity}
+		results.append(mydct)
+	return results
+    
