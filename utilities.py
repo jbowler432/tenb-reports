@@ -139,3 +139,15 @@ def calculate_vuln_ages(input_file):
 		mydct={'date':pd.to_datetime(lfound_date),'total':vuln_age,severity:vuln_age,'pid':pid,'ipv4':ipv4,'ffound':pd.to_datetime(ffound_date)}
 		results.append(mydct)
 	return results
+
+def get_vuln_sevs(input_file):
+	decoded=read_json_file(input_file)
+	count=0
+	results=[]
+	for x in decoded:
+		ipv4=x["asset"]["ipv4"]
+		pid=x["plugin"]["id"]
+		severity=x["severity"]
+		mydct={'severity':severity,'pid':pid,'ipv4':ipv4}
+		results.append(mydct)
+	return results
