@@ -69,6 +69,8 @@ legend_labels=[]
 xlabel_rot=0
 img_tag=chart.bar(monthly_averages,colors,xlabel_rot,legend_labels)
 img_tag2=chart.bar(monthly_counts,colors,xlabel_rot,legend_labels)
+img_tag3=chart.box(df2,False)
+img_tag4=chart.box(df2,True)
 
 # generate the html report
 body_txt="\n<h1>Remediation Statistics</h1>"
@@ -84,5 +86,14 @@ body_txt+="<div class=page_section>\n"
 body_txt+="<h2>Number of Vulnerabilities Fixed</h2>\n"
 body_txt+=img_tag2
 body_txt+="</div>"
+body_txt+="<div class=page_section>\n"
+body_txt+="<h2>Fix Time Spread (no outliers)</h2>\n"
+body_txt+=img_tag3
+body_txt+="</div>"
+body_txt+="<div class=page_section>\n"
+body_txt+="<h2>Fix Time Spread (with outliers)</h2>\n"
+body_txt+=img_tag4
+body_txt+="</div>"
+
 
 hr.gen_html_report(body_txt,html_file,styles_dir)

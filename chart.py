@@ -64,3 +64,17 @@ def bar(df,colors,xlabel_rot,legend_labels):
 	img_tag = '<img src="data:image/png;base64,{0}">'.format(data_uri)
 	os.remove(img_file)
 	return img_tag
+
+def box(df,fliers):
+	'''
+	'''
+	ax=df.plot.box(legend=True,showfliers=fliers)
+	img_file="image_temp.png"
+	ax.yaxis.grid(True,linestyle="dashed")
+	ax.set_axisbelow(True)
+	plt.savefig(img_file)
+	time.sleep(1)
+	data_uri = base64.b64encode(open(img_file, 'rb').read()).decode('utf-8')
+	img_tag = '<img src="data:image/png;base64,{0}">'.format(data_uri)
+	os.remove(img_file)
+	return img_tag

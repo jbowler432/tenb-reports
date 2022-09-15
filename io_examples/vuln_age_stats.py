@@ -28,10 +28,9 @@ get_new_data = 0
 
 if get_new_data==1:
 	# export fixed data for last 90 days
-	unixtime=ut.unix_time(180)
+	unixtime=ut.unix_time(30)
 	num_assets=1000
 	filters={
-		"state":["open","reopened"],
 		"severity":["critical","high","medium","low"],
 		"last_found":unixtime
 		}
@@ -68,6 +67,8 @@ legend_labels=[]
 xlabel_rot=0
 img_tag=chart.bar(monthly_averages,colors,xlabel_rot,legend_labels)
 img_tag2=chart.bar(monthly_counts,colors,xlabel_rot,legend_labels)
+img_tag3=chart.box(df2,False)
+img_tag4=chart.box(df2,True)
 
 # generate the html report
 body_txt="\n<h1>Vulnerability Ages - Active Vulnerabilities</h1>"
@@ -77,12 +78,20 @@ report_desc+="Monthly groupings are based on the last_found date."
 report_desc+="\n<br>("+str(today)+")"
 body_txt+="<div class=reportdesc>"+report_desc+"</div>"
 body_txt+="<div class=page_section>\n"
-body_txt+="<h2>Average Vulnerability Ages</h2>(days)<br>\n"
+body_txt+="<h2>Number of Active Vulnerabilities</h2>\n"
+body_txt+=img_tag2
+body_txt+="</div>"
+body_txt+="<div class=page_section>\n"
+body_txt+="<h2>Average Vulnerability Ages</h2>\n"
 body_txt+=img_tag
 body_txt+="</div>"
 body_txt+="<div class=page_section>\n"
-body_txt+="<h2>Number of Active Vulnerabilities</h2>\n"
-body_txt+=img_tag2
+body_txt+="<h2>Average Age Spread (no outliers)</h2>\n"
+body_txt+=img_tag3
+body_txt+="</div>"
+body_txt+="<div class=page_section>\n"
+body_txt+="<h2>Average Age Spread (with outliers)</h2>\n"
+body_txt+=img_tag4
 body_txt+="</div>"
 
 hr.gen_html_report(body_txt,html_file,styles_dir)
