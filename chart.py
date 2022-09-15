@@ -17,13 +17,9 @@ that can be used directly in an img tag. Allows for stand-alone
 html document with embedded images.
 '''
 
-def line_dual_y(json_data,labels):
+def line_dual_y(df,labels):
 	'''
 	'''
-	df=pd.DataFrame(json_data)
-	df=df.set_index('date')
-	df.index.name="Date"
-	print(df)
 	ax=df.iloc[:,0].plot(label=labels[0], legend=True, marker='.')
 	ax=df.iloc[:,1].plot(secondary_y=True,label=labels[1],legend=True,marker='.')
 	img_file="image_temp.png"
@@ -36,13 +32,9 @@ def line_dual_y(json_data,labels):
 	os.remove(img_file)
 	return img_tag
 
-def line(json_data,labels):
+def line(df,labels):
 	'''
 	'''
-	df=pd.DataFrame(json_data)
-	df=df.set_index('date')
-	df.index.name="Date"
-	print(df)
 	ax=df.plot(legend=True)
 	img_file="image_temp.png"
 	#f = lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')
@@ -54,17 +46,17 @@ def line(json_data,labels):
 	os.remove(img_file)
 	return img_tag
 
-def bar(json_data,labels):
+def bar(df,colors,xlabel_rot,legend_labels):
 	'''
 	'''
-	df=pd.DataFrame(json_data)
-	df=df.set_index('date')
-	df.index.name="Date"
-	print(df)
-	ax=df.plot.bar(legend=True)
+	ax=df.plot.bar(legend=True,color=colors,rot=xlabel_rot)
 	img_file="image_temp.png"
-	f = lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')
+	f = lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m')
 	ax.set_xticklabels([ f(x.get_text()) for x in ax.get_xticklabels()])
+	ax.yaxis.grid(True,linestyle="dashed")
+	ax.set_axisbelow(True)
+	if len(legend_labels)>0:
+		ax.legend(legend_labels)
 	plt.tight_layout()
 	plt.savefig(img_file)
 	time.sleep(1)

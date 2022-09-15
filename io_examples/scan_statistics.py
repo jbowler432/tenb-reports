@@ -69,32 +69,29 @@ for x in decoded:
 df=pd.DataFrame(results)
 df=df.set_index('date')
 print(df)
-#print(df.resample('D').mean())
-#print(df.resample('D').count())
 
-#df.resample('D').mean().plot()
-#plt.savefig('output.png')
+monthly_averages=df.resample('M').mean()
+monthly_counts=df.resample('M').count()
+print(monthly_averages)
+print(monthly_counts)
 
-grouped=df.groupby(['date'])
+colors={'scan_time':'#0070b6'}
+img_tag=chart.bar(monthly_averages,colors,90,['Average Scan Time'])
+img_tag2=chart.bar(monthly_counts,colors,90,['Hosts Scanned'])
 
-results2=[]
-j=0
-for i in grouped.mean().index:
-	#print(i,int(grouped.count().values[j][0]),int(grouped.mean().values[j][0]))
-	results2.append({'date':i,'count':int(grouped.count().values[j][0]),'mean':int(grouped.mean().values[j][0])})
-	j+=1
-
-ylabels=["Hosts Scanned","Mean Scan Time/Host (sec)"]
-img_tag=chart.line_dual_y(results2,ylabels)
-#img_tag=chart.bar(results2,ylabels)
-
+# generate the html report
 body_txt="\n<h1>Scan Statistics</h1>"
 today=datetime.date.today()
 report_desc="Shows the number of hosts scanned and the average scan time per host."
 report_desc+="\n<br>("+str(today)+")"
 body_txt+="<div class=reportdesc>"+report_desc+"</div>"
 body_txt+="<div class=page_section>\n"
+body_txt+="<h2>Average Scan Times</h2>(per host in secs)<br>\n"
 body_txt+=img_tag
+body_txt+="</div>"
+body_txt+="<div class=page_section>\n"
+body_txt+="<h2>Number of Hosts Scanned</h2>\n"
+body_txt+=img_tag2
 body_txt+="</div>"
 
 hr.gen_html_report(body_txt,html_file,styles_dir)

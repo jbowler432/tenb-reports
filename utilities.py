@@ -118,7 +118,24 @@ def calculate_fix_times(input_file):
 		severity=x["severity"]
 		ttfix=date_diff(ffound,lfixed)
 		fix_date=lfixed.split("T")[0]
-		mydct={'date':pd.to_datetime(fix_date),'ttfix':ttfix,'severity':severity}
+		mydct={'date':pd.to_datetime(fix_date),'total':ttfix,severity:ttfix,'pid':pid,'ipv4':ipv4}
 		results.append(mydct)
 	return results
-    
+
+def calculate_vuln_ages(input_file):
+	decoded=read_json_file(input_file)
+	count=0
+	results=[]
+	for x in decoded:
+		ffound=x["first_found"]
+		lfound=x["last_found"]
+		ipv4=x["asset"]["ipv4"]
+		uuid=x["asset"]["uuid"]
+		pid=x["plugin"]["id"]
+		severity=x["severity"]
+		vuln_age=date_diff(ffound,lfound)
+		lfound_date=lfound.split("T")[0]
+		ffound_date=ffound.split("T")[0]
+		mydct={'date':pd.to_datetime(lfound_date),'total':vuln_age,severity:vuln_age,'pid':pid,'ipv4':ipv4,'ffound':pd.to_datetime(ffound_date)}
+		results.append(mydct)
+	return results
