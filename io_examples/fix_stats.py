@@ -28,7 +28,7 @@ get_new_data = 0
 
 if get_new_data==1:
 	# export fixed data for last 90 days
-	unixtime=ut.unix_time(180)
+	unixtime=ut.unix_time(90)
 	num_assets=1000
 	filters={
 		"state":["fixed"],
@@ -43,21 +43,10 @@ if get_new_data==1:
 
 # process the saved json files and generate html report
 decoded=ut.calculate_fix_times(json_file)
-#print(decoded)
-# extract only the data we want
-#results=[]
-#for x in decoded:
-#	mydct={'date':x['date'],'ttfix':x['ttfix']}
-#	results.append(mydct)
-
 df=pd.DataFrame(decoded)
 df=df.set_index('date')
 df.index.name="Date"
-#print(df.to_string())
-#df.to_csv('../report_samples/df.csv', encoding='utf-8',index=True)
-
 df2=df[['total','critical','high','medium','low']]
-
 monthly_averages=df2.resample('M').mean()
 monthly_counts=df2.resample('M').count()
 monthly_medians=df2.resample('M').median()
