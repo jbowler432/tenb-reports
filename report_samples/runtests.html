@@ -1,0 +1,347 @@
+<html>
+<head>
+<title>Tenable Report</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Expires" content="0" />
+<style>
+body {
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+text-align: left;
+background-color: #f7f7f7;
+}
+h1 {
+font-size: 1.6em;
+padding-left: 10px;
+}
+h2 {
+font-size: 1.4em;
+}
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+#  white-space: -moz-pre-wrap;
+#  white-space: -pre-wrap;
+#  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+td {
+font-size: 0.9em;
+padding: 2px;
+}
+.reportdesc {
+font-size: 0.9em;
+padding-bottom: 10px;
+padding-left: 15px;
+padding-right: 10px;
+width: 700px;
+}
+.page_section b {
+font-size: 1.2em;
+}
+.page_section {
+font-size: 0.8em;
+float: left;
+background-color: white;
+padding: 10px;
+margin: 10px;
+text-align: left;
+border: 2px solid white;
+border-radius: 3px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.scrollable_table {
+float: left;
+overflow: auto;
+height: 350px;
+}
+.table2 {
+border: 2px solid #708090;
+border-radius: 5px;
+background-color: #f7f7f7;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
+.table1 tr:nth-child(even) {
+background-color: #f7f7f7;
+}
+.table1 tr:nth-child(odd) {
+background-color: white;
+}
+.table1 td {
+padding-right: 10px;
+}
+.table3 {
+border: 2px solid #708090;
+border-radius: 5px;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+margin-bottom: 10px;
+}
+.table3 tr:nth-child(even) {
+background-color: #f7f7f7;
+}
+.table3 tr:nth-child(odd) {
+background-color: white;
+}
+.table3 td {
+padding-right: 10px;
+}
+.breakdown td{
+border-bottom: 1px solid #ddd;
+border-right: 1px solid #ddd;
+padding: 2px;
+}
+.table4 td{
+border-bottom: 1px solid #ddd;
+padding-right: 10px;
+}
+.td_orange{
+font-size: 0.9em;
+background-color: #FF9757;
+}
+.td_green{
+font-size: 0.9em;
+background-color: #78AF43;
+}
+.td_red{
+font-size: 0.9em;
+background-color: #F6303E;
+}
+.page_heading {
+padding-left: 15px;
+}
+.bar_chart_fl b {
+font-size: 1.2em;
+}
+.bar_chart_fl {
+font-size: 0.8em;
+float: left;
+background-color: white;
+padding: 10px;
+margin: 10px;
+text-align: left;
+border: 2px solid white;
+border-radius: 3px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.hideme {
+display: none;
+}
+.dummy {
+text-align: center;
+border: 2px solid white;
+border-radius: 3px;
+padding: 2px;
+}
+.failed {
+background-color: #f63442;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.critical {
+background-color: #f63442;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.high {
+background-color: #ff9757;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.warning {
+background-color: #ff9757;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.medium {
+background-color: #f9c23b;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.passed {
+background-color: #7bb147;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.low {
+background-color: #7bb147;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+.info {
+background-color: #0070b6;
+color: white;
+text-align: center;
+border: 2px solid #708090;
+border-radius: 3px;
+padding: 2px;
+}
+pre {
+overflow-x: auto;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+.floatleft {
+float: left;
+}
+.floatright {
+float: right;
+}
+.border1 {
+border: 2px solid #4b4b4b;
+border-radius: 5px;
+background-color: white;
+padding: 10px;
+margin-bottom: 10px;
+margin-top: 10px;
+}
+.plugout {
+border: 2px solid black;
+border-radius: 5px;
+width: 70%;
+background-color: #0d3d5c;
+color: white;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
+.plugdesc {
+border: 2px solid #708090;
+border-radius: 5px;
+background-color: #f7f7f7;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
+.article_no_page {
+padding-left: 30px;
+padding-right: 30px;
+margin-bottom: 20px;
+background-color: #ececec;
+border: 2px solid #4b4b4b;
+color: black;
+border-radius: 3px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+}
+</style>
+<script type="text/javascript">
+        function toggle(divId) {
+            var divObj = document.getElementById(divId);
+            if (divObj) {
+                var displayType = divObj.style.display;
+                if (displayType == "" || displayType == "block") {
+                    divObj.style.display = "none";
+                } else {
+                    divObj.style.display = "block";
+                }
+            }
+        }
+</script>
+</head>
+<body>
+
+<h1>Vulnerability Summary Report</h1><div class=reportdesc>This report shows the vulnerability count per host.
+<br>(2022-09-19)</div><div class=page_section>
+<table class=table1 width=90%><tr><td width=500px>Host</td><td>IP Address</td><td width=80px align=center>Critical</td><td width=80px align=center>High</td><td width=80px align=center>Medium</td><td width=80px align=center>Low</td><td width=80px align=center>Info</td>
+<tr><td>192.168.16.134</td>
+<td class=ipv4>192.168.16.134</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>22</td>
+<tr><td>192.168.16.161</td>
+<td class=ipv4>192.168.16.161</td><td class=critical>0</td><td class=high>0</td><td class=medium>2</td><td class=low>0</td><td class=info>44</td>
+<tr><td>192.168.16.185</td>
+<td class=ipv4>192.168.16.185</td><td class=critical>0</td><td class=high>0</td><td class=medium>0</td><td class=low>0</td><td class=info>25</td>
+<tr><td>192.168.16.234</td>
+<td class=ipv4>192.168.16.234</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>11</td>
+<tr><td>alice</td>
+<td class=ipv4>192.168.16.129</td><td class=critical>12</td><td class=high>133</td><td class=medium>82</td><td class=low>9</td><td class=info>182</td>
+<tr><td>alice.demo.io</td>
+<td class=ipv4>192.168.16.129</td><td class=critical>0</td><td class=high>11</td><td class=medium>16</td><td class=low>0</td><td class=info>51</td>
+<tr><td>archie</td>
+<td class=ipv4>192.168.16.147</td><td class=critical>26</td><td class=high>54</td><td class=medium>31</td><td class=low>5</td><td class=info>201</td>
+<tr><td>archie.demo.io</td>
+<td class=ipv4>192.168.16.147</td><td class=critical>0</td><td class=high>0</td><td class=medium>1</td><td class=low>0</td><td class=info>24</td>
+<tr><td>brian</td>
+<td class=ipv4>192.168.16.151</td><td class=critical>26</td><td class=high>149</td><td class=medium>87</td><td class=low>5</td><td class=info>188</td>
+<tr><td>brian.demo.io</td>
+<td class=ipv4>192.168.16.151</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>29</td>
+<tr><td>carlos</td>
+<td class=ipv4>192.168.16.136</td><td class=critical>26</td><td class=high>148</td><td class=medium>88</td><td class=low>6</td><td class=info>183</td>
+<tr><td>carlos.demo.io</td>
+<td class=ipv4>192.168.16.136</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>23</td>
+<tr><td>chris.demo.io</td>
+<td class=ipv4>192.168.16.55</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>32</td>
+<tr><td>denise</td>
+<td class=ipv4>192.168.16.128</td><td class=critical>26</td><td class=high>148</td><td class=medium>87</td><td class=low>6</td><td class=info>183</td>
+<tr><td>denise.demo.io</td>
+<td class=ipv4>192.168.16.128</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>25</td>
+<tr><td>domingo</td>
+<td class=ipv4>192.168.16.134</td><td class=critical>27</td><td class=high>157</td><td class=medium>87</td><td class=low>7</td><td class=info>184</td>
+<tr><td>jeffree</td>
+<td class=ipv4>192.168.16.32</td><td class=critical>7</td><td class=high>28</td><td class=medium>6</td><td class=low>3</td><td class=info>180</td>
+<tr><td>jeffree.demo.io</td>
+<td class=ipv4>192.168.16.32</td><td class=critical>0</td><td class=high>1</td><td class=medium>6</td><td class=low>0</td><td class=info>31</td>
+<tr><td>jia</td>
+<td class=ipv4>192.168.16.118</td><td class=critical>27</td><td class=high>156</td><td class=medium>86</td><td class=low>7</td><td class=info>177</td>
+<tr><td>jia.demo.io</td>
+<td class=ipv4>192.168.16.118</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>23</td>
+<tr><td>jim</td>
+<td class=ipv4>192.168.16.131</td><td class=critical>26</td><td class=high>149</td><td class=medium>87</td><td class=low>6</td><td class=info>186</td>
+<tr><td>jim.demo.io</td>
+<td class=ipv4>192.168.16.131</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>22</td>
+<tr><td>john</td>
+<td class=ipv4>192.168.16.81</td><td class=critical>27</td><td class=high>157</td><td class=medium>88</td><td class=low>7</td><td class=info>181</td>
+<tr><td>john.demo.io</td>
+<td class=ipv4>192.168.16.81</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>22</td>
+<tr><td>josh</td>
+<td class=ipv4>192.168.16.68</td><td class=critical>26</td><td class=high>106</td><td class=medium>55</td><td class=low>5</td><td class=info>166</td>
+<tr><td>josh.demo.io</td>
+<td class=ipv4>192.168.16.68</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>18</td>
+<tr><td>kevin</td>
+<td class=ipv4>192.168.16.46</td><td class=critical>3</td><td class=high>7</td><td class=medium>14</td><td class=low>4</td><td class=info>183</td>
+<tr><td>kevin.demo.io</td>
+<td class=ipv4>192.168.16.46</td><td class=critical>0</td><td class=high>1</td><td class=medium>6</td><td class=low>0</td><td class=info>31</td>
+<tr><td>miles</td>
+<td class=ipv4>192.168.16.138</td><td class=critical>26</td><td class=high>148</td><td class=medium>87</td><td class=low>6</td><td class=info>183</td>
+<tr><td>miles.demo.io</td>
+<td class=ipv4>192.168.16.138</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>23</td>
+<tr><td>rita</td>
+<td class=ipv4>192.168.16.139</td><td class=critical>26</td><td class=high>148</td><td class=medium>87</td><td class=low>6</td><td class=info>181</td>
+<tr><td>rita.demo.io</td>
+<td class=ipv4>192.168.16.139</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>23</td>
+<tr><td>sam</td>
+<td class=ipv4>192.168.16.123</td><td class=critical>28</td><td class=high>166</td><td class=medium>86</td><td class=low>7</td><td class=info>177</td>
+<tr><td>sam.demo.io</td>
+<td class=ipv4>192.168.16.123</td><td class=critical>0</td><td class=high>1</td><td class=medium>1</td><td class=low>0</td><td class=info>23</td>
+<tr><td>se-bigfix-clus-app.demo.io</td>
+<td class=ipv4>192.168.15.154</td><td class=critical>0</td><td class=high>2</td><td class=medium>27</td><td class=low>2</td><td class=info>344</td>
+<tr><td>shane</td>
+<td class=ipv4>192.168.16.135</td><td class=critical>27</td><td class=high>158</td><td class=medium>101</td><td class=low>7</td><td class=info>188</td>
+<tr><td>shane.demo.io</td>
+<td class=ipv4>192.168.16.135</td><td class=critical>0</td><td class=high>1</td><td class=medium>8</td><td class=low>0</td><td class=info>32</td></table></div></html>
