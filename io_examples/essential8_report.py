@@ -23,10 +23,10 @@ json_file_ifacing=results_dir+"fixed_vulns_ifacing.json"
 
 #sc_keys=sc.read_SC_keys(sc_key_file)
 
-get_new_data = 0
-api_keys=tc.read_keys(key_file,"uni")
-tag_cat_ifacing="UQ Network"
-tag_val_ifacing="Public"
+get_new_data = 1
+api_keys=tc.read_keys(key_file,"sandbox")
+tag_cat_ifacing="Essential8"
+tag_val_ifacing="Internet-Facing"
 
 # download a fresh set of fixed vuln data if required
 if get_new_data==1:
@@ -102,7 +102,7 @@ sla=14
 heading='Internet Facing'
 desc="Shows remediation SLAs and historical remediation times for Internet facing systems."
 desc+=" ACSC recommendations for this class of vulnerabilities is to remediate within 2 weeks."
-notes='Data in this widget has been filtered using the tag "'+tag_cat_ifacing+':'+tag_val_ifacing
+notes='Data in this widget has been filtered using the tag "'+tag_cat_ifacing+':'+tag_val_ifacing+'"'
 body_txt+=rt.sla_widget(sla,json_file_ifacing,filters,heading,desc,notes)
 
 filters={}
