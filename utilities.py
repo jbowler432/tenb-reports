@@ -89,22 +89,7 @@ def extract_assetids(input_file):
 	#print(asset_lst)
 	return asset_lst
 
-def clean_plugin_output(input):
-	lines=input.split("\n")
-	output=""
-	exclude_list=[" ","","The following software are installed on the remote host :","</plugin_output>"]
-	#exclude_list.append("Here is the list of packages installed on the remote CentOS Linux system : ")
-	#print(exclude_list)
-	for line in lines:
-		#print(line)
-		if line not in exclude_list:
-			if "Here is the list of packages" not in line:
-				if "#" not in line:
-					if "<plugin_output>" not in line:
-						output+=line+"\n"
-	return output
-
-def calculate_fix_times(input_file):
+def calculate_fix_times(input_file,filters):
 	decoded=read_json_file(input_file)
 	count=0
 	results=[]
@@ -119,8 +104,68 @@ def calculate_fix_times(input_file):
 		ttfix=date_diff(ffound,lfixed)
 		fix_date=lfixed.split("T")[0]
 		mydct={'date':pd.to_datetime(fix_date),'total':ttfix,severity:ttfix,'pid':pid,'ipv4':ipv4}
-		results.append(mydct)
+		append_result=0
+		if len(filters)==0:
+			append_result=1
+		else: # filter applied so test condition
+			if 'exploitable' in filters:
+				if x["plugin"]["exploit_available"]==filters['exploitable']:
+					append_result=1
+		if append_result==1:
+			results.append(mydct)
 	return results
+
+def calculate_fix_times2(input_file,filters):
+	decoded=read_json_file(input_file)
+	count=0
+	results=[]
+	for x in decoded:
+		cpe=''
+		if 'cpe' in x['plugin']:
+			cpe=x['plugin']['cpe']
+		os=''
+		if 'operating_system' in x['asset']:
+			os=x['asset']['operating_system']
+		ffound=x["first_found"]
+		lfound=x["last_found"]
+		lfixed=x["last_fixed"]
+		ipv4=x["asset"]["ipv4"]
+		uuid=x["asset"]["uuid"]
+		pid=x["plugin"]["id"]
+		pname=x["plugin"]["name"]
+		severity=x["severity"]
+		ttfix=date_diff(ffound,lfixed)
+		fix_date=lfixed.split("T")[0]
+		mydct={'date':pd.to_datetime(fix_date),'ttf':ttfix,'severity':severity,'pid':pid,'pname':pname,'ipv4':ipv4,'cpe':cpe,'os':os}
+		append_result=0
+		if len(filters)==0:
+			append_result=1
+		else: # filter applied so test condition
+			if 'exploitable' in filters:
+				if x["plugin"]["exploit_available"]==filters['exploitable']:
+					append_result=1
+			elif 'pnames' in filters:
+				if common_app(pname,filters['pnames']):
+					append_result=1
+		if append_result==1:
+			results.append(mydct)
+	return results
+
+def common_app(pname,app_lst):
+	found=0
+	for app in app_lst:
+		if app.lower() in pname.lower():
+			found=1
+	if found==1:
+		return True
+	else:
+		return False
+
+def calculate_fix_sla(df,sla):
+	totals=df.groupby('ipv4').apply(lambda df2: sum(df2.ttf>=0)).sum()
+	compliant=df.groupby('ipv4').apply(lambda df2: sum(df2.ttf<=sla)).sum()
+	not_compliant=df.groupby('ipv4').apply(lambda df2: sum(df2.ttf>sla)).sum()
+	return compliant,not_compliant,totals
 
 def calculate_vuln_ages(input_file):
 	decoded=read_json_file(input_file)
@@ -136,7 +181,7 @@ def calculate_vuln_ages(input_file):
 		vuln_age=date_diff(ffound,lfound)
 		lfound_date=lfound.split("T")[0]
 		ffound_date=ffound.split("T")[0]
-		mydct={'date':pd.to_datetime(lfound_date),'total':vuln_age,severity:vuln_age,'pid':pid,'ipv4':ipv4,'ffound':pd.to_datetime(ffound_date)}
+		mydct={'date':pd.to_datetime(lfound_date),'total':vuln_age,severity:vuln_age,'pid':pid,'ipv4':ipv4}
 		results.append(mydct)
 	return results
 

@@ -34,7 +34,7 @@ width: 700px;
 font-size: 1.2em;
 }
 .page_section {
-font-size: 0.8em;
+font-size: 0.9em;
 float: left;
 background-color: white;
 padding: 10px;
@@ -48,6 +48,21 @@ box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 float: left;
 overflow: auto;
 height: 350px;
+}
+.scrollable {
+border: 2px solid #ddd;
+border-radius: 5px;
+overflow: auto;
+display: inline-block;
+position: float;
+height: 250px;
+padding: 5px;
+}
+.scrollable tr:nth-child(even) {
+background-color: #f7f7f7;
+}
+.scrollable tr:nth-child(odd) {
+background-color: white;
 }
 .table2 {
 border: 2px solid #708090;

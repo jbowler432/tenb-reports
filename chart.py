@@ -49,7 +49,10 @@ def line(df,labels):
 def bar(df,colors,xlabel_rot,legend_labels):
 	'''
 	'''
-	ax=df.plot.bar(legend=True,color=colors,rot=xlabel_rot)
+	if len(colors)>0:
+		ax=df.plot.bar(legend=True,color=colors,rot=xlabel_rot)
+	else:
+		ax=df.plot.bar(legend=True,rot=xlabel_rot)
 	img_file="image_temp.png"
 	f = lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m')
 	ax.set_xticklabels([ f(x.get_text()) for x in ax.get_xticklabels()])
