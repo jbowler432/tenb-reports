@@ -54,6 +54,10 @@ def date_diff(date1,date2):
 	d2=datetime.fromisoformat(date2.split("T")[0])
 	return abs((d2-d1).days)
 
+def date_diff_unix(ts1,ts2):
+	ttf = (float(ts2)-float(ts1))/(60*60*24)
+	return int(ttf)
+
 def read_json_file(input_file):
 	# reads a json file and returns the json object
 	with open(input_file,'r') as openfile:
@@ -115,17 +119,11 @@ def calculate_fix_times(input_file,filters):
 			results.append(mydct)
 	return results
 
-def calculate_fix_times2(input_file,filters):
+def calculate_fix_times_io(input_file,filters):
 	decoded=read_json_file(input_file)
 	count=0
 	results=[]
 	for x in decoded:
-		cpe=''
-		if 'cpe' in x['plugin']:
-			cpe=x['plugin']['cpe']
-		os=''
-		if 'operating_system' in x['asset']:
-			os=x['asset']['operating_system']
 		ffound=x["first_found"]
 		lfound=x["last_found"]
 		lfixed=x["last_fixed"]
@@ -136,7 +134,7 @@ def calculate_fix_times2(input_file,filters):
 		severity=x["severity"]
 		ttfix=date_diff(ffound,lfixed)
 		fix_date=lfixed.split("T")[0]
-		mydct={'date':pd.to_datetime(fix_date),'ttf':ttfix,'severity':severity,'pid':pid,'pname':pname,'ipv4':ipv4,'cpe':cpe,'os':os}
+		mydct={'date':pd.to_datetime(fix_date),'ttf':ttfix,'severity':severity,'pid':pid,'pname':pname,'ipv4':ipv4}
 		append_result=0
 		if len(filters)==0:
 			append_result=1
@@ -149,6 +147,23 @@ def calculate_fix_times2(input_file,filters):
 					append_result=1
 		if append_result==1:
 			results.append(mydct)
+	return results
+
+def calculate_fix_times_sc(input_file,filters):
+	decoded=read_json_file(input_file)
+	results=[]
+	for x in decoded['response']['results']:
+		#for (k,v) in x.items():
+		#	print(k)
+		fseen=x['firstSeen']
+		lseen=x['lastSeen']
+		pname=x['pluginName']
+		pid=x['pluginID']
+		ipv4=x['ip']
+		severity=x['severity']['name']
+		exploitable=x['exploitAvailable']
+		ttf=date_diff_unix(fseen,lseen)
+		results.append({'date':pd.to_datetime(lseen,unit='s'),'pid':pid,'ipv4':ipv4,'exploitable':exploitable,'severity':severity,'ttf':ttf,'pname':pname})
 	return results
 
 def common_app(pname,app_lst):

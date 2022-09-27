@@ -222,6 +222,38 @@ def get_vulns_by_pluginID(sc_server,port,token,cookies,pluginID,results_file):
 		json.dump(decoded,outfile)
 	return decoded
 
+def get_mitigated(sc_server,port,token,cookies,results_file,vuln_tool):
+	# we need to call the analysis API twice. First time is
+	# to get the number of records so we can use that in the
+	# second call as the end offset parameter
+	querystring={
+		"type" : "vuln",
+		"query": {
+		"type" : "vuln",
+		"tool" : vuln_tool,
+		},
+		"sourceType" : "patched",
+		"startOffset" : "0",
+		"endOffset" : "0"
+	}
+	decoded=call_sc_analysis(sc_server,port,token,cookies,querystring)
+	print(decoded)
+	endOffset=decoded["response"]["totalRecords"]
+	querystring={
+		"type" : "vuln",
+		"query": {
+		"type" : "vuln",
+		"tool" : vuln_tool,
+		},
+		"sourceType" : "patched",
+		"startOffset" : "0",
+		"endOffset" : endOffset
+	}
+	decoded=call_sc_analysis(sc_server,port,token,cookies,querystring)
+	with open(results_file,'w') as outfile:
+		json.dump(decoded,outfile)
+	return decoded
+
 def close_session(sc_server,port,token,cookies):
 	url="https://"+sc_server+":"+port+"/rest/token"
 	headers={

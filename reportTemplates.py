@@ -364,3 +364,60 @@ def sla_widget(sla,json_file,filters,heading,desc,notes):
 	body_txt+="<table width=100%><tr><td>&nbsp;</td></table>"
 
 	return body_txt
+
+def sla_widget_sc(sla,json_file,filters,heading,desc,notes):
+	ttfix_results=ut.calculate_fix_times_sc(json_file,filters)
+	df=pd.DataFrame(ttfix_results)
+	print(df)
+	compliant,not_compliant,totals=ut.calculate_fix_sla(df,sla)
+	comp_perc=0
+	if totals!=0:
+		comp_perc=100*compliant/totals
+	df=df.set_index('date')
+	df.index.name="Date"
+	df2=df[['ttf']]
+	monthly_averages=df2.resample('M').mean()
+	monthly_medians=df2.resample('M').median()
+	combined_df=pd.concat([monthly_averages, monthly_medians], axis=1, join='inner')
+	print(combined_df)
+	colors={}
+	legend_labels=['Average','Median']
+	xlabel_rot=0
+	img_tag=chart.bar(combined_df,colors,xlabel_rot,legend_labels)
+
+	body_txt="<div class=page_section>\n"
+	body_txt+="<h2>"+heading+"</h2>\n"
+	body_txt+="<table width=600px><tr><td>"+desc+"</td></table><br>"
+
+	body_txt+="<table><tr><td><b>SLAs</b></td></table>"
+	body_txt+="<table class=table4>"
+	body_txt+="<tr><td>Remediation Target</td><td>"+str(sla)+" days</td>"
+	body_txt+="<tr><td>Compliant</td><td>"+str(compliant)+" ("+str(round(comp_perc,1))+"%)</td>"
+	body_txt+="<tr><td>Not Compliant</td><td>"+str(not_compliant)+"</td>"
+	body_txt+="<tr><td>Totals</td><td>"+str(totals)+"</td>"
+	body_txt+="</table>"
+	body_txt+="<table width=100%><tr><td>&nbsp;</td></table>"
+
+	body_txt+="<table><tr><td><b>Monthly Vulnerability Remediation Statistics</b></td></table>"
+	body_txt+=img_tag
+	body_txt+="<table width=100%><tr><td>&nbsp;</td></table>"
+
+	#body_txt+="<table class=table4>"
+	body_txt+="<br><table><tr><td><b>Raw Data - Vulnerability Remediation Times</b></td></table>"
+	body_txt+='\n<table class=scrollable>'
+	body_txt+="<tr><td width=100px>Plugin ID</td><td width=500px>Plugin Name</td><td width=100px>Time to Fix</td>"
+	for x in ttfix_results:
+		body_txt+='<tr><td>'+str(x['pid'])+"</td>"
+		body_txt+='<td>'+x['pname']+"</td>"
+		body_txt+='<td>'+str(x['ttf'])+"</td>"
+	body_txt+="</table>"
+	body_txt+="<table width=100%><tr><td>&nbsp;</td></table>"
+
+	if len(notes)!=0:
+		body_txt+="<br><table width=600px><tr><td><b>Notes</b></td>"
+		body_txt+="<tr><td>"+notes+"</td></table>"
+
+	body_txt+="</div>"
+	body_txt+="<table width=100%><tr><td>&nbsp;</td></table>"
+
+	return body_txt
