@@ -63,8 +63,6 @@ for x in decoded:
 	state=x['state']
 	exploitable=x["plugin"]["exploit_available"]
 	asset_id=x['asset']['uuid']
-	try: pout=x['output']
-	except: pout=''
 	mydct={
 		'ip':ip,
 		'hostname':hostname,
@@ -78,7 +76,6 @@ for x in decoded:
 		'lfixed':lfixed,
 		'ttf':ttfix,
 		'asset_id':asset_id,
-		'pout':pout,
 		'severity':severity,
 		'state':state,
 		'exploitable':exploitable

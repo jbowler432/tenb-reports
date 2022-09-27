@@ -231,6 +231,7 @@ def get_mitigated(sc_server,port,token,cookies,results_file,vuln_tool):
 		"query": {
 		"type" : "vuln",
 		"tool" : vuln_tool,
+		'filters': [{'filterName': 'lastSeen', 'operator': '=', 'value': '0:60'}]
 		},
 		"sourceType" : "patched",
 		"startOffset" : "0",
@@ -244,6 +245,7 @@ def get_mitigated(sc_server,port,token,cookies,results_file,vuln_tool):
 		"query": {
 		"type" : "vuln",
 		"tool" : vuln_tool,
+		'filters': [{'filterName': 'lastSeen', 'operator': '=', 'value': '0:60'}]
 		},
 		"sourceType" : "patched",
 		"startOffset" : "0",

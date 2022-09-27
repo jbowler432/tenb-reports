@@ -22,7 +22,7 @@ It contains a single disctionary object
 results_file=results_dir+"mitigated_raw.json"
 results_file2=results_dir+"4powerBI_sc.json"
 csv_file=results_dir+"4powerBI_sc.csv"
-get_new_data=0
+get_new_data=1
 vuln_tool="vulndetails"
 
 if get_new_data==1:
@@ -39,7 +39,7 @@ for x in decoded['response']['results']:
 	#	print(k)
 	pid=x['pluginID']
 	pname=x['pluginName']
-	family=x['family']
+	family=x['family']['name']
 	severity=x['severity']['name']
 	ip=x['ip']
 	fseen=x['firstSeen']
@@ -54,7 +54,7 @@ for x in decoded['response']['results']:
 	except: synopsis=''
 	try: dns=x['dnsName']
 	except: dns=''
-	try: repo=x['repository']
+	try: repo=x['repository']['name']
 	except: repo=''
 	try: poutput=x['pluginText']
 	except: poutput=''
