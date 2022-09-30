@@ -309,7 +309,7 @@ def clean_plugin_output(input):
 	return output
 
 def sla_widget(sla,json_file,filters,heading,desc,notes):
-	ttfix_results=ut.calculate_fix_times2(json_file,filters)
+	ttfix_results=calculate_fix_times_io(json_file,filters)
 	df=pd.DataFrame(ttfix_results)
 	print(df)
 	compliant,not_compliant,totals=ut.calculate_fix_sla(df,sla)
@@ -364,6 +364,36 @@ def sla_widget(sla,json_file,filters,heading,desc,notes):
 	body_txt+="<table width=100%><tr><td>&nbsp;</td></table>"
 
 	return body_txt
+
+def calculate_fix_times_io(input_file,filters):
+	decoded=ut.read_json_file(input_file)
+	count=0
+	results=[]
+	for x in decoded:
+		ffound=x["first_found"]
+		lfound=x["last_found"]
+		lfixed=x["last_fixed"]
+		ipv4=x["asset"]["ipv4"]
+		uuid=x["asset"]["uuid"]
+		pid=x["plugin"]["id"]
+		pname=x["plugin"]["name"]
+		severity=x["severity"]
+		ttfix=ut.date_diff(ffound,lfixed)
+		fix_date=lfixed.split("T")[0]
+		mydct={'date':pd.to_datetime(fix_date),'ttf':ttfix,'severity':severity,'pid':pid,'pname':pname,'ipv4':ipv4}
+		append_result=0
+		if len(filters)==0:
+			append_result=1
+		else: # filter applied so test condition
+			if 'exploitable' in filters:
+				if x["plugin"]["exploit_available"]==filters['exploitable']:
+					append_result=1
+			elif 'pnames' in filters:
+				if ut.found_app(pname,filters['pnames']):
+					append_result=1
+		if append_result==1:
+			results.append(mydct)
+	return results
 
 def sla_widget_sc(sla,json_file,filters,heading,desc,notes):
 	ttfix_results=ut.calculate_fix_times_sc(json_file,filters)

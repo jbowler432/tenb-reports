@@ -23,7 +23,7 @@ json_file_ifacing=results_dir+"fixed_vulns_ifacing.json"
 
 #sc_keys=sc.read_SC_keys(sc_key_file)
 
-get_new_data = 1
+get_new_data = 0
 api_keys=tc.read_keys(key_file,"sandbox")
 tag_cat_ifacing="Essential8"
 tag_val_ifacing="Internet-Facing"

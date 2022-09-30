@@ -42,7 +42,7 @@ if get_new_data==1:
 	chunk_results=tc.check_and_download_vuln_chunks(api_keys,payload,json_file)
 
 # process the saved json files and generate html report
-decoded=ut.calculate_fix_times(json_file)
+decoded=tc.calculate_fix_times(json_file,{})
 df=pd.DataFrame(decoded)
 df=df.set_index('date')
 df.index.name="Date"

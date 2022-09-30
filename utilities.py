@@ -93,80 +93,8 @@ def extract_assetids(input_file):
 	#print(asset_lst)
 	return asset_lst
 
-def calculate_fix_times(input_file,filters):
-	decoded=read_json_file(input_file)
-	count=0
-	results=[]
-	for x in decoded:
-		ffound=x["first_found"]
-		lfound=x["last_found"]
-		lfixed=x["last_fixed"]
-		ipv4=x["asset"]["ipv4"]
-		uuid=x["asset"]["uuid"]
-		pid=x["plugin"]["id"]
-		severity=x["severity"]
-		ttfix=date_diff(ffound,lfixed)
-		fix_date=lfixed.split("T")[0]
-		mydct={'date':pd.to_datetime(fix_date),'total':ttfix,severity:ttfix,'pid':pid,'ipv4':ipv4}
-		append_result=0
-		if len(filters)==0:
-			append_result=1
-		else: # filter applied so test condition
-			if 'exploitable' in filters:
-				if x["plugin"]["exploit_available"]==filters['exploitable']:
-					append_result=1
-		if append_result==1:
-			results.append(mydct)
-	return results
 
-def calculate_fix_times_io(input_file,filters):
-	decoded=read_json_file(input_file)
-	count=0
-	results=[]
-	for x in decoded:
-		ffound=x["first_found"]
-		lfound=x["last_found"]
-		lfixed=x["last_fixed"]
-		ipv4=x["asset"]["ipv4"]
-		uuid=x["asset"]["uuid"]
-		pid=x["plugin"]["id"]
-		pname=x["plugin"]["name"]
-		severity=x["severity"]
-		ttfix=date_diff(ffound,lfixed)
-		fix_date=lfixed.split("T")[0]
-		mydct={'date':pd.to_datetime(fix_date),'ttf':ttfix,'severity':severity,'pid':pid,'pname':pname,'ipv4':ipv4}
-		append_result=0
-		if len(filters)==0:
-			append_result=1
-		else: # filter applied so test condition
-			if 'exploitable' in filters:
-				if x["plugin"]["exploit_available"]==filters['exploitable']:
-					append_result=1
-			elif 'pnames' in filters:
-				if common_app(pname,filters['pnames']):
-					append_result=1
-		if append_result==1:
-			results.append(mydct)
-	return results
-
-def calculate_fix_times_sc(input_file,filters):
-	decoded=read_json_file(input_file)
-	results=[]
-	for x in decoded['response']['results']:
-		#for (k,v) in x.items():
-		#	print(k)
-		fseen=x['firstSeen']
-		lseen=x['lastSeen']
-		pname=x['pluginName']
-		pid=x['pluginID']
-		ipv4=x['ip']
-		severity=x['severity']['name']
-		exploitable=x['exploitAvailable']
-		ttf=date_diff_unix(fseen,lseen)
-		results.append({'date':pd.to_datetime(lseen,unit='s'),'pid':pid,'ipv4':ipv4,'exploitable':exploitable,'severity':severity,'ttf':ttf,'pname':pname})
-	return results
-
-def common_app(pname,app_lst):
+def found_app(pname,app_lst):
 	found=0
 	for app in app_lst:
 		if app.lower() in pname.lower():

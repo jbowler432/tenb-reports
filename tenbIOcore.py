@@ -10,6 +10,8 @@ import warnings
 import sys
 from datetime import datetime
 from datetime import timedelta
+import utilities as ut
+import pandas as pd
 warnings.filterwarnings("ignore")
 
 '''
@@ -471,3 +473,34 @@ def check_and_download_compliance_chunks(api_keys,payload,results_file):
 	return return_results
 
 # ------- End Compliance Functions
+
+'''
+Miscellaneous functions
+'''
+def calculate_fix_times(input_file,filters):
+	# takes a standard export file of fixed vulns
+	# and returns a json file showing the fix times
+	decoded=ut.read_json_file(input_file)
+	count=0
+	results=[]
+	for x in decoded:
+		ffound=x["first_found"]
+		lfound=x["last_found"]
+		lfixed=x["last_fixed"]
+		ipv4=x["asset"]["ipv4"]
+		uuid=x["asset"]["uuid"]
+		pid=x["plugin"]["id"]
+		severity=x["severity"]
+		ttfix=ut.date_diff(ffound,lfixed)
+		fix_date=lfixed.split("T")[0]
+		mydct={'date':pd.to_datetime(fix_date),'total':ttfix,severity:ttfix,'pid':pid,'ipv4':ipv4}
+		append_result=0
+		if len(filters)==0:
+			append_result=1
+		else: # filter applied so test condition
+			if 'exploitable' in filters:
+				if x["plugin"]["exploit_available"]==filters['exploitable']:
+					append_result=1
+		if append_result==1:
+			results.append(mydct)
+	return results
