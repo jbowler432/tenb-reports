@@ -18,8 +18,8 @@ styles_dir="../styles/" #style sheet location for web pages
 reports_dir="../report_samples/"
 html_file=reports_dir+"essential8_report.html"
 
-json_file=results_dir+"fixed_vulns.json"
-json_file_ifacing=results_dir+"fixed_vulns_ifacing.json"
+json_file=results_dir+"mitigated.json"
+json_file_ifacing=results_dir+"mitigated_ifacing.json"
 
 #sc_keys=sc.read_SC_keys(sc_key_file)
 
