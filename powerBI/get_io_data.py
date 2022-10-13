@@ -7,41 +7,7 @@ import pandas as pd
 import utilities as ut
 import datetime
 import json
-
-def calculate_fix_sla(df,sla):
-	totals=df.groupby('asset_uuid').apply(lambda df2: sum(df2.ttfix>=0)).sum()
-	compliant=df.groupby('asset_uuid').apply(lambda df2: sum(df2.ttfix<=sla)).sum()
-	not_compliant=df.groupby('asset_uuid').apply(lambda df2: sum(df2.ttfix>sla)).sum()
-	return compliant,not_compliant,totals
-
-def apply_filter(mitigated,plugin_dct,filters):
-	results=[]
-	found=0
-	for x in mitigated:
-		pid=x['pid']
-		exploitable=plugin_dct[pid]['exploitable']
-		pname=plugin_dct[pid]['pname']
-		if 'exploitable' in filters:
-			if exploitable:
-				found=1
-		if 'pnames' in filters:
-			if ut.found_app(pname,filters['pnames']):
-				found=1
-		if found==1:
-			results.append(x)
-		found=0
-	return results
-
-def add_id(input_lst,myid):
-	results2=[]
-	for y in input_lst:
-		temp_dct={}
-		temp_dct.update(y)
-		temp_dct.update({'id':myid})
-		#print(temp_dct)
-		results2.append(temp_dct)
-	return results2
-
+import funcs as fc
 
 # file and directory locations
 key_file="../../io_keys.json" # location of your key file
@@ -305,7 +271,8 @@ except:
 	with open(mitigated_plugins,'w') as outfile:
 		json.dump(plugin_dct,outfile)
 
-mitigated_all=results
+mitigated_dct=results
+mitigated_plugins_dct=plugin_dct
 
 '''
 Download and process data for Internet Facing systems
@@ -375,6 +342,53 @@ Calculate some Essential 8 SLAs
 # calculate some SLAs
 sla_summary=[]
 
+inputs={'sla':7,'sla_id':'1','desc':'Exploitable','filters':{"exploitable":True},'rds':mitigated_dct,'pref':mitigated_plugins_dct}
+sla_dct,fds1=fc.return_sla_info(region_id,inputs)
+print(sla_dct)
+sla_summary.append(sla_dct)
+
+filters={
+	"pnames":['chrome','explorer','office','flash','pdf','excel',' word','java','firefox']
+}
+inputs={'sla':14,'sla_id':'2','desc':'Common Apps','filters':filters,'rds':mitigated_dct,'pref':mitigated_plugins_dct}
+sla_dct,fds2=fc.return_sla_info(region_id,inputs)
+print(sla_dct)
+sla_summary.append(sla_dct)
+
+filters={
+	"pnames":['windows xp','windows 7','windows 8','windows 10','windows 11','windows server',
+			'windows update',' os ','linux','macos','osx']
+}
+inputs={'sla':14,'sla_id':'3','desc':'Operating Systems','filters':filters,'rds':mitigated_dct,'pref':mitigated_plugins_dct}
+sla_dct,fds3=fc.return_sla_info(region_id,inputs)
+print(sla_dct)
+sla_summary.append(sla_dct)
+
+with open("e8_slas.json",'w') as outfile:
+	json.dump(sla_summary,outfile)
+
+results_combined=fds1+fds2+fds3
+
+print(results_combined)
+
+with open("e8mitigated/e8mitigated_"+region_id+".json",'w') as outfile:
+	json.dump(results_combined,outfile)
+
+'''
+sla_dct={
+	'id':'1',
+	'desc':'Exploitable vulnerabilities',
+	'sla':str(sla),
+	'compliant':str(compliant),
+	'not_compliant':str(not_compliant),
+	'totals':str(totals)
+}
+sla_summary.append(sla_dct)
+
+with open("e8_slas.json",'w') as outfile:
+	json.dump(sla_summary,outfile)
+'''
+'''
 # Everything
 df=pd.DataFrame(mitigated_all)
 sla=28
@@ -471,9 +485,10 @@ set3=add_id(mitigated_operating_systems,'3')
 set4=add_id(mitigated_ifacing,'4')
 results_combined=set0+set1+set2+set3+set4
 
-
 with open("e8_slas.json",'w') as outfile:
 	json.dump(sla_summary,outfile)
 
 with open("e8_sla_raw_data.json",'w') as outfile:
 	json.dump(results_combined,outfile)
+
+'''
