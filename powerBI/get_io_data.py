@@ -15,7 +15,7 @@ results_dir="../results/" # the directory for your results
 styles_dir="../styles/" #style sheet location for web pages
 reports_dir="../report_samples/"
 
-region_id='1'
+region_id='3'
 
 # tags for Internet facing systems
 tag_cat_ifacing="Essential8"
@@ -342,7 +342,7 @@ Calculate some Essential 8 SLAs
 # calculate some SLAs
 sla_summary=[]
 
-inputs={'sla':7,'sla_id':'1','desc':'Exploitable','filters':{"exploitable":True},'rds':mitigated_dct,'pref':mitigated_plugins_dct}
+inputs={'sla':2,'sla_id':'1','desc':'Exploitable','filters':{"exploitable":True},'rds':mitigated_dct,'pref':mitigated_plugins_dct}
 sla_dct,fds1=fc.return_sla_info(region_id,inputs)
 print(sla_dct)
 sla_summary.append(sla_dct)
@@ -364,13 +364,19 @@ sla_dct,fds3=fc.return_sla_info(region_id,inputs)
 print(sla_dct)
 sla_summary.append(sla_dct)
 
-with open("e8_slas.json",'w') as outfile:
+filters={
+}
+inputs={'sla':14,'sla_id':'4','desc':'Internet Facing','filters':filters,'rds':mitigated_ifacing,'pref':mitigated_plugins_dct}
+sla_dct,fds4=fc.return_sla_info(region_id,inputs)
+print(sla_dct)
+sla_summary.append(sla_dct)
+
+with open("e8slas/e8slas_"+region_id+".json",'w') as outfile:
 	json.dump(sla_summary,outfile)
 
-results_combined=fds1+fds2+fds3
 
-print(results_combined)
 
+results_combined=fds1+fds2+fds3+fds4
 with open("e8mitigated/e8mitigated_"+region_id+".json",'w') as outfile:
 	json.dump(results_combined,outfile)
 

@@ -22,6 +22,7 @@ def apply_filter(mitigated,plugin_dct,filters):
 	found=0
 	for x in mitigated:
 		pid=x['pid']
+		#print(plugin_dct[pid])
 		exploitable=plugin_dct[pid]['exploitable']
 		pname=plugin_dct[pid]['pname']
 		if 'exploitable' in filters:
@@ -51,8 +52,11 @@ def return_sla_info(rid,inputs):
 	rds=inputs['rds']
 	pref=inputs['pref']
 	desc=inputs['desc']
-	sla_id=inputs['sla_id']
-	filtered_dataset=apply_filter(rds,pref,filters)
+	sla_id=inputs['sla_id']+"_"+rid
+	if len(filters)==0:
+		filtered_dataset=rds
+	else:
+		filtered_dataset=apply_filter(rds,pref,filters)
 	df=pd.DataFrame(filtered_dataset)
 	#print(df)
 	ttf_ave=int(df['ttfix'].mean())
@@ -64,7 +68,9 @@ def return_sla_info(rid,inputs):
 		'desc':desc,
 		'sla':str(sla),
 		'sla_eff':str(sla_eff),
-		'ttf_ave':ttf_ave
+		'ttf_ave':ttf_ave,
+		'compliant':str(compliant),
+		'not_compliant':str(not_compliant)
 	}
 	fds=add_id(filtered_dataset,str(sla_id))
 	return sla_dct,fds
