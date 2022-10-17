@@ -25,11 +25,15 @@ def apply_filter(mitigated,plugin_dct,filters):
 		#print(plugin_dct[pid])
 		exploitable=plugin_dct[pid]['exploitable']
 		pname=plugin_dct[pid]['pname']
+		severity=plugin_dct[pid]['severity']
 		if 'exploitable' in filters:
 			if exploitable:
 				found=1
 		if 'pnames' in filters:
 			if ut.found_app(pname,filters['pnames']):
+				found=1
+		if 'severity' in filters:
+			if filters['severity']==severity:
 				found=1
 		if found==1:
 			results.append(x)
@@ -61,7 +65,7 @@ def return_sla_info(rid,inputs):
 	#print(df)
 	ttf_ave=int(df['ttfix'].mean())
 	compliant,not_compliant,totals,sla_eff=calculate_fix_sla(df,sla)
-	print(compliant,not_compliant,totals,sla_eff,ttf_ave)
+	#print(compliant,not_compliant,totals,sla_eff,ttf_ave)
 	sla_dct={
 		'sla_id':str(sla_id),
 		'rid':str(rid),
@@ -74,3 +78,42 @@ def return_sla_info(rid,inputs):
 	}
 	fds=add_id(filtered_dataset,str(sla_id))
 	return sla_dct,fds
+
+def process_ifacing(region_id,mitigated_ifacing_raw):
+	decoded=ut.read_json_file(mitigated_ifacing_raw)
+	results=[]
+	for x in decoded:
+		#for (k,v) in x.items():
+		#	print(k)
+		#print(" ")
+		asset_uuid=x['asset']['uuid']
+		severity_id=x['severity_id']
+		severity=x['severity']
+		cve=[]
+		if 'cve' in x['plugin']: cve=x['plugin']['cve']
+		cvss3=x['plugin']['cvss3_base_score']
+		cvss2=x['plugin']['cvss_base_score']
+		vpr={}
+		if 'vpr' in x['plugin']: vpr=x['plugin']['vpr']
+		vpr_score=''
+		if 'score' in vpr: vpr_score=vpr['score']
+		exploitable=x['plugin']['exploit_available']
+		has_patch=x['plugin']['has_patch']
+		pid=x['plugin']['id']
+		pname=x['plugin']['name']
+		pdesc=x['plugin']['description']
+		state=x['state']
+		ffound=x['first_found']
+		lfixed=x['last_fixed']
+		ttfix=ut.date_diff(ffound,lfixed)
+		tmp_dct={
+			'asset_uuid':asset_uuid,
+			'pid':pid,
+			'state':state,
+			'ffound':ffound,
+			'lfixed':lfixed,
+			'ttfix':ttfix,
+			'rid':region_id
+		}
+		results.append(tmp_dct)
+	return results
