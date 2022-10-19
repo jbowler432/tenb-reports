@@ -20,8 +20,13 @@ sc_keys=sc.read_SC_keys(sc_key_file)
 
 sc_keys=sc.read_SC_keys(sc_key_file)
 sc_server,port,token,cookies=sc.get_token(sc_keys)
-decoded=sc.call_sc_query(sc_server,port,token,cookies)
+#decoded=sc.call_sc_query(sc_server,port,token,cookies)
+decoded=sc.call_sc_hosts(sc_server,port,token,cookies)
 print(decoded)
+count=0
+for x in decoded['response']:
+	count+=1
+print(count)
 sc.close_session(sc_server,port,token,cookies)
 
 

@@ -56,7 +56,7 @@ def date_diff(date1,date2):
 
 def date_diff_unix(ts1,ts2):
 	ttf = (float(ts2)-float(ts1))/(60*60*24)
-	return int(ttf)
+	return int(round(ttf,0))
 
 def read_json_file(input_file):
 	# reads a json file and returns the json object
