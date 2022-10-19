@@ -54,7 +54,7 @@ def process_fix_data(region_id,mitigated_raw,mitigated_converted,mitigated_plugi
 			'cve':cve,
 			'cvss3':cvss3,
 			'cvss2':cvss2,
-			'vpr':vpr,
+			#'vpr':vpr,
 			'vpr_score':vpr_score,
 			'exploitable':exploitable,
 			'has_patch':has_patch}

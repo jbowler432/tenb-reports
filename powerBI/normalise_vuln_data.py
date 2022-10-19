@@ -57,7 +57,7 @@ def process_vuln_data(region_id,vulns_raw,vulns_converted,vulns_plugins):
 			'cve':cve,
 			'cvss3':cvss3,
 			'cvss2':cvss2,
-			'vpr':vpr,
+			#'vpr':vpr,
 			'vpr_score':vpr_score,
 			'exploitable':exploitable,
 			'has_patch':has_patch}

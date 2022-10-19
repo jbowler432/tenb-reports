@@ -117,3 +117,60 @@ def process_ifacing(region_id,mitigated_ifacing_raw):
 		}
 		results.append(tmp_dct)
 	return results
+
+def process_sc_ifacing(region_id,mitigated_ifacing_raw):
+	decoded=ut.read_json_file(mitigated_ifacing_raw)
+	results=[]
+	plugin_dct={}
+	for x in decoded['response']['results']:
+		#for (k,v) in x.items():
+		#	print(k)
+		#print(" ")
+		#asset_uuid=x['uuid'] #need to check if this is the asset uuid
+		ip=x['ip']
+		ips=x['ips']
+		asset_uuid=ip
+		#severity_id=x['severity_id']
+		severity=x['severity']['name'].lower()
+		#print(severity)
+		cve=[]
+		if 'cve' in x: cve=x['cve']
+		#print(cve)
+		cvss3=x['cvssV3BaseScore']
+		cvss2=x['baseScore'] #need to check
+		vpr={}
+		if 'vprContext' in x: vpr=x['vprContext']
+		#print(vpr)
+		vpr_score=''
+		if 'vprScore' in x: vpr_score=x['vprScore']
+		exploitable=x['exploitAvailable']
+		#has_patch=x['plugin']['has_patch']
+		pid=str(x['pluginID'])
+		pname=x['pluginName']
+		pdesc=x['description']
+		state=x['hasBeenMitigated']
+		ffound=x['firstSeen']
+		lfound=x['lastSeen']
+		age=ut.date_diff_unix(ffound,lfound)
+		current_date=datetime.datetime.now()
+		unix_timestamp = int(datetime.datetime.timestamp(current_date))
+		age2=ut.date_diff_unix(ffound,unix_timestamp)
+		ttfix=ut.date_diff_unix(ffound,lfound)
+		if 'patchPubDate' in x:
+			has_patch='True'
+		else:
+			has_patch='False'
+		#print(age2,ffound,unix_timestamp,current_date)
+		#if ip=='192.168.16.118':
+		#	print(asset_uuid,pid,ip,ips)
+		tmp_dct={
+			'asset_uuid':asset_uuid,
+			'pid':pid,
+			'state':state,
+			'ffound':datetime.datetime.utcfromtimestamp(int(ffound)).strftime('%Y-%m-%d'),
+			'lfixed':datetime.datetime.utcfromtimestamp(int(lfound)).strftime('%Y-%m-%d'),
+			'ttfix':ttfix,
+			'rid':region_id
+		}
+		results.append(tmp_dct)
+	return results
