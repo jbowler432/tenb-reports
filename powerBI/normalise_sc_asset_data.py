@@ -19,11 +19,16 @@ def process_asset_data(region_id,assets_raw,assets_converted):
 		#for (k,v) in x.items():
 		#	print(k)
 		# will just use the ip address for the uuid
-		id=str(x['ipAddress'])
+		#print(x)
+		id=str(x['id'])
+		uuid=x['uuid']
+		tenableUUID=x['tenableUUID']
 		agent_uuid=''
 		network_name=''
 		ipv4s=[]
 		ipv4=x['ipAddress']
+		# set id back to ip address
+		id=ipv4
 		hostnames=[]
 		hostname=x['name']
 		operating_systems=[]

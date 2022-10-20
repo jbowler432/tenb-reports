@@ -21,6 +21,8 @@ def process_vuln_data(region_id,vulns_raw,vulns_converted,vulns_plugins):
 		#asset_uuid=x['uuid'] #need to check if this is the asset uuid
 		ip=x['ip']
 		ips=x['ips']
+		hostUUID=x["hostUUID"]
+		uuid=x["uuid"]
 		asset_uuid=ip
 		#severity_id=x['severity_id']
 		severity=x['severity']['name'].lower()

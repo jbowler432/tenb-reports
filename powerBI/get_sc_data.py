@@ -51,7 +51,7 @@ sla_detailed_fname=sev_mitigated_dir+"mitigated_"+region_id+".json"
 Main Program Loop
 '''
 
-get_asset_data=1
+get_asset_data=0
 get_vuln_data=0
 get_fix_data=0
 get_ifacing_data=0
