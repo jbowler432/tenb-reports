@@ -9,6 +9,7 @@ import socket
 import warnings
 import sys
 import pandas as pd
+import htmlRoutines as hr
 from datetime import datetime
 from datetime import timedelta
 warnings.filterwarnings("ignore")
@@ -67,6 +68,33 @@ def read_json_file(input_file):
 def dict_subset(dict,keys):
 	new_dict={k: dict[k] for k in keys}
 	return new_dict
+
+def limit_chars(v):
+	if type(v) is str:
+		return hr.clean_string(v[0:60])
+	else:
+		return v
+
+def print_pretty_dict(mydict,level):
+	count=0
+	tab_str=""
+	while count<level:
+		tab_str+="\t"
+		count+=1
+	if type(mydict) is list:
+		if len(mydict)>0:
+			print_pretty_dict(mydict[0],level)
+	if type(mydict) is dict:
+		for (k,v) in mydict.items():
+			if type(v) not in [dict,list]:
+				print(tab_str,level,k,type(v),limit_chars(v))
+			else:
+				print(tab_str,level,k,type(v))
+			if type(v) is dict:
+				print_pretty_dict(v,level+1)
+			if type(v) is list:
+				if len(v)>0:
+					print_pretty_dict(v[0],level+1)
 
 def get_hostname(uuid,input_file):
 	decoded=read_json_file(input_file)

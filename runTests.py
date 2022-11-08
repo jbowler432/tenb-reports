@@ -5,6 +5,7 @@ import reportTemplates as rt
 import datetime
 import time
 import json
+import utilities as ut
 
 
 # file and directory locations
@@ -16,8 +17,10 @@ styles_dir="styles/" #style sheet location for web pages
 html_file=reports_dir+"runtests.html"
 json_file=results_dir+"runtests_vulns.json"
 
-sc_keys=sc.read_SC_keys(sc_key_file)
+decoded=ut.read_json_file("powerBI/raw/vulns_1.json")
+ut.print_pretty_dict(decoded,0)
 
+'''
 sc_keys=sc.read_SC_keys(sc_key_file)
 sc_server,port,token,cookies=sc.get_token(sc_keys)
 #decoded=sc.call_sc_query(sc_server,port,token,cookies)
@@ -28,9 +31,7 @@ for x in decoded['response']:
 	count+=1
 print(count)
 sc.close_session(sc_server,port,token,cookies)
-
-
-
+'''
 
 '''
 api_keys=tc.read_keys(key_file,"sandbox")
