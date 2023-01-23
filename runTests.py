@@ -17,8 +17,9 @@ styles_dir="styles/" #style sheet location for web pages
 html_file=reports_dir+"runtests.html"
 json_file=results_dir+"runtests_vulns.json"
 
-decoded=ut.read_json_file("powerBI/raw/vulns_1.json")
-ut.print_pretty_dict(decoded,0)
+decoded=ut.read_json_file("powerBI/raw/vulns_2.json")
+ut.print_pretty_dict(decoded,0,1)
+
 
 '''
 sc_keys=sc.read_SC_keys(sc_key_file)

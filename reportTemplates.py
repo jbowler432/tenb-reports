@@ -193,7 +193,7 @@ def get_vuln_details(vuln_lst,hostname):
 	return_str+="</table>"
 	return return_str
 
-def assets_subnet_summary(input_file,output_file,style_dir):
+def assets_subnet_summary(input_file,output_file,style_dir,heading):
 	'''
 	Produces a html report showing asset counts per /24 subnet.
 	Expected input is a json file from /assets/export API.
@@ -206,6 +206,7 @@ def assets_subnet_summary(input_file,output_file,style_dir):
 		sys.exit("\nThe export query returned no data")
 	#print(decoded)
 	results=[]
+	iplst=[]
 	for x in decoded:
 		ipv4=""
 		hostname=""
@@ -216,6 +217,7 @@ def assets_subnet_summary(input_file,output_file,style_dir):
 			ipv4=x['ipv4s'][0]
 			ipv4_parts=ipv4.split(".")
 			subnet=ipv4_parts[0]+"."+ipv4_parts[1]+"."+ipv4_parts[2]
+			#print(subnet,ipv4)
 		if len(x['hostnames']) > 0:
 			hostname=x['hostnames'][0]
 		if len(x['operating_systems']) > 0:
@@ -223,7 +225,11 @@ def assets_subnet_summary(input_file,output_file,style_dir):
 		#data_subset=dict_subset(x,('id','ipv4s','hostnames','operating_systems'))
 		#results.append(data_subset)
 		if len(x['ipv4s']) > 0:
-			results.append({'ipv4':ipv4,'subnet':subnet,'hostname':hostname,'operating_system':operating_system})
+			if ipv4 not in iplst:
+				iplst.append(ipv4)
+				results.append({'ipv4':ipv4,'subnet':subnet,'hostname':hostname,'operating_system':operating_system})
+		if subnet=="10.100.20":
+			print(subnet,ipv4)
 	myTable=pd.DataFrame(results)
 	#print(myTable)
 	grouped=myTable.groupby(['subnet'])
@@ -233,17 +239,15 @@ def assets_subnet_summary(input_file,output_file,style_dir):
 	counter=0
 	asset_count=0
 	today=date.today()
-	table_str="\n<h1>Class C Summary - Asset Count</h1>"
-	report_desc="This report shows the asset count per /24 subnet. Counts equal to 256 "
-	report_desc+="May indicate that a network appliance is responding instead of the actual "
-	report_desc+="endpoint."
+	table_str="\n<h1>Class C Summary - Asset Count - "+heading+"</h1>"
+	report_desc="This report shows the asset count per /24 subnet."
 	report_desc+="\n<br>("+str(today)+")"
 	table_str+="<div class=reportdesc>"+report_desc+"</div>"
 	table_str+="<div class=page_section>\n"
 	table_str+="<table class=table1 width=350px>\n"
 	table_str+="<tr><td>Subnet</td><td align=center>Asset Count</td>"
 	for (subnet), group in grouped:
-		print(subnet,grouped_counts[counter][0])
+		#print(subnet,grouped_counts[counter][0])
 		asset_count+=grouped_counts[counter][0]
 		table_str+="<tr><td>"+str(subnet)+".0/24</td><td align=center>"+str(grouped_counts[counter][0])+"</td>"
 		counter+=1

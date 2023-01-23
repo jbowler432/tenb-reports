@@ -71,19 +71,24 @@ def dict_subset(dict,keys):
 
 def limit_chars(v):
 	if type(v) is str:
-		return hr.clean_string(v[0:60])
+		return hr.clean_string(v[0:30])
 	else:
 		return v
 
-def print_pretty_dict(mydict,level):
+def print_pretty_dict(mydict,level,list_length):
 	count=0
 	tab_str=""
-	while count<level:
-		tab_str+="\t"
+	#print(type(mydict))
+	while count<=level:
+		if count!=0:
+			tab_str+="    "
 		count+=1
 	if type(mydict) is list:
 		if len(mydict)>0:
-			print_pretty_dict(mydict[0],level)
+			i=0
+			while i < len(mydict) and i < list_length:
+				print_pretty_dict(mydict[i],level,list_length)
+				i+=1
 	if type(mydict) is dict:
 		for (k,v) in mydict.items():
 			if type(v) not in [dict,list]:
@@ -91,10 +96,13 @@ def print_pretty_dict(mydict,level):
 			else:
 				print(tab_str,level,k,type(v))
 			if type(v) is dict:
-				print_pretty_dict(v,level+1)
+				print_pretty_dict(v,level+1,list_length)
 			if type(v) is list:
 				if len(v)>0:
-					print_pretty_dict(v[0],level+1)
+					j=0
+					while j < len(v) and j < list_length:
+						print_pretty_dict(v[j],level+1,list_length)
+						j+=1
 
 def get_hostname(uuid,input_file):
 	decoded=read_json_file(input_file)
