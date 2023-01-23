@@ -51,12 +51,12 @@ sla_detailed_fname=sev_mitigated_dir+"mitigated_"+region_id+".json"
 Main Program Loop
 '''
 
-get_asset_data=0
-get_vuln_data=0
-get_fix_data=0
-get_ifacing_data=0
+get_asset_data=1
+get_vuln_data=1
+get_fix_data=1
+get_ifacing_data=1
 
-time_period=30
+time_period=180
 
 '''
 Download the raw data
@@ -69,7 +69,11 @@ if get_vuln_data==1: # raw vuln data
 		"tool" : vuln_tool,
 		'filters': [
 			{'filterName': 'lastSeen', 'operator': '=', 'value': '0:'+str(time_period)},
-			{'filterName': 'severity', 'operator': '=', 'value': [{'id': '1', 'name': 'Low', 'description': 'Low Severity'}, {'id': '2', 'name': 'Medium', 'description': 'Medium Severity'}, {'id': '3', 'name': 'High', 'description': 'High Severity'}, {'id': '4', 'name': 'Critical', 'description': 'Critical Severity'}]}
+			{'filterName': 'severity', 'operator': '=',
+			'value': [{'id': '1', 'name': 'Low', 'description': 'Low Severity'},
+			{'id': '2', 'name': 'Medium', 'description': 'Medium Severity'},
+			{'id': '3', 'name': 'High', 'description': 'High Severity'},
+			{'id': '4', 'name': 'Critical', 'description': 'Critical Severity'}]}
 		]
 	}
 	sc_server,port,token,cookies=sc.get_token(sc_keys)
@@ -90,7 +94,11 @@ if get_fix_data==1: # raw vuln data
 		"tool" : vuln_tool,
 		'filters': [
 			{'filterName': 'lastSeen', 'operator': '=', 'value': '0:'+str(time_period)},
-			{'filterName': 'severity', 'operator': '=', 'value': [{'id': '1', 'name': 'Low', 'description': 'Low Severity'}, {'id': '2', 'name': 'Medium', 'description': 'Medium Severity'}, {'id': '3', 'name': 'High', 'description': 'High Severity'}, {'id': '4', 'name': 'Critical', 'description': 'Critical Severity'}]}
+			{'filterName': 'severity', 'operator': '=',
+			'value': [{'id': '1', 'name': 'Low', 'description': 'Low Severity'},
+			{'id': '2', 'name': 'Medium', 'description': 'Medium Severity'},
+			{'id': '3', 'name': 'High', 'description': 'High Severity'},
+			{'id': '4', 'name': 'Critical', 'description': 'Critical Severity'}]}
 		]
 	}
 	sc_server,port,token,cookies=sc.get_token(sc_keys)
