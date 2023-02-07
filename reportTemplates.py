@@ -255,6 +255,57 @@ def assets_subnet_summary(input_file,output_file,style_dir,heading):
 	table_str+="<tr><td align=right>Total</td><td align=center>"+str(asset_count)+"</td>"
 	hr.gen_html_report(table_str,output_file,style_dir)
 
+def it_ot_asset_report(results_file,html_file,styles_dir):
+	decoded=ut.read_json_file(results_file)
+	today=date.today()
+	table_str="\n<h1>IT and OT Asset List</h1>"
+	report_desc="This report shows a joint list of IT and OT assets. "
+	report_desc+="\n<br><br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	body_txt=table_str
+	body_txt+="<div class=page_section>\n"
+	body_txt+="<table class=table1 width=2000px>"
+	body_txt+="<tr><td>IP Address</td>"
+	body_txt+="<td>Name</td>"
+	body_txt+="<td>Repo</td>"
+	body_txt+="<td width=400px>OS</td>"
+	body_txt+="<td>Vendor</td>"
+	body_txt+="<td>Family</td>"
+	body_txt+="<td>Firmware</td>"
+	body_txt+="<td>Type</td>"
+	body_txt+="<td>Critical</td>"
+	body_txt+="<td>High</td>"
+	body_txt+="<td>Medium</td>"
+	body_txt+="<td>Low</td>"
+	for x in decoded:
+		ip=x['ip']
+		name=x['name']
+		os=x['os']
+		vendor=x['vendor']
+		family=x['family']
+		firmware=x['firmware']
+		type=x['type']
+		crit=x['crit']
+		high=x['high']
+		med=x['med']
+		low=x['low']
+		repo_name=x['repo_name']
+		body_txt+="<tr>"
+		body_txt+="<td>"+str(ip)+"</td>"
+		body_txt+="<td>"+str(name)+"</td>"
+		body_txt+="<td>"+str(repo_name)+"</td>"
+		body_txt+="<td>"+str(os)+"</td>"
+		body_txt+="<td>"+str(vendor)+"</td>"
+		body_txt+="<td>"+str(family)+"</td>"
+		body_txt+="<td>"+str(firmware)+"</td>"
+		body_txt+="<td>"+str(type)+"</td>"
+		body_txt+="<td width=60px class=critical>"+str(crit)+"</td>"
+		body_txt+="<td width=60px class=high>"+str(high)+"</td>"
+		body_txt+="<td width=60px class=medium>"+str(med)+"</td>"
+		body_txt+="<td width=60px class=low>"+str(low)+"</td>"
+	body_txt+="</table></div>"
+	hr.gen_html_report(body_txt,html_file,styles_dir)
+
 def software_bom(results_file,html_file,styles_dir):
 	decoded=ut.read_json_file(results_file)
 	today=date.today()

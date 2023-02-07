@@ -86,7 +86,7 @@ def call_sc_hosts(sc_server,port,token,cookies):
 	return decoded
 
 
-def call_sc_asset(sc_server,port,token,cookies):
+def call_sc_asset(sc_server,port,token,cookies,querystring):
 	url="https://"+sc_server+":"+port+"/rest/asset"
 	headers={
 	'accept': "application/json",
@@ -174,6 +174,30 @@ def call_sc_analysis(sc_server,port,token,cookies,querystring):
 	'X-SecurityCenter': token
 	}
 	response=requests.request("POST",url,headers=headers,json=querystring,cookies=cookies,verify=False)
+	#print(response.text)
+	decoded=json.loads(response.text)
+	return decoded
+
+def get_hosts(sc_server,port,token,cookies,querystring):
+	url="https://"+sc_server+":"+port+"/rest/hosts"
+	headers={
+	'accept': "application/json",
+#		'content-type': "application/json",
+	'X-SecurityCenter': token
+	}
+	response=requests.request("GET",url,headers=headers,json=querystring,cookies=cookies,verify=False)
+	#print(response.text)
+	decoded=json.loads(response.text)
+	return decoded
+
+def set_acr(uuid,sc_server,port,token,cookies,querystring):
+	url="https://"+sc_server+":"+port+"/rest/hosts/"+uuid+"/acr"
+	headers={
+	'accept': "application/json",
+#		'content-type': "application/json",
+	'X-SecurityCenter': token
+	}
+	response=requests.request("PATCH",url,headers=headers,json=querystring,cookies=cookies,verify=False)
 	#print(response.text)
 	decoded=json.loads(response.text)
 	return decoded
