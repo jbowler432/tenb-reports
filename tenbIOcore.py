@@ -311,6 +311,12 @@ def list_scans(api_keys):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
+def list_scan_details(api_keys,uuid):
+	url = "https://cloud.tenable.com/scans/"+uuid
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
 # ------- End Scan Functions
 
 '''

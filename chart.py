@@ -68,6 +68,28 @@ def bar(df,colors,xlabel_rot,legend_labels):
 	os.remove(img_file)
 	return img_tag
 
+def bar2(df,colors,xlabel_rot,legend_labels):
+	'''
+	'''
+	if len(colors)>0:
+		ax=df.plot.bar(legend=True,color=colors,rot=xlabel_rot)
+	else:
+		ax=df.plot.bar(legend=True,rot=xlabel_rot)
+	img_file="image_temp.png"
+	f = lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')
+	ax.set_xticklabels([ f(x.get_text()) for x in ax.get_xticklabels()])
+	ax.yaxis.grid(True,linestyle="dashed")
+	ax.set_axisbelow(True)
+	if len(legend_labels)>0:
+		ax.legend(legend_labels)
+	plt.tight_layout()
+	plt.savefig(img_file)
+	time.sleep(1)
+	data_uri = base64.b64encode(open(img_file, 'rb').read()).decode('utf-8')
+	img_tag = '<img src="data:image/png;base64,{0}">'.format(data_uri)
+	os.remove(img_file)
+	return img_tag
+
 def box(df,fliers):
 	'''
 	'''

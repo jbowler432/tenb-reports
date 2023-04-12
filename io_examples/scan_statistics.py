@@ -18,10 +18,35 @@ results_dir="../results/" # the directory for your results
 styles_dir="../styles/" #style sheet location for web pages
 reports_dir="../report_samples/"
 
-get_new_data=0
+get_new_data=1
 results_file=results_dir+"scan_stats.json"
 html_file=reports_dir+"scan_stats.html"
 image_file=results_dir+"scan_stats.png"
+
+api_keys=tc.read_keys(key_file,"uni")
+
+decoded=tc.list_scans(api_keys)
+counter=0
+for x in decoded['scans']:
+	type=''
+	uuid=''
+	if 'type' in x:
+		type=x['type']
+	if 'uuid' in x:
+		uuid=x['uuid']
+	if x['status']=='completed':
+		counter+=1
+		print(x['name'],x['id'],type,x['status'],uuid,x['enabled'],x['owner'])
+print(counter)
+
+uuid="cebc4056-3b4f-4cd0-828e-2f88e15afa04"
+id='817'
+decoded=tc.list_scan_details(api_keys,id)
+#print(decoded)
+for (k,v) in decoded.items():
+	print(k)
+print(decoded['info'])
+print(decoded['hosts'])
 
 if get_new_data==1:
 	# export some vuln data
@@ -30,7 +55,10 @@ if get_new_data==1:
 	#plugin_id=[10180] # Ping the remote host
 	#plugin_id=[19506] # Nessus Scan Information
 	plugin_id=[19506]
-	filters={"plugin_id":plugin_id}
+	filters={
+		"plugin_id":plugin_id,
+		"scan_uuid":uuid
+		}
 	include_unlicensed=False
 	#filters={}
 	payload={
@@ -39,13 +67,15 @@ if get_new_data==1:
 		"include_unlicensed": include_unlicensed,
 		"last_found": unixtime
 	}
-	api_keys=tc.read_keys(key_file,"sandbox")
 	decoded=tc.check_and_download_vuln_chunks(api_keys,payload,results_file)
+	print(decoded)
 
 results=[]
 decoded=ut.read_json_file(results_file)
 for x in decoded:
-	ipv4=x['asset']['ipv4']
+	ipv4=""
+	if 'ipv4' in x['asset']:
+		ipv4=x['asset']['ipv4']
 	output=x['output']
 	scan_date=x['scan']['started_at'].split("T")[0]
 	#print(scan_date,"\n",output,"\n")
@@ -70,14 +100,14 @@ df=pd.DataFrame(results)
 df=df.set_index('date')
 print(df)
 
-monthly_averages=df.resample('M').mean()
-monthly_counts=df.resample('M').count()
+monthly_averages=df.resample('D').mean()
+monthly_counts=df.resample('D').count()
 print(monthly_averages)
 print(monthly_counts)
 
 colors={'scan_time':'#0070b6'}
-img_tag=chart.bar(monthly_averages,colors,90,['Average Scan Time'])
-img_tag2=chart.bar(monthly_counts,colors,90,['Hosts Scanned'])
+img_tag=chart.bar2(monthly_averages,colors,90,['Average Scan Time'])
+img_tag2=chart.bar2(monthly_counts,colors,90,['Hosts Scanned'])
 
 # generate the html report
 body_txt="\n<h1>Scan Statistics</h1>"
