@@ -17,8 +17,25 @@ styles_dir="styles/" #style sheet location for web pages
 html_file=reports_dir+"runtests.html"
 json_file=results_dir+"runtests_vulns.json"
 
+'''
+#SC
 decoded=ut.read_json_file("powerBI/raw/vulns_2.json")
+#ut.print_pretty_dict(decoded,0,1)
+#print(decoded)
+for x in decoded["response"]["results"]:
+	print(x["pluginID"],x["ip"],hr.clean_string(x["pluginText"]))
+'''
+
+#IO
+decoded=ut.read_json_file("powerBI/raw/vulns_1.json")
 ut.print_pretty_dict(decoded,0,1)
+#print(decoded)
+
+for x in decoded:
+	output=""
+	if "output" in x:
+		output=hr.clean_string(x["output"])
+	print(x["plugin"]["id"],x["asset"]["ipv4"],output)
 
 
 '''
