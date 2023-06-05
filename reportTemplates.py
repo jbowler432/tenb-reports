@@ -506,3 +506,43 @@ def sla_widget_sc(sla,json_file,filters,heading,desc,notes):
 	body_txt+="<table width=100%><tr><td>&nbsp;</td></table>"
 
 	return body_txt
+
+def scan_stats_report(input_file,html_file,styles_dir):
+	decoded=ut.read_json_file(input_file)
+	today=date.today()
+	table_str="\n<h1>Scan Statistics</h1>"
+	report_desc="This report shows statistics for completed scan jobs. "
+	report_desc+="Information will be based on the latest completed scan job."
+	report_desc+="\n<br><br>("+str(today)+")"
+	table_str+="<div class=reportdesc>"+report_desc+"</div>"
+	table_str+="<div class=page_section>\n"
+	table_str+="<table class=table1 width=1100px>\n"
+	table_str+="<tr><td><b>Scan Name</b></td>"
+	table_str+="<td><b>Hosts Scanned</b></td>"
+	table_str+="<td><b>Owner</b></td>"
+	table_str+="<td><b>Scan Type</b></td>"
+	table_str+="<td><b>Scan Start</b></td>"
+	table_str+="<td><b>Scan End</b></td>"
+	newlist=sorted(decoded, key=lambda d: d['host_count'], reverse=True)
+	for x in newlist:
+		if x['host_count']>0:
+			print(x)
+			name=x['name']
+			host_count=x['host_count']
+			owner=x['owner']
+			type=x['type']
+			if type=='ps': type='Public Network Scan'
+			if type=='remote': type='Internal Network Scan'
+			if type=='agent': type='Agent Scan'
+			scan_start=x['scan_start']
+			scan_end=x['scan_end']
+			dt = datetime.fromtimestamp(scan_start)
+			dt2 = datetime.fromtimestamp(scan_end)
+			table_str+="<tr><td>"+str(name)+"</td>"
+			table_str+="<td>"+str(host_count)+"</td>"
+			table_str+="<td>"+str(owner)+"</td>"
+			table_str+="<td>"+str(type)+"</td>"
+			table_str+="<td>"+str(dt)+"</td>"
+			table_str+="<td>"+str(dt2)+"</td>"
+	table_str+="</table></div>"
+	hr.gen_html_report(table_str,html_file,styles_dir)

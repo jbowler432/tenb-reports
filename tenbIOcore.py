@@ -311,11 +311,33 @@ def list_scans(api_keys):
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
 
+def list_scanners(api_keys):
+	url = "https://cloud.tenable.com/scanners"
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	return results_json
+
 def list_scan_details(api_keys,uuid):
 	url = "https://cloud.tenable.com/scans/"+uuid
 	querystring={}
 	results_json=get_query(api_keys,url,querystring)
 	return results_json
+
+def get_scan_host_count(api_keys,uuid):
+	url = "https://cloud.tenable.com/scans/"+uuid
+	querystring={}
+	results_json=get_query(api_keys,url,querystring)
+	scan_start=results_json['info']['scan_start']
+	scan_end=results_json['info']['scan_end']
+	#schedule_uuid=results_json['info']['schedule_uuid']
+	if 'hosts' in results_json:
+		hosts=results_json["hosts"]
+		host_count=len(hosts)
+	else:
+		host_count=-1
+		#print(results_json)
+	return host_count,scan_start,scan_end
+
 
 # ------- End Scan Functions
 
