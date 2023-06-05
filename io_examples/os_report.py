@@ -16,14 +16,14 @@ reports_dir="../report_samples/"
 asset_file=results_dir+"assets_with_os.json"
 output_file=reports_dir+"os_summary.html"
 
-get_new_data=0
+get_new_data=1
 
 if get_new_data==1:
 	# export some asset data
 	# make sure the tag is actuially defined in IO
 	api_keys=tc.read_keys(key_file,"sandbox")
 	filters={"tag.Operating-Systems": "has-os"}
-	chunk_size=2000
+	chunk_size=1000
 	payload = {
 		"filters":filters,
 		"chunk_size": chunk_size

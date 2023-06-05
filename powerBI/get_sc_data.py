@@ -16,7 +16,7 @@ import sev_slas as ss
 
 sc_key_file="../../sc_keys.json"
 sc_keys=sc.read_SC_keys(sc_key_file)
-region_id='2'
+region_id='1'
 # tags for Internet facing systems
 tag_cat_ifacing="Essential8"
 tag_val_ifacing="Internet-Facing"

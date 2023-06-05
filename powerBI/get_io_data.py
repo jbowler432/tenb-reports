@@ -16,7 +16,7 @@ import sev_slas as ss
 
 key_file="../../io_keys.json" # location of your key file
 api_keys=tc.read_keys(key_file,"sandbox")
-region_id='1'
+region_id='2'
 # tags for Internet facing systems
 tag_cat_ifacing="Essential8"
 tag_val_ifacing="Internet-Facing"
